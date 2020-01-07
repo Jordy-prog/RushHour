@@ -54,18 +54,20 @@ class RushHour():
         # initialize gameboard, by placing cars
         for car in self.cars.values():
             try:
-                self.matrix[car.start[0]][car.start[1]] = car
+                self.matrix[car.row][car.col] = car
 
                 # after first coördinate of car is placed, extend the car in it's direction
                 if car.direction == 'H':
-                    self.matrix[car.start[0]][car.start[1] + 1] = car
-                    self.matrix[car.start[0]][car.start[1] + car.length - 1] = car
+                    self.matrix[car.row][car.col + 1] = car
+                    self.matrix[car.row][car.col + car.length - 1] = car
                 else:
-                    self.matrix[car.start[0] - 1][car.start[1]] = car
-                    self.matrix[car.start[0] - (car.length - 1)][car.start[1]] = car
+                    self.matrix[car.row - 1][car.col] = car
+                    self.matrix[car.row - (car.length - 1)][car.col] = car
             except IndexError:
                 print(f"{car.name} did not fit on board")
                 exit()
+        
+        file.close()
 
     def printboard(self):
         '''
@@ -80,30 +82,72 @@ class RushHour():
                     print(stylize(f'{element.name}', fg(element.color)), '', end="")
 
             # draw an arrow at the exit
-            if i == self.cars['X'].start[0]:
+            if i == self.cars['X'].row:
                 print('-->', end="")
 
             print()
     
     def move(self, car, distance, direction):
-        blocked = False
-
         if direction == 'L':
-            for i in range(distance + 1):
+            # forloop check if car can move, for manual purposes only!
+            for i in range(1, distance + 1):
                 try:
-                    if self.matrix[car.row][car.column - i]
-                        blocked = True
+                    if self.matrix[car.row][car.col - i]:
+                        return False
                 except IndexError:
-                    blocked = True
+                    return False
+
+            for i in range(car.length):
+                self.matrix[car.row][car.col + i] = 0
+                self.matrix[car.row][car.col - distance + i] = car
             
-            if not blocked:
-                for i in range(car.length)
-                    self.matrix[car.row][car.column + i] = 0
-                    self.matrix[car.row][car.column - distance + i] = car
-                
-                car.position(car.row, car.column - distance)
+            car.position(car.row, car.col - distance)
+        elif direction == 'R':
+            # forloop check if car can move, for manual purposes only!
+            for i in range(1, distance + 1):
+                try:
+                    if self.matrix[car.row][car.col + (car.length - 1) + i]:
+                        return False
+                except IndexError:
+                    return False
 
+            for i in range(car.length):
+                self.matrix[car.row][car.col + i] = 0
+                self.matrix[car.row][car.col + (car.length - 1) + distance - i] = car
+            
+            car.position(car.row, car.col + distance)
+        elif direction == 'D':
+            # forloop check if car can move, for manual purposes only!
+            for i in range(1, distance + 1):
+                try:
+                    if self.matrix[car.row + i][car.col]:
+                        return False
+                except IndexError:
+                    return False
 
+            for i in range(car.length):
+                self.matrix[car.row - i][car.col] = 0
+                self.matrix[car.row + distance - i][car.col] = car
+            
+            car.position(car.row + distance, car.col)
+        elif direction == 'U':
+            # forloop check if car can move, for manual purposes only!
+            for i in range(1, distance + 1):
+                try:
+                    if self.matrix[car.row - (car.length - 1) - i][car.col]:
+                        return False
+                except IndexError:
+                    return False
+
+            for i in range(car.length):
+                self.matrix[car.row - i][car.col] = 0
+                self.matrix[car.row - (car.length - 1) - distance + i][car.col] = car
+            
+            car.position(car.row - distance, car.col)
+
+        # WIN CONDITION: list[-1] = X car.
+
+        return True
 
                     
 
@@ -114,20 +158,24 @@ def main():
     while True:
         car_to_move = input('Which car do you want to move? ').upper()
 
-        if not car_to_move.upper() in rush.cars.keys() or not direction == 'L' or not direction == 'R':
+        if not car_to_move.upper() in rush.cars.keys():
             print('Unable to move that car in that direction!')
             continue
+        
+        print(rush.cars[car_to_move].direction)
 
         if rush.cars[car_to_move].direction == 'H':
             direction = input('L or R? ').upper()
 
-            if not direction == 'L' or not direction == 'H':
+            print(direction)
+
+            if not direction == 'L' and not direction == 'R':
                 print('Invalid direction')
                 continue
         else:
             direction = input('D or U? ').upper()
 
-            if not direction == 'D' or not direction == 'U':
+            if not direction == 'D' and not direction == 'U':
                 print('Invalid direction')
                 continue
 
@@ -137,11 +185,11 @@ def main():
             print('Invalid distance')
             continue
 
-        rush.move(rush.cars[car_to_move], distance, direction)
+        if not rush.move(rush.cars[car_to_move], distance, direction):
+            print('Too bad sucker')
 
+        rush.printboard()
 
-
-        
 
 if __name__ == '__main__':
     main()
