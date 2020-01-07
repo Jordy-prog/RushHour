@@ -37,6 +37,11 @@ This algorithm aims to solve the Rush Hour game by moving the red car as far as 
 2. Try to move the car directly in front of the red car. If it moves, go back to step 1.
 3. Try to move the car in front or behind the previously blocked car. If it cannot move, repeat step 3. If it can move, go to step 1 again.
 
+1. Pick a car and try to move it.
+2. If it can't try to move each car that blocks it, if one can, recursion. Otherwise try the other.
+3. Start over.
+VARIATION: Walk back the way you came.
+
 ## Obstacle chain: from exit
 
 Similair to the previous algorithm, but this algorithm aims to solve the puzzle by looking at which car blocks the exit and moving up the blocked car chain.
