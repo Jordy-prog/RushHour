@@ -4,6 +4,7 @@ from colored import fg, bg, stylize
 from sys import exit, argv
 from objects import Car
 from algorithms import random_move
+from time import sleep
 
 if len(argv) < 2:
     print('Usage: python matrix.py "filename"')
@@ -96,7 +97,7 @@ class RushHour():
             # forloop check if car can move, for manual purposes only!
             for i in range(step, distance + step, step):
                 try:
-                    if step == -1 and self.matrix[car.row][car.col + i] or step == 1 and self.matrix[car.row][car.col + i + (car.length - 1)]:
+                    if car.col + i < 0 or step == -1 and self.matrix[car.row][car.col + i] or step == 1 and self.matrix[car.row][car.col + i + (car.length - 1)]:
                         return False
                 except IndexError:
                     return False
@@ -112,7 +113,7 @@ class RushHour():
             # forloop check if car can move, for manual purposes only!
             for i in range(step, distance + step, step):
                 try:
-                    if step == -1 and self.matrix[car.row - i][car.col] or step == 1 and self.matrix[car.row - i - (car.length - 1)][car.col]:
+                    if car.row - (car.length - 1) - i < 0 or step == -1 and self.matrix[car.row - i][car.col] or step == 1 and self.matrix[car.row - i - (car.length - 1)][car.col]:
                         return False
                 except IndexError:
                     return False
@@ -129,34 +130,45 @@ class RushHour():
     
     def game_won(self):
         if self.matrix[self.cars['X'].row][-1] == self.cars['X']:
+            print('Congratulations!')
             return True
 
         return False
 
 def main():
+    manual = False
     rush = RushHour()
     rush.printboard()
 
-    while not rush.game_won():
-        car_to_move = input('Which car do you want to move? ').upper()
+    
 
-        if not car_to_move.upper() in rush.cars.keys():
-            print('Unable to move that car in that direction!')
-            continue
+    if manual:
+        while not rush.game_won():
+            car_to_move = input('Which car do you want to move? ').upper()
 
-        try:
-            distance = int(input('How far? '))
-        except ValueError:
-            print('Invalid distance')
-            continue
+            if not car_to_move.upper() in rush.cars.keys():
+                print('Unable to move that car in that direction!')
+                sleep(1)
+                continue
 
-        if not rush.move(rush.cars[car_to_move], distance):
-            print('Too bad sucker')
+            try:
+                distance = int(input('How far? '))
+            except ValueError:
+                print('Invalid distance')
+                sleep(1)
+                continue
 
-        os.system('cls')
-        rush.printboard()
-
-    print('Congratulations!')
+            if not rush.move(rush.cars[car_to_move], distance):
+                print('Too bad sucker')
+                sleep(1)
+            sleep(2)
+            os.system('cls')
+            rush.printboard()
+    else:
+        while not rush.game_won():
+            random_move(rush)
+            os.system('cls')
+            rush.printboard()
 
 if __name__ == '__main__':
     main()

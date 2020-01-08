@@ -4,12 +4,41 @@ from objects import Car
 def random_move(RushHour):
     # move(self, car, distance)
     car = random.choice(list(RushHour.cars.values()))
-    free_rear = 
-    free_front =
+
+    if car.direction == 'H':
+        free_rear = 0
+        for i in range(1, car.col + 1):
+            if not RushHour.matrix[car.row][car.col - i]:
+                free_rear -= 1
+            else:
+                break
+        
+        free_front = 0
+        for i in range(1, RushHour.boardsize - (car.length - 1) - car.col):
+            if not RushHour.matrix[car.row][car.col + (car.length - 1) + i]:
+                free_front += 1
+            else:
+                break
+
+    elif car.direction == 'V':
+        free_rear = 0
+        for i in range(1, RushHour.boardsize - car.row):
+            if not RushHour.matrix[car.row + i][car.col]:
+                free_rear -= 1
+            else:
+                break
+        
+        free_front = 0
+        for i in range(1, car.row):
+            if not RushHour.matrix[car.row - (car.length - 1) - i][car.col]:
+                free_front += 1
+            else:
+                break
     
+    car.freespace(free_front, free_rear)
 
     distance = random.randrange(car.free_rear, car.free_front + 1)
-    RushHour.move(car, distance, )
+    RushHour.move(car, distance)
 
 
 def obstacle_chain(RushHour):
