@@ -3,6 +3,7 @@ import os
 from colored import fg, bg, stylize
 from sys import exit, argv
 from objects import Car
+from algorithms import random_move
 
 if len(argv) < 2:
     print('Usage: python matrix.py "filename"')
