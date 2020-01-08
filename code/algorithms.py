@@ -1,12 +1,12 @@
 import random
-
+from objects import Car
 
 def random():
+    # move(self, car, distance)
     car = random.choice(list(cars.values()))
-    if car.front_distance > 0 or car.rear_distance > 0: ## IN EEN REGEL ???? OF MET ELIF ????
-        RushHour.move(car)
-    elif car.rear_distance > 0:
-        RushHour.move(car)
+
+    distance = random.randrange(car.free_rear, car.free_front + 1)
+    RushHour.move(car, distance)
 
 
 def obstacle_chain():
