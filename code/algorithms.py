@@ -1,15 +1,18 @@
 import random
+from objects import Car
+
+def random_move(RushHour):
+    # move(self, car, distance)
+    car = random.choice(list(RushHour.cars.values()))
+    free_rear = 
+    free_front =
+    
+
+    distance = random.randrange(car.free_rear, car.free_front + 1)
+    RushHour.move(car, distance, )
 
 
-def random():
-    car = random.choice(list(cars.values()))
-    if car.front_distance > 0 or car.rear_distance > 0: ## IN EEN REGEL ???? OF MET ELIF ????
-        RushHour.move(car)
-    elif car.rear_distance > 0:
-        RushHour.move(car)
-
-
-def obstacle_chain():
+def obstacle_chain(RushHour):
     leader = cars['X']
     if leader.front_distance > 0:
         RushHour.move(leader)

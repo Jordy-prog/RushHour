@@ -1,7 +1,9 @@
 import csv
+import os
 from colored import fg, bg, stylize
 from sys import exit, argv
 from objects import Car
+from algorithms import random_move
 
 if len(argv) < 2:
     print('Usage: python matrix.py "filename"')
@@ -86,98 +88,61 @@ class RushHour():
                 print('-->', end="")
 
             print()
-    
-    def move(self, car, distance, direction):
-        if direction == 'L':
+
+    def move(self, car, distance):
+        step = -1 if distance < 0 else 1
+
+        if car.direction == 'H':
             # forloop check if car can move, for manual purposes only!
-            for i in range(1, distance + 1):
+            for i in range(step, distance + step, step):
                 try:
-                    if self.matrix[car.row][car.col - i]:
+                    if step == -1 and self.matrix[car.row][car.col + i] or step == 1 and self.matrix[car.row][car.col + i + (car.length - 1)]:
                         return False
                 except IndexError:
                     return False
 
             for i in range(car.length):
                 self.matrix[car.row][car.col + i] = 0
-                self.matrix[car.row][car.col - distance + i] = car
-            
-            car.position(car.row, car.col - distance)
-        elif direction == 'R':
-            # forloop check if car can move, for manual purposes only!
-            for i in range(1, distance + 1):
-                try:
-                    if self.matrix[car.row][car.col + (car.length - 1) + i]:
-                        return False
-                except IndexError:
-                    return False
 
             for i in range(car.length):
-                self.matrix[car.row][car.col + i] = 0
-                self.matrix[car.row][car.col + (car.length - 1) + distance - i] = car
+                self.matrix[car.row][car.col + distance + i] = car
             
             car.position(car.row, car.col + distance)
-        elif direction == 'D':
+        elif car.direction == 'V':
             # forloop check if car can move, for manual purposes only!
-            for i in range(1, distance + 1):
+            for i in range(step, distance + step, step):
                 try:
-                    if self.matrix[car.row + i][car.col]:
+                    if step == -1 and self.matrix[car.row - i][car.col] or step == 1 and self.matrix[car.row - i - (car.length - 1)][car.col]:
                         return False
                 except IndexError:
                     return False
 
             for i in range(car.length):
                 self.matrix[car.row - i][car.col] = 0
-                self.matrix[car.row + distance - i][car.col] = car
-            
-            car.position(car.row + distance, car.col)
-        elif direction == 'U':
-            # forloop check if car can move, for manual purposes only!
-            for i in range(1, distance + 1):
-                try:
-                    if self.matrix[car.row - (car.length - 1) - i][car.col]:
-                        return False
-                except IndexError:
-                    return False
 
             for i in range(car.length):
-                self.matrix[car.row - i][car.col] = 0
-                self.matrix[car.row - (car.length - 1) - distance + i][car.col] = car
+                self.matrix[car.row - distance - i][car.col] = car
             
             car.position(car.row - distance, car.col)
 
-        # WIN CONDITION: list[-1] = X car.
-
         return True
+    
+    def game_won(self):
+        if self.matrix[self.cars['X'].row][-1] == self.cars['X']:
+            return True
 
-                    
+        return False
 
 def main():
     rush = RushHour()
     rush.printboard()
 
-    while True:
+    while not rush.game_won():
         car_to_move = input('Which car do you want to move? ').upper()
 
         if not car_to_move.upper() in rush.cars.keys():
             print('Unable to move that car in that direction!')
             continue
-        
-        print(rush.cars[car_to_move].direction)
-
-        if rush.cars[car_to_move].direction == 'H':
-            direction = input('L or R? ').upper()
-
-            print(direction)
-
-            if not direction == 'L' and not direction == 'R':
-                print('Invalid direction')
-                continue
-        else:
-            direction = input('D or U? ').upper()
-
-            if not direction == 'D' and not direction == 'U':
-                print('Invalid direction')
-                continue
 
         try:
             distance = int(input('How far? '))
@@ -185,11 +150,13 @@ def main():
             print('Invalid distance')
             continue
 
-        if not rush.move(rush.cars[car_to_move], distance, direction):
+        if not rush.move(rush.cars[car_to_move], distance):
             print('Too bad sucker')
 
+        os.system('cls')
         rush.printboard()
 
+    print('Congratulations!')
 
 if __name__ == '__main__':
     main()
