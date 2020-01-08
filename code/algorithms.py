@@ -133,9 +133,9 @@ def random_chain(RushHour):
 
         obstacle = random.choice(obstacles)
         obstacle_history.append(obstacle)
-        print('obstacle:', obstacle)
+        # print('obstacle:', obstacle)
         # sleep(0.5)
 
-    print('Car to move:', car)
+    # print('Car to move:', car)
     # sleep(0.5)
     RushHour.move(car, distance)
