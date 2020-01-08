@@ -3,7 +3,7 @@ import os
 from colored import fg, bg, stylize
 from sys import exit, argv
 from objects import Car
-from algorithms import random_move
+from algorithms import random_move, random_chain
 from time import sleep
 
 if len(argv) < 2:
@@ -18,8 +18,10 @@ class RushHour():
         self.boardsize = int(argv[1][8])
         self.matrix = []
         self.cars = {}
+        self.last_move = (None, 0)
         self.colors = ['blue_1', 'yellow_1', 'green_1', 'dark_green', 'deep_pink_1a', 'dark_orange']
         self.load()
+        
 
     def load(self):
         '''
@@ -91,6 +93,8 @@ class RushHour():
             print()
 
     def move(self, car, distance):
+        if self.last_move == car:
+            return False
         step = -1 if distance < 0 else 1
 
         if car.direction == 'H':
@@ -126,6 +130,7 @@ class RushHour():
             
             car.position(car.row - distance, car.col)
 
+        self.last_move = (car, distance)
         return True
     
     def game_won(self):
@@ -165,10 +170,15 @@ def main():
             os.system('cls')
             rush.printboard()
     else:
+        steps = 0
+
         while not rush.game_won():
-            random_move(rush)
+            steps += 1
+            random_chain(rush)
             os.system('cls')
             rush.printboard()
+
+        print(steps)
 
 if __name__ == '__main__':
     main()
