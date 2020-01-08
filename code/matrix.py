@@ -1,5 +1,6 @@
 import csv
 import os
+import matplotlib.pyplot as plt
 from colored import fg, bg, stylize
 from sys import exit, argv
 from objects import Car
@@ -170,15 +171,26 @@ def main():
             os.system('cls')
             rush.printboard()
     else:
-        steps = 0
+        stepdata = []
 
-        while not rush.game_won():
-            steps += 1
-            random_chain(rush)
-            os.system('cls')
+        for i in range(5):
+            rush = RushHour()
             rush.printboard()
+            
+            steps = 0
 
-        print(steps)
+            while not rush.game_won():
+                steps += 1
+                random_chain(rush)
+                os.system('cls')
+                rush.printboard()
+
+            stepdata.append(steps)
+            print(steps)
+
+        plt.plot(stepdata)
+        plt.show()
+
 
 if __name__ == '__main__':
     main()
