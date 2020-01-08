@@ -112,7 +112,7 @@ class RushHour():
                     return False
 
             for i in range(car.length):
-                self.matrix[car.row][car.col + i] = 0
+                self.matrix[car.row][car.col + (car.length - 1) - i] = 0
                 self.matrix[car.row][car.col + (car.length - 1) + distance - i] = car
             
             car.position(car.row, car.col + distance)
@@ -140,22 +140,84 @@ class RushHour():
                     return False
 
             for i in range(car.length):
-                self.matrix[car.row - i][car.col] = 0
+                self.matrix[car.row - (car.length - 1) + i][car.col] = 0
                 self.matrix[car.row - (car.length - 1) - distance + i][car.col] = car
             
             car.position(car.row - distance, car.col)
 
-        # WIN CONDITION: list[-1] = X car.
-
         return True
 
-                    
+    def move2(self, car, distance, direction):
+        if direction == 'L':
+            # forloop check if car can move, for manual purposes only!
+            for i in range(1, distance + 1):
+                try:
+                    if self.matrix[car.row][car.col - i]:
+                        return False
+                except IndexError:
+                    return False
+
+            for i in range(car.length):
+                self.matrix[car.row][car.col + i] = 0
+                self.matrix[car.row][car.col - distance + i] = car
+            
+            car.position(car.row, car.col - distance)
+        elif direction == 'R':
+            # forloop check if car can move, for manual purposes only!
+            for i in range(1, distance + 1):
+                try:
+                    if self.matrix[car.row][car.col + (car.length - 1) + i]:
+                        return False
+                except IndexError:
+                    return False
+
+            for i in range(car.length):
+                self.matrix[car.row][car.col + (car.length - 1) - i] = 0
+                self.matrix[car.row][car.col + (car.length - 1) + distance - i] = car
+            
+            car.position(car.row, car.col + distance)
+        elif direction == 'D':
+            # forloop check if car can move, for manual purposes only!
+            for i in range(1, distance + 1):
+                try:
+                    if self.matrix[car.row + i][car.col]:
+                        return False
+                except IndexError:
+                    return False
+
+            for i in range(car.length):
+                self.matrix[car.row - i][car.col] = 0
+                self.matrix[car.row + distance - i][car.col] = car
+            
+            car.position(car.row + distance, car.col)
+        elif direction == 'U':
+            # forloop check if car can move, for manual purposes only!
+            for i in range(1, distance + 1):
+                try:
+                    if self.matrix[car.row - (car.length - 1) - i][car.col]:
+                        return False
+                except IndexError:
+                    return False
+
+            for i in range(car.length):
+                self.matrix[car.row - (car.length - 1) + i][car.col] = 0
+                self.matrix[car.row - (car.length - 1) - distance + i][car.col] = car
+            
+            car.position(car.row - distance, car.col)
+
+        return True
+    
+    def game_won(self):
+        if self.matrix[self.cars['X'].row][-1] == self.cars['X']:
+            return True
+
+        return False
 
 def main():
     rush = RushHour()
     rush.printboard()
 
-    while True:
+    while not rush.game_won():
         car_to_move = input('Which car do you want to move? ').upper()
 
         if not car_to_move.upper() in rush.cars.keys():
@@ -190,6 +252,7 @@ def main():
 
         rush.printboard()
 
+    print('Congratulations!')
 
 if __name__ == '__main__':
     main()
