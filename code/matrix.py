@@ -197,9 +197,9 @@ def main():
 
         while not rush.game_won():
             steps += 1
-            random_move(rush)
+            random_chain(rush)
             os.system('cls')
-            # rush.printboard()
+            rush.printboard()
             
         print(steps)
 
