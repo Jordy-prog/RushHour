@@ -3,7 +3,7 @@ import os
 from colored import fg, bg, stylize
 from sys import exit, argv
 from objects import Car
-from algorithms import random_move, random_chain
+from algorithms import random_move, random_chain, random_chain_jordy
 from time import sleep
 import matplotlib.pyplot as plt
 
@@ -138,20 +138,21 @@ class RushHour():
 
 def main():
     mode = None
-    algorithm = None
+    algorithm_input = None
     to_print = None
 
     while mode not in ['manual', 'plot', 'test']:
         mode = input('Select a mode (manual, plot, test):')
 
-    while algorithm not in ['move', 'chain']:
-        algorithm = input('Select an algorithm (move, chain):')
+    while algorithm_input not in ['move', 'chain', 'jordy']:
+        algorithm_input = input('Select an algorithm (move, chain, jordy):')
 
     while to_print not in ['yes', 'no']:
         to_print = input('Do you want to print? (yes, no)')
 
     rush = RushHour()
     rush.printboard()
+    algorithm = algorithm_input
 
     if mode == 'manual':
         while not rush.game_won():
@@ -188,10 +189,17 @@ def main():
             while not rush.game_won():
                 steps += 1
 
+                if not steps % 5:
+                    algorithm == 'move'
+                else:
+                    algorithm == algorithm_input
+
                 if algorithm == 'chain':
                     random_chain(rush)
                 elif algorithm == 'move':
                     random_move(rush)
+                elif algorithm == 'jordy':
+                    random_chain_jordy(rush)
 
                 if to_print == 'yes':
                     os.system('cls')
@@ -208,10 +216,17 @@ def main():
         while not rush.game_won():
             steps += 1
 
+            # if (steps % 5) == 0:
+            #     algorithm = 'move'
+            # else:
+            #     algorithm = algorithm_input
+
             if algorithm == 'chain':
                 random_chain(rush)
             elif algorithm == 'move':
                 random_move(rush)
+            elif algorithm == 'jordy':
+                random_chain_jordy(rush)
 
             if to_print == 'yes':
                 os.system('cls')
