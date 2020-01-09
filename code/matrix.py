@@ -15,7 +15,7 @@ class RushHour():
         '''
         Initializing variables.
         '''
-        self.boardsize = int(argv[1][8])
+        self.boardsize = int(argv[1][8] + argv[1][9]) if int(argv[1][8]) == 1 else int(argv[1][8]) 
         self.matrix = []
         self.cars = {}
         self.last_move = (None, 0)
@@ -136,13 +136,15 @@ class RushHour():
         return False
 
 def main():
-    manual = False
+    mode = None
+
+    while mode not in ['manual', 'plot', 'test']:
+        mode = input('Select a mode (manual, plot, test):')
+
     rush = RushHour()
     rush.printboard()
 
-    
-
-    if manual:
+    if mode == 'manual':
         while not rush.game_won():
             car_to_move = input('Which car do you want to move? ').upper()
 
@@ -161,9 +163,30 @@ def main():
             if not rush.move(rush.cars[car_to_move], distance):
                 print('Too bad sucker')
                 sleep(1)
+
             sleep(2)
             os.system('cls')
             rush.printboard()
+    elif mode == 'plot':
+        stepdata = []
+
+        for i in range(5):
+            rush = RushHour()
+            rush.printboard()
+
+            steps = 0
+
+            while not rush.game_won():
+                steps += 1
+                random_chain(rush)
+                os.system('cls')
+                rush.printboard()
+
+            stepdata.append(steps)
+            print(steps)
+
+        plt.plot(stepdata)
+        plt.show()
     else:
         steps = 0
 
@@ -174,6 +197,7 @@ def main():
             rush.printboard()
 
         print(steps)
+
 
 if __name__ == '__main__':
     main()
