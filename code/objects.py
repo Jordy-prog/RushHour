@@ -12,8 +12,6 @@ class Car():
         self.direction = direction
         self.row = row
         self.col = col
-        self.free_rear = 0
-        self.free_front = 0
 
     def position(self, row, col):
         '''
@@ -21,13 +19,6 @@ class Car():
         '''
         self.row = row
         self.col = col
-    
-    def freespace(self, front, rear):
-        '''
-        Freespace setter method.
-        '''
-        self.free_rear = rear
-        self.free_front = front
 
     def __str__(self):
         '''

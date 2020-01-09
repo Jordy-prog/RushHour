@@ -3,7 +3,7 @@ import os
 from colored import fg, bg, stylize
 from sys import exit, argv
 from objects import Car
-from algorithms import random_move
+from algorithms import random_move, random_chain
 from time import sleep
 
 if len(argv) < 2:
@@ -15,40 +15,39 @@ class RushHour():
         '''
         Initializing variables.
         '''
-        self.boardsize = int(argv[1][8])
+        self.boardsize = int(argv[1][8] + argv[1][9]) if int(argv[1][8]) == 1 else int(argv[1][8]) 
         self.matrix = []
         self.cars = {}
+        self.last_move = (None, 0)
         self.colors = ['blue_1', 'yellow_1', 'green_1', 'dark_green', 'deep_pink_1a', 'dark_orange']
         self.load()
+        
 
     def load(self):
         '''
         Load cars from file and initialize matrix.
-        '''
-        # read cars from file
+        '''            
+        # try to open the given file and start reading
         try:
-            file = open(f'./gameboards/{argv[1]}')
+            with open(f'gameboards/{argv[1]}', 'r') as in_file:
+                reader = csv.DictReader(in_file)
+
+                # loop over lines in file and adjust values for use in Car object
+                for i, car in enumerate(reader):
+                    row = self.boardsize - int(car['y'])
+                    col = int(car['x']) - 1
+
+                    # assign the right color to the main car
+                    if car['car'] == 'X':
+                        color = 'red_1'
+                    else:
+                        color = self.colors[i%len(self.colors)]
+
+                    # create a list of cars on the board
+                    self.cars[car['car']] = Car(car['car'], car['orientation'], row, col, color, int(car['length']))
         except FileNotFoundError:
             print('Invalid file')
             exit()
-            
-        # skip first line, and read rest of file
-        next(file)
-        text = csv.reader(file)
-
-        # loop over lines in file and adjust values for use in Car object
-        for i, line in enumerate(text):
-            row = self.boardsize - int(line[3].strip().strip('\"'))
-            col = int(line[2].strip().strip('\"')) - 1
-
-            # assign the right color to the main car
-            if line[0] == 'X':
-                color = 'red_1'
-            else:
-                color = self.colors[i%len(self.colors)]
-
-            # create a list of cars on the board
-            self.cars[line[0]] = Car(line[0], line[1].strip(), row, col, color, int(line[4].strip()))
 
         # create gameboard
         for i in range(self.boardsize):
@@ -69,8 +68,6 @@ class RushHour():
             except IndexError:
                 print(f"{car.name} did not fit on board")
                 exit()
-        
-        file.close()
 
     def printboard(self):
         '''
@@ -91,6 +88,8 @@ class RushHour():
             print()
 
     def move(self, car, distance):
+        if self.last_move == car:
+            return False
         step = -1 if distance < 0 else 1
 
         if car.direction == 'H':
@@ -126,6 +125,7 @@ class RushHour():
             
             car.position(car.row - distance, car.col)
 
+        self.last_move = (car, distance)
         return True
     
     def game_won(self):
@@ -136,13 +136,23 @@ class RushHour():
         return False
 
 def main():
-    manual = False
+    mode = None
+    algorithm = None
+    to_print = None
+
+    while mode not in ['manual', 'plot', 'test']:
+        mode = input('Select a mode (manual, plot, test):')
+
+    while algorithm not in ['move', 'chain']:
+        algorithm = input('Select an algorithm (move, chain):')
+
+    while to_print not in ['yes', 'no']:
+        to_print = input('Do you want to print? (yes, no)')
+
     rush = RushHour()
     rush.printboard()
 
-    
-
-    if manual:
+    if mode == 'manual':
         while not rush.game_won():
             car_to_move = input('Which car do you want to move? ').upper()
 
@@ -161,14 +171,53 @@ def main():
             if not rush.move(rush.cars[car_to_move], distance):
                 print('Too bad sucker')
                 sleep(1)
+
             sleep(2)
             os.system('cls')
             rush.printboard()
-    else:
-        while not rush.game_won():
-            random_move(rush)
-            os.system('cls')
+    elif mode == 'plot':
+        stepdata = []
+
+        for i in range(5):
+            rush = RushHour()
             rush.printboard()
+
+            steps = 0
+
+            while not rush.game_won():
+                steps += 1
+
+                if algorithm == 'chain':
+                    random_chain(rush)
+                elif algorithm == 'move':
+                    random_move(rush)
+
+                if to_print == 'yes':
+                    os.system('cls')
+                    rush.printboard()
+
+            stepdata.append(steps)
+            print(steps)
+
+        plt.plot(stepdata)
+        plt.show()
+    else:
+        steps = 0
+
+        while not rush.game_won():
+            steps += 1
+
+            if algorithm == 'chain':
+                random_chain(rush)
+            elif algorithm == 'move':
+                random_move(rush)
+
+            if to_print == 'yes':
+                os.system('cls')
+                rush.printboard()
+
+        print(steps)
+
 
 if __name__ == '__main__':
     main()
