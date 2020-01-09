@@ -102,9 +102,17 @@ def random_chain(RushHour):
                     break
 
         distance = 0
+
         if free_rear or free_front:
-            while not distance:
-                distance = random.randrange(free_rear, free_front + 1) 
+            # moves red car as far as possible, giving priority to forward movements
+            if car == RushHour.cars['X']:
+                if free_front:
+                    distance = free_front
+                else:
+                    distance = free_front
+            else:
+                while not distance:
+                    distance = random.randrange(free_rear, free_front + 1) 
         
         if not (car, - distance) == RushHour.last_move and distance:
             break
@@ -133,9 +141,9 @@ def random_chain(RushHour):
 
         obstacle = random.choice(obstacles)
         obstacle_history.append(obstacle)
-        print('obstacle:', obstacle)
-        sleep(0.5)
+        # print('obstacle:', obstacle)
+        # sleep(0.5)
 
-    print('Car to move:', car)
-    sleep(0.5)
+    # print('Car to move:', car)
+    # sleep(0.5)
     RushHour.move(car, distance)

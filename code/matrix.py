@@ -1,5 +1,6 @@
 import csv
 import os
+import matplotlib.pyplot as plt
 from colored import fg, bg, stylize
 from sys import exit, argv
 from objects import Car
@@ -141,13 +142,15 @@ class RushHour():
         return False
 
 def main():
-    manual = False
+    mode = None
+
+    while mode not in ['manual', 'plot', 'test']:
+        mode = input('Select a mode (manual, plot, test):')
+
     rush = RushHour()
     rush.printboard()
 
-    
-
-    if manual:
+    if mode == 'manual':
         while not rush.game_won():
             car_to_move = input('Which car do you want to move? ').upper()
 
@@ -169,6 +172,26 @@ def main():
             sleep(2)
             os.system('cls')
             rush.printboard()
+    elif mode == 'plot':
+        stepdata = []
+
+        for i in range(5):
+            rush = RushHour()
+            rush.printboard()
+
+            steps = 0
+
+            while not rush.game_won():
+                steps += 1
+                random_chain(rush)
+                os.system('cls')
+                rush.printboard()
+
+            stepdata.append(steps)
+            print(steps)
+
+        plt.plot(stepdata)
+        plt.show()
     else:
         steps = 0
 
@@ -177,8 +200,9 @@ def main():
             random_chain(rush)
             os.system('cls')
             rush.printboard()
-
+            
         print(steps)
+
 
 if __name__ == '__main__':
     main()
