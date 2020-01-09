@@ -137,9 +137,17 @@ class RushHour():
 
 def main():
     mode = None
+    algorithm = None
+    to_print = None
 
     while mode not in ['manual', 'plot', 'test']:
         mode = input('Select a mode (manual, plot, test):')
+
+    while algorithm not in ['move', 'chain']:
+        algorithm = input('Select an algorithm (move, chain):')
+
+    while to_print not in ['yes', 'no']:
+        to_print = input('Do you want to print? (yes, no)')
 
     rush = RushHour()
     rush.printboard()
@@ -178,9 +186,15 @@ def main():
 
             while not rush.game_won():
                 steps += 1
-                random_chain(rush)
-                os.system('cls')
-                rush.printboard()
+
+                if algorithm == 'chain':
+                    random_chain(rush)
+                elif algorithm == 'move':
+                    random_move(rush)
+
+                if to_print == 'yes':
+                    os.system('cls')
+                    rush.printboard()
 
             stepdata.append(steps)
             print(steps)
@@ -192,9 +206,15 @@ def main():
 
         while not rush.game_won():
             steps += 1
-            random_chain(rush)
-            os.system('cls')
-            rush.printboard()
+
+            if algorithm == 'chain':
+                random_chain(rush)
+            elif algorithm == 'move':
+                random_move(rush)
+
+            if to_print == 'yes':
+                os.system('cls')
+                rush.printboard()
 
         print(steps)
 
