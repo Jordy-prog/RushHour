@@ -1,6 +1,5 @@
 import csv
 import os
-import matplotlib.pyplot as plt
 from colored import fg, bg, stylize
 from sys import exit, argv
 from objects import Car
@@ -27,31 +26,28 @@ class RushHour():
     def load(self):
         '''
         Load cars from file and initialize matrix.
-        '''
-        # read cars from file
+        '''            
+        # try to open the given file and start reading
         try:
-            file = open(f'./gameboards/{argv[1]}')
+            with open(f'gameboards/{argv[1]}', 'r') as in_file:
+                reader = csv.DictReader(in_file)
+
+                # loop over lines in file and adjust values for use in Car object
+                for i, car in enumerate(reader):
+                    row = self.boardsize - int(car['y'])
+                    col = int(car['x']) - 1
+
+                    # assign the right color to the main car
+                    if car['car'] == 'X':
+                        color = 'red_1'
+                    else:
+                        color = self.colors[i%len(self.colors)]
+
+                    # create a list of cars on the board
+                    self.cars[car['car']] = Car(car['car'], car['orientation'], row, col, color, int(car['length']))
         except FileNotFoundError:
             print('Invalid file')
             exit()
-            
-        # skip first line, and read rest of file
-        next(file)
-        text = csv.reader(file)
-
-        # loop over lines in file and adjust values for use in Car object
-        for i, line in enumerate(text):
-            row = self.boardsize - int(line[3].strip().strip('\"'))
-            col = int(line[2].strip().strip('\"')) - 1
-
-            # assign the right color to the main car
-            if line[0] == 'X':
-                color = 'red_1'
-            else:
-                color = self.colors[i%len(self.colors)]
-
-            # create a list of cars on the board
-            self.cars[line[0]] = Car(line[0], line[1].strip(), row, col, color, int(line[4].strip()))
 
         # create gameboard
         for i in range(self.boardsize):
@@ -72,8 +68,6 @@ class RushHour():
             except IndexError:
                 print(f"{car.name} did not fit on board")
                 exit()
-        
-        file.close()
 
     def printboard(self):
         '''
@@ -142,15 +136,13 @@ class RushHour():
         return False
 
 def main():
-    mode = None
-
-    while mode not in ['manual', 'plot', 'test']:
-        mode = input('Select a mode (manual, plot, test):')
-
+    manual = False
     rush = RushHour()
     rush.printboard()
 
-    if mode == 'manual':
+    
+
+    if manual:
         while not rush.game_won():
             car_to_move = input('Which car do you want to move? ').upper()
 
@@ -172,26 +164,6 @@ def main():
             sleep(2)
             os.system('cls')
             rush.printboard()
-    elif mode == 'plot':
-        stepdata = []
-
-        for i in range(5):
-            rush = RushHour()
-            rush.printboard()
-
-            steps = 0
-
-            while not rush.game_won():
-                steps += 1
-                random_chain(rush)
-                os.system('cls')
-                rush.printboard()
-
-            stepdata.append(steps)
-            print(steps)
-
-        plt.plot(stepdata)
-        plt.show()
     else:
         steps = 0
 
@@ -200,9 +172,8 @@ def main():
             random_chain(rush)
             os.system('cls')
             rush.printboard()
-            
-        print(steps)
 
+        print(steps)
 
 if __name__ == '__main__':
     main()
