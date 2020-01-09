@@ -196,38 +196,44 @@ def random_chain_jordy(RushHour):
 
         if free_rear or free_front:
             # moves red car as far as possible, giving priority to forward movements
-            if car == RushHour.cars['X']:
-                if free_front:
-                    distance = free_front
-                else:
-                    distance = free_rear
-            else:
-                while not distance:
-                    distance = random.randrange(free_rear, free_front + 1) 
+            # if car == RushHour.cars['X']:
+            #     if free_front:
+            #         distance = free_front
+            #     else:
+            #         distance = free_rear
+            # else:
+            while not distance:
+                distance = random.randrange(free_rear, free_front + 1)
+        
+        repetitive = False
 
         try:
-            if distance and not car.moves[-1][-1] == - distance and not (car.moves[-2][0] == car.moves[-1][0] and car.moves[-2][1] == distance):
+            if car.moves[-2][0] == car.moves[-1][0] and car.moves[-2][1] == distance:
+                repetitive = True
+
+            if distance and not car.moves[-1][-1] == - distance and not repetitive:
                 break
         except IndexError:
             break
         
         if car.direction == "H":
-            car_front = RushHour.matrix[car.row][car.col + car.length] if car.col + car.length < RushHour.boardsize else None
-            car_rear = RushHour.matrix[car.row][car.col - 1] if car.col - 1 >= 0 else None
+            car_front = RushHour.matrix[car.row][car.col + car.length + free_front] if car.col + car.length + free_front < RushHour.boardsize else None
+            car_rear = RushHour.matrix[car.row][car.col + free_rear - 1] if car.col + free_rear - 1 >= 0 else None
         elif car.direction == "V":
-            car_front = RushHour.matrix[car.row - car.length][car.col] if car.row - car.length >= 0 else None
-            car_rear = RushHour.matrix[car.row + 1][car.col] if car.row + 1 < RushHour.boardsize else None
-        
+            car_front = RushHour.matrix[car.row - car.length - free_front][car.col] if car.row - car.length - free_front >= 0 else None
+            car_rear = RushHour.matrix[car.row - free_rear + 1][car.col] if car.row - free_rear + 1 < RushHour.boardsize else None
+
         obstacles = []
         for obstacle in [car_front, car_rear]:
             try:
                 i = obstacle_history.index(car)
-                if obstacle and not obstacle == obstacle_history[i + 1]:
+                
+                if obstacle:
                     obstacles.append(obstacle)
             except (ValueError, IndexError):
                 if obstacle:
                     obstacles.append(obstacle)
-        
+
         if not len(obstacles):
             break
 
@@ -239,7 +245,7 @@ def random_chain_jordy(RushHour):
         # sleep(1)
 
     # print('Car to move:', car)
-    # sleep(1)
     
     car.add_move(distance)
+    # sleep(2)
     RushHour.move(car, distance)
