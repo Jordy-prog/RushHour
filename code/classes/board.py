@@ -29,18 +29,14 @@ class RushHour():
                 reader = csv.DictReader(in_file)
 
                 # loop over lines in file and adjust values for use in Car object
-                for i, car in enumerate(reader):
-                    row = int(car['row'])
-                    col = int(car['col'])
-
-                    # assign the right color to the main car
-                    if car['car'] == 'X':
-                        color = 'red_1'
-                    else:
-                        color = self.colors[i%len(self.colors)]
+                for i, data in enumerate(reader):
+                    # retrieve data from file
+                    row = int(data['row'])
+                    col = int(data['col'])
+                    color = 'red_1' if data['car'] == 'X' else self.colors[i % len(self.colors)]
 
                     # create a list of cars on the board
-                    self.cars[car['car']] = Car(car['car'], car['orientation'], row, col, color, int(car['length']))
+                    self.cars[data['car']] = Car(data['car'], data['orientation'], row, col, color, int(data['length']))
         except FileNotFoundError:
             print('Invalid file')
             exit()
