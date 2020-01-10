@@ -59,7 +59,7 @@ if __name__ == '__main__':
         stepdata = []
 
         for i in range(100):
-            rush = RushHour()
+            rush = board.RushHour()
             # rush.printboard()
 
             steps = 0

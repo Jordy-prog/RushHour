@@ -5,41 +5,12 @@ from time import sleep
 def random_move(RushHour):
     while True:
         car = random.choice(list(RushHour.cars.values()))
-
-        if car.direction == 'H':
-            free_rear = 0
-            for i in range(1, car.col + 1):
-                if not RushHour.matrix[car.row][car.col - i]:
-                    free_rear -= 1
-                else:
-                    break
-            
-            free_front = 0
-            for i in range(1, RushHour.boardsize - (car.length - 1) - car.col):
-                if not RushHour.matrix[car.row][car.col + (car.length - 1) + i]:
-                    free_front += 1
-                else:
-                    break
-
-        elif car.direction == 'V':
-            free_rear = 0
-            for i in range(1, RushHour.boardsize - car.row):
-                if not RushHour.matrix[car.row + i][car.col]:
-                    free_rear -= 1
-                else:
-                    break
-            
-            free_front = 0
-            for i in range(1, car.row):
-                if not RushHour.matrix[car.row - (car.length - 1) - i][car.col]:
-                    free_front += 1
-                else:
-                    break
+        free_space = car.look_around(RushHour)
         
-        if free_rear or free_front:
+        if free_space[0] or free_space[1]:
             break
 
-    distance = random.randrange(free_rear, free_front + 1)
+    distance = random.randrange(free_space[0], free_space[1] + 1)
     RushHour.move(car, distance)
 
 
