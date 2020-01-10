@@ -46,7 +46,6 @@ class Car():
                 j += 1
                 free_front += 1
         elif self.direction == 'V':
-            free_rear_while, free_front_while = 0,0
             while i < RushHour.boardsize - self.row and not RushHour.matrix[self.row + i][self.col]:
                 i += 1
                 free_rear -= 1
