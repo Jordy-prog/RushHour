@@ -4,13 +4,13 @@ from time import sleep
 def manual(RushHour):
     steps = 0
 
-    while not rush.game_won(steps):
+    while not RushHour.game_won(steps):
         os.system('cls')
-        rush.printboard()
+        RushHour.printboard()
         print('Moves:', steps)
         car_to_move = input('Which car do you want to move? ').upper()
 
-        if not car_to_move.upper() in rush.cars.keys():
+        if not car_to_move.upper() in RushHour.cars.keys():
             print('Invalid car!')
             sleep(1)
             continue
@@ -22,7 +22,7 @@ def manual(RushHour):
             sleep(1)
             continue
 
-        if not rush.move(rush.cars[car_to_move], distance):
+        if not RushHour.move(RushHour.cars[car_to_move], distance):
             print('Invalid move!')
             sleep(1)
         else:

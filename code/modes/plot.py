@@ -1,22 +1,26 @@
 import matplotlib.pyplot as plt
 from math import sqrt
 from ..classes import board
+from ..algorithms import random
 
 
-def plot(RushHour):
+def plot(algorithm, board_path):
     stepdata = []
 
+    # run the game a certain amount to collect enough data points
     for i in range(100):
-        rush = board.RushHour(board_path)
+        RushHour = board.RushHour(board_path)
         steps = 0
 
-        while not rush.game_won(steps):
+        # plays the game according to an algorithm
+        while not RushHour.game_won(steps):
             steps += 1
             
+            # differentiate between algorithms
             if algorithm == '1':
-                random.random_pure(rush)
+                random.random_pure(RushHour)
             elif algorithm == '2':
-                random.random_constraint(rush)
+                random.random_constraint(RushHour)
 
         stepdata.append(steps)
 
@@ -33,6 +37,8 @@ def plot(RushHour):
     for step in sorted_steps:
         dict_bracket = int(step / bracket_width)
         dict_bracket = f'{min(sorted_steps) + dict_bracket * bracket_width}' + " to " + f'{min(sorted_steps) + dict_bracket * bracket_width + bracket_width}'
+        
+        # add or set the amount in the steps category
         if dict_bracket in steps_dict:
             steps_dict[dict_bracket] += 1
         else:
