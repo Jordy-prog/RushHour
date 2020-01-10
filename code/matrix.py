@@ -216,10 +216,10 @@ def main():
         while not rush.game_won():
             steps += 1
 
-            # if (steps % 5) == 0:
-            #     algorithm = 'move'
-            # else:
-            #     algorithm = algorithm_input
+            if (steps % 5) == 0:
+                algorithm = 'move'
+            else:
+                algorithm = algorithm_input
 
             if algorithm == 'chain':
                 random_chain(rush)
