@@ -1,4 +1,4 @@
-from code.algorithms import algorithms
+from code.algorithms import random
 from code.classes import board
 from sys import exit, argv
 from time import sleep
@@ -73,11 +73,11 @@ if __name__ == '__main__':
                     algorithm == algorithm_input
 
                 if algorithm == 'chain':
-                    algorithms.random_chain(rush)
+                    random.random_chain(rush)
                 elif algorithm == 'move':
-                    algorithms.random_move(rush)
+                    random.random_move(rush)
                 elif algorithm == 'jordy':
-                    algorithms.random_chain_jordy(rush)
+                    random.random_chain_jordy(rush)
 
                 if to_print == 'yes':
                     os.system('cls')
@@ -100,11 +100,11 @@ if __name__ == '__main__':
                 algorithm = algorithm_input
 
             if algorithm == 'chain':
-                algorithms.random_chain(rush)
+                random.random_chain(rush)
             elif algorithm == 'move':
-                algorithms.random_move(rush)
+                random.random_move(rush)
             elif algorithm == 'jordy':
-                algorithms.random_chain_jordy(rush)
+                random.random_chain_jordy(rush)
 
             if to_print == 'yes':
                 os.system('cls')
