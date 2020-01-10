@@ -5,6 +5,7 @@ from sys import exit, argv
 from objects import Car
 from algorithms import random_move, random_chain, random_chain_jordy
 from time import sleep
+import matplotlib.pyplot as plt
 
 if len(argv) < 2:
     print('Usage: python matrix.py "filename"')
@@ -77,11 +78,13 @@ class RushHour():
         # printing of the current gameboard
         for i, row in enumerate(self.matrix):
             for element in row:
+                
                 if not element:
                     print(stylize(u'\u25A0', fg('light_gray')), '', end="")
                 else:
                     print(stylize(f'{element.name}', fg(element.color)), '', end="")
-
+                if len(self.cars) > 26 and ((element and len(element.name)) < 2 or not element):
+                    print(" ", end="")
             # draw an arrow at the exit
             if i == self.cars['X'].row:
                 print('-->', end="")
@@ -180,9 +183,9 @@ def main():
     elif mode == 'plot':
         stepdata = []
 
-        for i in range(5):
+        for i in range(100):
             rush = RushHour()
-            rush.printboard()
+            # rush.printboard()
 
             steps = 0
 
