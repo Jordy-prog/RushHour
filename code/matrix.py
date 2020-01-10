@@ -81,7 +81,8 @@ class RushHour():
                     print(stylize(u'\u25A0', fg('light_gray')), '', end="")
                 else:
                     print(stylize(f'{element.name}', fg(element.color)), '', end="")
-
+                if len(self.cars) > 26 and (element and len(element.name) < 2 or not element):
+                    print(" ", end="")
             # draw an arrow at the exit
             if i == self.cars['X'].row:
                 print('-->', end="")
@@ -180,7 +181,7 @@ def main():
     elif mode == 'plot':
         stepdata = []
 
-        for i in range(5):
+        for i in range(1):
             rush = RushHour()
             rush.printboard()
 
@@ -189,11 +190,11 @@ def main():
             while not rush.game_won():
                 steps += 1
 
-                if not steps % 5:
-                    algorithm == 'move'
+                if not steps % 2:
+                    algorithm = 'move'
                 else:
-                    algorithm == algorithm_input
-
+                    algorithm = algorithm_input
+                
                 if algorithm == 'chain':
                     random_chain(rush)
                 elif algorithm == 'move':
