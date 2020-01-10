@@ -31,7 +31,7 @@ class RushHour():
         '''            
         # try to open the given file and start reading
         try:
-            with open(f'gameboards/{argv[1]}', 'r') as in_file:
+            with open(f'../gameboards/{argv[1]}', 'r') as in_file:
                 reader = csv.DictReader(in_file)
 
                 # loop over lines in file and adjust values for use in Car object
@@ -83,8 +83,10 @@ class RushHour():
                     print(stylize(u'\u25A0', fg('light_gray')), '', end="")
                 else:
                     print(stylize(f'{element.name}', fg(element.color)), '', end="")
-                if len(self.cars) > 26 and ((element and len(element.name)) < 2 or not element):
+
+                if len(self.cars) > 26 and ((element and len(element.name) < 2) or not element):
                     print(" ", end="")
+
             # draw an arrow at the exit
             if i == self.cars['X'].row:
                 print('-->', end="")
