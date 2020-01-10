@@ -5,8 +5,19 @@ from math import sqrt
 from sys import exit, argv
 from time import sleep
 
-
 import matplotlib.pyplot as plt
+import numpy as np 
+import scipy.stats as stats
+from scipy.stats import norm
+import pylab as pl
+import statistics
+import pandas
+from collections import Counter
+
+import chart_studio.plotly
+
+
+
 import os
 
 
