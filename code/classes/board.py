@@ -1,42 +1,43 @@
 import csv
-import os
-from colored import fg, bg, stylize
+from colored import fg, stylize
 from sys import exit, argv
+<<<<<<< HEAD:code/matrix.py
 from objects import Car
 from algorithms import random_move, random_chain, random_chain_jordy
 from time import sleep
 import matplotlib.pyplot as plt
+=======
+from .car import Car
+>>>>>>> 882cb0e19fc1d8edb8fdd47238609bc62f5b7685:code/classes/board.py
 
-if len(argv) < 2:
-    print('Usage: python matrix.py "filename"')
-    exit()
 
 class RushHour():
-    def __init__(self):
+    def __init__(self, board_path):
         '''
         Initializing variables.
         '''
+        # FIX ERROR CHECK THAT CHECKS IF FILE IS CORRECT FIRST
         self.boardsize = int(argv[1][8] + argv[1][9]) if int(argv[1][8]) == 1 else int(argv[1][8]) 
         self.matrix = []
         self.cars = {}
         self.last_move = (None, 0)
         self.colors = ['blue_1', 'yellow_1', 'green_1', 'dark_green', 'deep_pink_1a', 'dark_orange']
-        self.load()
+        self.load( board_path)
         
 
-    def load(self):
+    def load(self, board_path):
         '''
         Load cars from file and initialize matrix.
         '''            
         # try to open the given file and start reading
         try:
-            with open(f'gameboards/{argv[1]}', 'r') as in_file:
+            with open(board_path, 'r') as in_file:
                 reader = csv.DictReader(in_file)
 
                 # loop over lines in file and adjust values for use in Car object
                 for i, car in enumerate(reader):
-                    row = self.boardsize - int(car['y'])
-                    col = int(car['x']) - 1
+                    row = int(car['row'])
+                    col = int(car['col'])
 
                     # assign the right color to the main car
                     if car['car'] == 'X':
@@ -77,12 +78,20 @@ class RushHour():
         # printing of the current gameboard
         for i, row in enumerate(self.matrix):
             for element in row:
+                
                 if not element:
                     print(stylize(u'\u25A0', fg('light_gray')), '', end="")
                 else:
                     print(stylize(f'{element.name}', fg(element.color)), '', end="")
+<<<<<<< HEAD:code/matrix.py
                 if len(self.cars) > 26 and (element and len(element.name) < 2 or not element):
                     print(" ", end="")
+=======
+
+                if len(self.cars) > 26 and ((element and len(element.name) < 2) or not element):
+                    print(" ", end="")
+
+>>>>>>> 882cb0e19fc1d8edb8fdd47238609bc62f5b7685:code/classes/board.py
             # draw an arrow at the exit
             if i == self.cars['X'].row:
                 print('-->', end="")
@@ -135,6 +144,7 @@ class RushHour():
             print('Congratulations!')
             return True
 
+<<<<<<< HEAD:code/matrix.py
         return False
 
 def main():
@@ -243,3 +253,6 @@ if __name__ == '__main__':
 
 
 
+=======
+        return False
+>>>>>>> 882cb0e19fc1d8edb8fdd47238609bc62f5b7685:code/classes/board.py
