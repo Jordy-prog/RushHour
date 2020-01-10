@@ -36,8 +36,8 @@ class RushHour():
 
                 # loop over lines in file and adjust values for use in Car object
                 for i, car in enumerate(reader):
-                    row = self.boardsize - int(car['y'])
-                    col = int(car['x']) - 1
+                    row = int(car['row'])
+                    col = int(car['col'])
 
                     # assign the right color to the main car
                     if car['car'] == 'X':
