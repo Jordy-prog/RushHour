@@ -1,6 +1,7 @@
 from math import sqrt
 import matplotlib.pyplot as plt
 
+
 def plot(RushHour):
         stepdata = []
 
