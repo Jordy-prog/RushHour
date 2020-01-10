@@ -10,7 +10,7 @@ class RushHour():
         Initializing variables.
         '''
         # FIX ERROR CHECK THAT CHECKS IF FILE IS CORRECT FIRST
-        self.boardsize = int(argv[1][8] + argv[1][9]) if int(argv[1][8]) == 1 else int(argv[1][8]) 
+        self.boardsize = int(argv[1][0] + argv[1][1]) if int(argv[1][0]) == 1 else int(argv[1][0]) 
         self.matrix = []
         self.cars = {}
         self.last_move = (None, 0)
