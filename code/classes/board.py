@@ -1,18 +1,11 @@
 import csv
-import os
-from colored import fg, bg, stylize
+from colored import fg, stylize
 from sys import exit, argv
-from objects import Car
-from algorithms import random_move, random_chain, random_chain_jordy
-from time import sleep
-import matplotlib.pyplot as plt
+from .car import Car
 
-if len(argv) < 2:
-    print('Usage: python matrix.py "filename"')
-    exit()
 
 class RushHour():
-    def __init__(self):
+    def __init__(self, board_path):
         '''
         Initializing variables.
         '''
@@ -22,16 +15,16 @@ class RushHour():
         self.cars = {}
         self.last_move = (None, 0)
         self.colors = ['blue_1', 'yellow_1', 'green_1', 'dark_green', 'deep_pink_1a', 'dark_orange']
-        self.load()
+        self.load( board_path)
         
 
-    def load(self):
+    def load(self, board_path):
         '''
         Load cars from file and initialize matrix.
         '''            
         # try to open the given file and start reading
         try:
-            with open(f'../gameboards/{argv[1]}', 'r') as in_file:
+            with open(board_path, 'r') as in_file:
                 reader = csv.DictReader(in_file)
 
                 # loop over lines in file and adjust values for use in Car object
@@ -140,110 +133,3 @@ class RushHour():
             return True
 
         return False
-
-def main():
-    mode = None
-    algorithm_input = None
-    to_print = None
-
-    while mode not in ['manual', 'plot', 'test']:
-        mode = input('Select a mode (manual, plot, test):')
-
-    while algorithm_input not in ['move', 'chain', 'jordy']:
-        algorithm_input = input('Select an algorithm (move, chain, jordy):')
-
-    while to_print not in ['yes', 'no']:
-        to_print = input('Do you want to print? (yes, no)')
-
-    rush = RushHour()
-    rush.printboard()
-    algorithm = algorithm_input
-
-    if mode == 'manual':
-        while not rush.game_won():
-            car_to_move = input('Which car do you want to move? ').upper()
-
-            if not car_to_move.upper() in rush.cars.keys():
-                print('Unable to move that car in that direction!')
-                sleep(1)
-                continue
-
-            try:
-                distance = int(input('How far? '))
-            except ValueError:
-                print('Invalid distance')
-                sleep(1)
-                continue
-
-            if not rush.move(rush.cars[car_to_move], distance):
-                print('Too bad sucker')
-                sleep(1)
-
-            sleep(2)
-            os.system('cls')
-            rush.printboard()
-    elif mode == 'plot':
-        stepdata = []
-
-        for i in range(100):
-            rush = RushHour()
-            # rush.printboard()
-
-            steps = 0
-
-            while not rush.game_won():
-                steps += 1
-
-                if not steps % 5:
-                    algorithm == 'move'
-                else:
-                    algorithm == algorithm_input
-
-                if algorithm == 'chain':
-                    random_chain(rush)
-                elif algorithm == 'move':
-                    random_move(rush)
-                elif algorithm == 'jordy':
-                    random_chain_jordy(rush)
-
-                if to_print == 'yes':
-                    os.system('cls')
-                    rush.printboard()
-
-            stepdata.append(steps)
-            print(steps)
-
-        plt.plot(stepdata)
-        plt.show()
-    else:
-        steps = 0
-
-        while not rush.game_won():
-            steps += 1
-
-            if (steps % 5) == 0:
-                algorithm = 'move'
-            else:
-                algorithm = algorithm_input
-
-            if algorithm == 'chain':
-                random_chain(rush)
-            elif algorithm == 'move':
-                random_move(rush)
-            elif algorithm == 'jordy':
-                random_chain_jordy(rush)
-
-            if to_print == 'yes':
-                os.system('cls')
-                rush.printboard()
-
-        print(steps)
-
-
-if __name__ == '__main__':
-    main()
-
-
-
-
-

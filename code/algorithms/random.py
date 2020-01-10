@@ -1,5 +1,5 @@
 import random
-from objects import Car
+from ..classes import car
 from time import sleep
 
 def random_move(RushHour):
