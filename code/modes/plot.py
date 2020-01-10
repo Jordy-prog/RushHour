@@ -4,11 +4,11 @@ from ..classes import board
 from ..algorithms import random
 
 
-def plot(algorithm, board_path):
+def plot(algorithm, board_path, number_of_runs):
     stepdata = []
 
     # run the game a certain amount to collect enough data points
-    for i in range(100):
+    for i in range(number_of_runs):
         RushHour = board.RushHour(board_path)
         steps = 0
 

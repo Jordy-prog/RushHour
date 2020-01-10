@@ -12,12 +12,21 @@ if __name__ == '__main__':
         print('Usage: python main.py "filename"')
         exit()
 
+    # initializing input variables
     mode = None
     algorithm = None
     to_print = None
+    number_of_runs = -1
 
     while mode not in ['manual', 'plot', 'test']:
         mode = input('Select a mode (manual, plot, test): ')
+
+    if mode == 'plot':
+        while number_of_runs < 0:
+            try:
+                number_of_runs = int(input('How many times?'))
+            except ValueError:
+                pass
 
     while algorithm not in ['1', '2'] and not mode == 'manual':
         algorithm = input('Select an algorithm: \
@@ -33,6 +42,6 @@ if __name__ == '__main__':
     if mode == 'manual':
         manual.manual(RushHour)
     elif mode == 'plot':
-        plot.plot(RushHour, algorithm, board_path)
+        plot.plot(algorithm, board_path, number_of_runs)
     else:
         test.test(RushHour, algorithm)
