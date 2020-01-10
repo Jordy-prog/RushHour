@@ -71,15 +71,8 @@ if __name__ == '__main__':
     elif mode == 'plot':
         stepdata = []
 
-<<<<<<< HEAD
-        for i in range(1000):
-            rush = board.RushHour(board_path)
-            # rush.printboard()
-
-=======
         for i in range(100):
             rush = board.RushHour(board_path)
->>>>>>> 19cc929740ee635fd753264371639c5b881848a4
             steps = 0
 
             while not rush.game_won(steps):
@@ -92,27 +85,16 @@ if __name__ == '__main__':
 
             stepdata.append(steps)
 
-        # moet nog gebruikt worden
         avg_steps = round(sum(stepdata) / len(stepdata), 0)
         sorted_steps = sorted(stepdata)
 
-<<<<<<< HEAD
-            stepdata.append(steps)
-
-
-        avg_steps = round(sum(stepdata)/len(stepdata),0)
-        sorted_steps = sorted(stepdata)
-
         steps_dict = {}
-        range_list = max(sorted_steps) - min(sorted_steps)
-        bracket_width = int(range_list / 10) #133
 
-=======
-        steps_dict = {}
+        # determine the width of each bracket in the bar plot
         range_list = max(sorted_steps) - min(sorted_steps)
         bracket_width = int(range_list / sqrt(len(sorted_steps)))
 
->>>>>>> 19cc929740ee635fd753264371639c5b881848a4
+        # categorize the amount of steps with a dictionary structure
         for step in sorted_steps:
             dict_bracket = int(step / bracket_width)
             dict_bracket = f'{min(sorted_steps) + dict_bracket * bracket_width}' + " to " + f'{min(sorted_steps) + dict_bracket * bracket_width + bracket_width}'
@@ -121,11 +103,13 @@ if __name__ == '__main__':
             else:
                 steps_dict[dict_bracket] = 1 
         
+        # specify properties of bar plot
         plt.bar(list(steps_dict.keys()), steps_dict.values(), color='g')
         plt.xticks(rotation=45)
         plt.xlabel ('Category')
         plt.ylabel ('Frequency')
         plt.title ('Frequency of moved cars')
+        plt.text(0.65, 0.9, f'Average steps: {avg_steps}', transform=plt.gca().transAxes)
         plt.show()
     else:
         steps = 0
