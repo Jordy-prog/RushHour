@@ -1,4 +1,5 @@
 import csv
+import os
 from colored import fg, stylize
 from sys import exit, argv
 from .car import Car
@@ -71,13 +72,12 @@ class RushHour():
         # printing of the current gameboard
         for i, row in enumerate(self.matrix):
             for element in row:
-                
                 if not element:
-                    print(stylize(u'\u25A0', fg('light_gray')), '', end="")
+                    print(stylize(u'\u25A0', fg('light_gray')), end=" ")
                 else:
-                    print(stylize(f'{element.name}', fg(element.color)), '', end="")
+                    print(stylize(f'{element.name}', fg(element.color)), end=" ")
 
-                if len(self.cars) > 26 and ((element and len(element.name) < 2) or not element):
+                if len(self.cars) > 26 and (not element or len(element.name) < 2):
                     print(" ", end="")
 
             # draw an arrow at the exit
@@ -87,19 +87,12 @@ class RushHour():
             print()
 
     def move(self, car, distance):
-        if self.last_move == car:
+        free_space = car.look_around(self)
+
+        if free_space['rear'] > distance or distance > free_space['front'] or distance == 0:
             return False
-        step = -1 if distance < 0 else 1
 
         if car.direction == 'H':
-            # forloop check if car can move, for manual purposes only!
-            for i in range(step, distance + step, step):
-                try:
-                    if car.col + i < 0 or step == -1 and self.matrix[car.row][car.col + i] or step == 1 and self.matrix[car.row][car.col + i + (car.length - 1)]:
-                        return False
-                except IndexError:
-                    return False
-
             for i in range(car.length):
                 self.matrix[car.row][car.col + i] = 0
 
@@ -108,14 +101,6 @@ class RushHour():
             
             car.position(car.row, car.col + distance)
         elif car.direction == 'V':
-            # forloop check if car can move, for manual purposes only!
-            for i in range(step, distance + step, step):
-                try:
-                    if car.row - (car.length - 1) - i < 0 or step == -1 and self.matrix[car.row - i][car.col] or step == 1 and self.matrix[car.row - i - (car.length - 1)][car.col]:
-                        return False
-                except IndexError:
-                    return False
-
             for i in range(car.length):
                 self.matrix[car.row - i][car.col] = 0
 
@@ -127,9 +112,11 @@ class RushHour():
         self.last_move = (car, distance)
         return True
     
-    def game_won(self):
+    def game_won(self, steps):
         if self.matrix[self.cars['X'].row][-1] == self.cars['X']:
-            print('Congratulations!')
+            os.system('cls')
+            self.printboard()
+            print('Congratulations! The game was finished in:', steps, 'steps.')
             return True
 
         return False

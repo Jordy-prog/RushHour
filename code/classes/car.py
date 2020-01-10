@@ -21,18 +21,6 @@ class Car():
         self.row = row
         self.col = col
 
-    def add_move(self, distance): ## POTENTIEEL VERWIJDEREN
-        '''
-        Add a move to the car's memory.
-        '''
-        try:
-            if not len(self.moves[-1]) % 2:
-                self.moves.append([distance])
-            else:
-                self.moves[-1].append(distance)
-        except IndexError:
-            self.moves.append([distance])
-
     def look_around(self, RushHour):
         free_rear, free_front = 0, 0
         i, j = 1, 1
@@ -54,7 +42,7 @@ class Car():
                 j += 1
                 free_front += 1
 
-        return [free_rear, free_front]
+        return {'rear': free_rear, 'front': free_front}
 
     def __str__(self):
         '''
