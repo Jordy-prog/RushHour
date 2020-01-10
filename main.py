@@ -1,5 +1,6 @@
 from code.algorithms import random
 from code.classes import board
+from math import sqrt
 from sys import exit, argv
 from time import sleep
 
@@ -19,81 +20,83 @@ import chart_studio.plotly
 import os
 
 
-
 if __name__ == '__main__':
     if len(argv) < 2:
         print('Usage: python main.py "filename"')
         exit()
 
     mode = None
-    algorithm_input = None
+    algorithm = None
     to_print = None
 
     while mode not in ['manual', 'plot', 'test']:
         mode = input('Select a mode (manual, plot, test): ')
 
-    while algorithm_input not in ['move', 'chain', 'jordy'] and not mode == "manual":
-        algorithm_input = input('Select an algorithm (move, chain, jordy): ')
+    while algorithm not in ['1', '2'] and not mode == 'manual':
+        algorithm = input('Select an algorithm: \
+                           \n1. Purely random \
+                           \n2. Random with constraints \n')
 
-    while to_print not in ['yes', 'no']:
+    while to_print not in ['yes', 'no'] and mode == 'test':
         to_print = input('Do you want to print? (yes, no): ')
 
     board_path = f'data/{argv[1]}'
     rush = board.RushHour(board_path)
-    rush.printboard()
-    algorithm = algorithm_input
 
     if mode == 'manual':
-        while not rush.game_won():
+        steps = 0
+        while not rush.game_won(steps):
+            os.system('cls')
+            rush.printboard()
+            print('Moves:', steps)
             car_to_move = input('Which car do you want to move? ').upper()
 
             if not car_to_move.upper() in rush.cars.keys():
-                print('Unable to move that car in that direction!')
+                print('Invalid car!')
                 sleep(1)
                 continue
 
             try:
                 distance = int(input('How far? '))
             except ValueError:
-                print('Invalid distance')
+                print('Invalid distance!')
                 sleep(1)
                 continue
 
             if not rush.move(rush.cars[car_to_move], distance):
-                print('Too bad sucker')
+                print('Invalid move!')
                 sleep(1)
-
-            sleep(2)
-            os.system('cls')
-            rush.printboard()
+            else:
+                steps += 1
     elif mode == 'plot':
         stepdata = []
 
+<<<<<<< HEAD
         for i in range(1000):
             rush = board.RushHour(board_path)
             # rush.printboard()
 
+=======
+        for i in range(100):
+            rush = board.RushHour(board_path)
+>>>>>>> 19cc929740ee635fd753264371639c5b881848a4
             steps = 0
 
-            while not rush.game_won():
+            while not rush.game_won(steps):
                 steps += 1
+                
+                if algorithm == '1':
+                    random.random_pure(rush)
+                elif algorithm == '2':
+                    random.random_constraint(rush)
 
-                if not steps % 5:
-                    algorithm == 'move'
-                else:
-                    algorithm == algorithm_input
+            stepdata.append(steps)
 
-                if algorithm == 'chain':
-                    random.random_chain(rush)
-                elif algorithm == 'move':
-                    random.random_move(rush)
-                elif algorithm == 'jordy':
-                    random.random_chain_jordy(rush)
+        # moet nog gebruikt worden
+        avg_steps = round(sum(stepdata) / len(stepdata), 0)
+        sorted_steps = sorted(stepdata)
 
-                if to_print == 'yes':
-                    os.system('cls')
-                    rush.printboard()
-
+<<<<<<< HEAD
             stepdata.append(steps)
 
 
@@ -104,6 +107,12 @@ if __name__ == '__main__':
         range_list = max(sorted_steps) - min(sorted_steps)
         bracket_width = int(range_list / 10) #133
 
+=======
+        steps_dict = {}
+        range_list = max(sorted_steps) - min(sorted_steps)
+        bracket_width = int(range_list / sqrt(len(sorted_steps)))
+
+>>>>>>> 19cc929740ee635fd753264371639c5b881848a4
         for step in sorted_steps:
             dict_bracket = int(step / bracket_width)
             dict_bracket = f'{min(sorted_steps) + dict_bracket * bracket_width}' + " to " + f'{min(sorted_steps) + dict_bracket * bracket_width + bracket_width}'
@@ -121,23 +130,14 @@ if __name__ == '__main__':
     else:
         steps = 0
 
-        while not rush.game_won():
-            steps += 1
-
-            if (steps % 5) == 0:
-                algorithm = 'move'
-            else:
-                algorithm = algorithm_input
-
-            if algorithm == 'chain':
-                random.random_chain(rush)
-            elif algorithm == 'move':
-                random.random_move(rush)
-            elif algorithm == 'jordy':
-                random.random_chain_jordy(rush)
-
+        while not rush.game_won(steps):
             if to_print == 'yes':
                 os.system('cls')
                 rush.printboard()
 
-        print(steps)
+            steps += 1
+
+            if algorithm == '1':
+                random.random_pure(rush)
+            elif algorithm == '2':
+                random.random_constraint(rush)
