@@ -3,8 +3,19 @@ from code.classes import board
 from sys import exit, argv
 from time import sleep
 
-
 import matplotlib.pyplot as plt
+import numpy as np 
+import scipy.stats as stats
+from scipy.stats import norm
+import pylab as pl
+import statistics
+import pandas
+from collections import Counter
+
+import chart_studio.plotly
+
+
+
 import os
 
 
@@ -58,8 +69,8 @@ if __name__ == '__main__':
     elif mode == 'plot':
         stepdata = []
 
-        for i in range(100):
-            rush = RushHour()
+        for i in range(1000):
+            rush = board.RushHour(board_path)
             # rush.printboard()
 
             steps = 0
@@ -84,9 +95,28 @@ if __name__ == '__main__':
                     rush.printboard()
 
             stepdata.append(steps)
-            print(steps)
 
-        plt.plot(stepdata)
+
+        avg_steps = round(sum(stepdata)/len(stepdata),0)
+        sorted_steps = sorted(stepdata)
+
+        steps_dict = {}
+        range_list = max(sorted_steps) - min(sorted_steps)
+        bracket_width = int(range_list / 10) #133
+
+        for step in sorted_steps:
+            dict_bracket = int(step / bracket_width)
+            dict_bracket = f'{min(sorted_steps) + dict_bracket * bracket_width}' + " to " + f'{min(sorted_steps) + dict_bracket * bracket_width + bracket_width}'
+            if dict_bracket in steps_dict:
+                steps_dict[dict_bracket] += 1
+            else:
+                steps_dict[dict_bracket] = 1 
+        
+        plt.bar(list(steps_dict.keys()), steps_dict.values(), color='g')
+        plt.xticks(rotation=45)
+        plt.xlabel ('Category')
+        plt.ylabel ('Frequency')
+        plt.title ('Frequency of moved cars')
         plt.show()
     else:
         steps = 0
