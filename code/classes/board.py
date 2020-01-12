@@ -1,7 +1,9 @@
 import csv
 import os
-from colored import fg, stylize
 from sys import exit, argv
+
+from colored import fg, stylize
+
 from .car import Car
 
 
@@ -10,7 +12,6 @@ class RushHour():
         '''
         Initializing variables.
         '''
-        # FIX ERROR CHECK THAT CHECKS IF FILE IS CORRECT FIRST
         self.boardsize = int(argv[1][0] + argv[1][1]) if int(argv[1][0]) == 1 else int(argv[1][0]) 
         self.matrix = []
         self.cars = {}
@@ -18,7 +19,6 @@ class RushHour():
         self.colors = ['blue_1', 'yellow_1', 'green_1', 'dark_green', 'deep_pink_1a', 'dark_orange']
         self.load( board_path)
         
-
     def load(self, board_path):
         '''
         Load cars from file and initialize matrix.
@@ -73,6 +73,7 @@ class RushHour():
                 else:
                     print(stylize(f'{element.name}', fg(element.color)), end=" ")
 
+                # compensates the view of the board for 12x12 situation
                 if len(self.cars) > 26 and (not element or len(element.name) < 2):
                     print(" ", end="")
 
@@ -83,11 +84,17 @@ class RushHour():
             print()
 
     def move(self, car, distance):
+        '''
+        Attempts to move the car.
+        '''
         free_space = car.look_around(self)
 
+        # checks if there is enough space to move the car
         if free_space['rear'] > distance or distance > free_space['front'] or distance == 0:
             return False
 
+        # uses two for loops to delete and rebuild the car in the matrix, 
+        # one loop would cause problems with small distances
         if car.direction == 'H':
             for i in range(car.length):
                 self.matrix[car.row][car.col + i] = 0
@@ -105,10 +112,15 @@ class RushHour():
             
             car.position(car.row - distance, car.col)
 
+        # remembers last move that was done on the board
         self.last_move = (car, distance)
         return True
     
     def game_won(self, steps):
+        '''
+        Returns True if the game is won, else false.
+        '''
+        # checks if the win conditions of the game are met
         if self.matrix[self.cars['X'].row][-1] == self.cars['X']:
             os.system('cls')
             self.printboard()

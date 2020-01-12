@@ -8,8 +8,16 @@ from code.modes import manual, plot, test
 
 
 if __name__ == '__main__':
+    # checks if a filename is given by the user
     if len(argv) < 2:
         print('Usage: python main.py "filename"')
+        exit()
+
+    board_path = f'data/{argv[1]}'
+
+    # checks if file exists
+    if not os.path.isfile(board_path):
+        print('Could not open file')
         exit()
 
     # initializing input variables
@@ -18,9 +26,11 @@ if __name__ == '__main__':
     to_print = None
     number_of_runs = -1
 
+    # asks user for a mode in which program should be run
     while mode not in ['manual', 'plot', 'test']:
         mode = input('Select a mode (manual, plot, test): ')
 
+    # asks user for number of runs, if plot option was selected
     if mode == 'plot':
         while number_of_runs < 0:
             try:
@@ -28,20 +38,22 @@ if __name__ == '__main__':
             except ValueError:
                 pass
 
+    # asks user which algorithm he would like to use
     while algorithm not in ['1', '2'] and not mode == 'manual':
         algorithm = input('Select an algorithm: \
                            \n1. Purely random \
                            \n2. Random with constraints \n')
 
+    # asks user if he wants results to be printed
     while to_print not in ['yes', 'no'] and mode == 'test':
         to_print = input('Do you want to print? (yes, no): ')
 
-    board_path = f'data/{argv[1]}'
     RushHour = board.RushHour(board_path)
 
+    # run certain algorithm depending on the selections made
     if mode == 'manual':
         manual.manual(RushHour)
     elif mode == 'plot':
         plot.plot(algorithm, board_path, number_of_runs)
     else:
-        test.test(RushHour, algorithm)
+        test.test(RushHour, algorithm, to_print)

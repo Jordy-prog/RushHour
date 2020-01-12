@@ -22,9 +22,15 @@ class Car():
         self.col = col
 
     def look_around(self, RushHour):
+        '''
+        Let's a car determine the amount of free space in front of the car and behind the car.
+        '''
         free_rear, free_front = 0, 0
+
+        # start i, j at 1 to prevent a car from selecting itself
         i, j = 1, 1
 
+        # loops from car to edge of board and determine free places
         if self.direction == 'H':
             while i <= self.col and not RushHour.matrix[self.row][self.col - i]:
                 i += 1

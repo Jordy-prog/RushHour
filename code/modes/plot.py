@@ -1,13 +1,18 @@
-import matplotlib.pyplot as plt
 from math import sqrt
+
+import matplotlib.pyplot as plt
+
 from ..classes import board
 from ..algorithms import random
 
 
 def plot(algorithm, board_path, number_of_runs):
+    '''
+    This function runs a certain algorithm a number of times and then plots the data in a graph.
+    '''
     stepdata = []
 
-    # run the game a certain amount to collect enough data points
+    # run the game a certain times to collect enough data points
     for i in range(number_of_runs):
         RushHour = board.RushHour(board_path)
         steps = 0
