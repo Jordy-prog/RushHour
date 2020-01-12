@@ -12,7 +12,6 @@ class Car():
         self.direction = direction
         self.row = row
         self.col = col
-        self.moves = []
 
     def position(self, row, col):
         '''
