@@ -1,6 +1,6 @@
 import os
 
-from code.algorithms import random, hillclimb
+from code.algorithms import random, hillclimb, bfs
 
 
 def test(RushHour, algorithm, to_print):
@@ -21,3 +21,6 @@ def test(RushHour, algorithm, to_print):
             random.random_constraint(RushHour)
         elif algorithm == '3':
             hillclimb.hillclimb(RushHour)
+        elif algorithm == '4':
+            bfs.bfs(RushHour)
+            
