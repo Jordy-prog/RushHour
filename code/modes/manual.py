@@ -21,18 +21,25 @@ def manual(RushHour):
             print('Invalid car!')
             sleep(1)
             continue
+        
+        car = RushHour.cars[car_to_move]
 
         # makes sure someone chooses a valid distance
         try:
             distance = int(input('How far? '))
+            free_space = car.look_around(self)
+
+            # checks if there is enough space to move the car
+            if free_space['rear'] > distance or distance > free_space['front'] or distance == 0:
+                print('Invalid distance!')
+                sleep(1)
+                continue
+
         except ValueError:
             print('Invalid distance!')
             sleep(1)
             continue
 
-        # tries to move the car
-        if not RushHour.move(RushHour.cars[car_to_move], distance):
-            print('Invalid move!')
-            sleep(1)
-        else:
-            steps += 1
+        # moves the car
+        RushHour.move(car, distance)
+        steps += 1

@@ -87,12 +87,6 @@ class RushHour():
         '''
         Attempts to move the car.
         '''
-        free_space = car.look_around(self)
-
-        # checks if there is enough space to move the car
-        if free_space['rear'] > distance or distance > free_space['front'] or distance == 0:
-            return False
-
         # uses two for loops to delete and rebuild the car in the matrix, 
         # one loop would cause problems with small distances
         if car.direction == 'H':
