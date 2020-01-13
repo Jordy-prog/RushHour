@@ -39,10 +39,11 @@ if __name__ == '__main__':
                 pass
 
     # asks user which algorithm he would like to use
-    while algorithm not in ['1', '2'] and not mode == 'manual':
+    while algorithm not in ['1', '2', '3'] and not mode == 'manual':
         algorithm = input('Select an algorithm: \
                            \n1. Purely random \
-                           \n2. Random with constraints \n')
+                           \n2. Random with constraints \
+                           \n3. Hillclimb \n')
 
     # asks user if he wants results to be printed
     while to_print not in ['yes', 'no'] and mode == 'test':

@@ -1,11 +1,19 @@
-import .random
+import copy
+
+from .random import random_constraint
+
 
 def hillclimb(RushHour):
-    moves_first = []
+    boardstates_initial = []
 
     # do one random run and save the moves that were done
-    while not RushHour.game_won(steps):
-        moves_first.append(random.random_constraint(RushHour))
+    while not RushHour.game_won():
+        random_constraint(RushHour)
+        boardstates_initial.append(copy.deepcopy(RushHour.matrix))
+
+    print(boardstates_initial)
+
+    
 
 
 
@@ -15,3 +23,4 @@ def hillclimb(RushHour):
     # als zelfde state gevonden is, pak de lijst met huidige moves en vergelijk hem met de lijst van moves tussen de twee opgeslagen states in.
 
     # selectieve eliminatie uit de movelist van een oplossing
+    # random hoeft nu geen move meer te returnen want je slaat boardstates op
