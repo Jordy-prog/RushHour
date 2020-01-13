@@ -49,7 +49,7 @@ class Car():
 
         return {'rear': free_rear, 'front': free_front}
 
-    def __str__(self):
+    def __repr__(self):
         '''
         Returns name of car.
         '''

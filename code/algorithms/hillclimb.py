@@ -1,18 +1,19 @@
 import copy
+from sys import argv
 
 from .random import random_constraint
+from ..classes import board
 
 
-def hillclimb(RushHour):
+def hillclimb(RushHour_initial):
     boardstates_initial = []
 
     # do one random run and save the moves that were done
-    while not RushHour.game_won():
-        random_constraint(RushHour)
-        boardstates_initial.append(copy.deepcopy(RushHour.matrix))
+    while not RushHour_initial.game_won():
+        random_constraint(RushHour_initial)
+        boardstates_initial.append(copy.deepcopy(RushHour_initial.matrix))
 
-    print(boardstates_initial)
-
+    RushHour_new = board.RushHour(f'data/{argv[1]}')
     
 
 
