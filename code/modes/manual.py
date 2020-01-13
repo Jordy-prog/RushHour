@@ -27,7 +27,7 @@ def manual(RushHour):
         # makes sure someone chooses a valid distance
         try:
             distance = int(input('How far? '))
-            free_space = car.look_around(self)
+            free_space = car.look_around(RushHour)
 
             # checks if there is enough space to move the car
             if free_space['rear'] > distance or distance > free_space['front'] or distance == 0:
