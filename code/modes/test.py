@@ -7,12 +7,8 @@ def test(RushHour, algorithm, to_print):
     '''
     A function that does a single run of an algorithm.
     '''
-    steps = 0
-
     # plays game until won
-    while not RushHour.game_won(steps):
-        steps += 1
-
+    while not RushHour.game_won():
         # prints gameboard
         if to_print == 'yes':
             os.system('cls')

@@ -52,3 +52,4 @@ def random_constraint(RushHour):
             break
 
     RushHour.move(car, distance)
+    return (car, distance)

@@ -15,19 +15,15 @@ def plot(algorithm, board_path, number_of_runs):
     # run the game a certain times to collect enough data points
     for i in range(number_of_runs):
         RushHour = board.RushHour(board_path)
-        steps = 0
-
         # plays the game according to an algorithm
-        while not RushHour.game_won(steps):
-            steps += 1
-            
+        while not RushHour.game_won():            
             # differentiate between algorithms
             if algorithm == '1':
                 random.random_pure(RushHour)
             elif algorithm == '2':
                 random.random_constraint(RushHour)
 
-        stepdata.append(steps)
+        stepdata.append(RushHour.steps)
 
     avg_steps = round(sum(stepdata) / len(stepdata), 0)
     sorted_steps = sorted(stepdata)

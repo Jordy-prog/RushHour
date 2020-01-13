@@ -6,14 +6,12 @@ def manual(RushHour):
     '''
     Function that implements a manual gameplay of Rushhour.
     '''
-    steps = 0
-
     # plays the game until it is won
-    while not RushHour.game_won(steps):
+    while not RushHour.game_won():
         # clears terminal and prints useful information
         os.system('cls')
         RushHour.printboard()
-        print('Moves:', steps)
+        print('Moves:', RushHour.steps)
         car_to_move = input('Which car do you want to move? ').upper()
 
         # checks if car exists
@@ -42,4 +40,3 @@ def manual(RushHour):
 
         # moves the car
         RushHour.move(car, distance)
-        steps += 1
