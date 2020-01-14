@@ -54,17 +54,8 @@ def hillclimb(RushHour_initial, slices, improvements):
             boardstates_new = [copy.deepcopy(RushHour_new.matrix)]
 
             while not str(boardstates_new[-1]) == str(boardstates_initial[-1]) and len(boardstates_new) < len(boardstates_initial):
-                # print(boardstates_new[-1])
-                # print(RushHour_new.matrix)
-                # print('yo')
-                # RushHour_new.printboard()
                 random_constraint(RushHour_new)
-                # print('whatup')
-                # print(RushHour_new.matrix)
                 boardstates_new.append(copy.deepcopy(RushHour_new.matrix))
-
-            # print('hallow')
-            # sleep(1)
 
             if len(boardstates_new) < len(boardstates_initial):
                 del boardstates[first_slice:last_slice]
@@ -75,14 +66,6 @@ def hillclimb(RushHour_initial, slices, improvements):
                 break
     
     print(len(boardstates))
-
-
-    # for i, boardstate in enumerate(boardstates)
-
-    
-
-
-
     # loop over random algoritme en laat algoritme 1 move returnen en sla die hier op in movelist
     # maak nieuw gameobject aan, loop over moves tot bepaalde toestand sla die op, loop verder tot nieuwe toestand, sla die ook op
     # start nu vanaf de nieuwe matrix en loop over random algoritme, en check na elke move of het bord in dezelfde toestand staat als de verst opgeslagen matrix door over matrix te loopen en te kijken of alles goed staat
