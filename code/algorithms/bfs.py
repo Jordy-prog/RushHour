@@ -6,7 +6,7 @@ def bfs(RushHour):
     archive.add(hash(str(RushHour.matrix)))
     queue = Queue()
     queue.put(RushHour)
-    
+
     while not queue.empty():
         parent = queue.get()
         for car in parent.cars.values():
