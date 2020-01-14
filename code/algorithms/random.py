@@ -35,28 +35,15 @@ def random_constraint(RushHour):
         car = random.choice(list(RushHour.cars.values()))
         free_space = car.look_around(RushHour)
         distance = 0
-        # print(list(RushHour.cars.values()))
-        # print(car)
-        # print(free_space['rear'], free_space['front'])
+        
         # if a car can move, determine a random distance to move the car
         if free_space['rear'] or free_space['front']:
-            # RushHour.printboard()
             while distance == 0:
                 distance = random.randrange(free_space['rear'], free_space['front'] + 1)
-
-            # print(free_space['rear'], free_space['front'])
-            # RushHour.printboard()
-            # print(car, car.row, car.col)
-            # print(distance)
                 
         # continues if move is the exact opposite of last move, else breaks
         if not (car, - distance) == RushHour.last_move and distance:
             break
-        
-        # if (car, - distance) == RushHour.last_move:
-            # print('what are the odds')
-
-    # print(RushHour.matrix)
 
     RushHour.move(car, distance)
     return (car, distance)
