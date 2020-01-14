@@ -3,31 +3,22 @@ import os
 from code.algorithms import random, hillclimb, bfs
 
 
-def test(RushHour, algorithm, to_print, slices, improvements):
+def test(RushHour, input_dict):
     '''
     A function that does a single run of an algorithm.
     '''
     # algorithm selection
-    if algorithm == '1':
+    if input_dict['algorithm'][0] in ['1', '2']:
         # plays game until won
         while not RushHour.game_won():
             # prints gameboard
-            if to_print == 'yes':
+            if input_dict['to_print'] == 'yes':
                 os.system('cls')
                 RushHour.printboard()
             
-            random.random_pure(RushHour)
-    elif algorithm == '2':
-        # plays game until won
-        while not RushHour.game_won():
-            # prints gameboard
-            if to_print == 'yes':
-                os.system('cls')
-                RushHour.printboard()
-            
-            random.random_constraint(RushHour)
-    elif algorithm == '3':
-        hillclimb.hillclimb(RushHour, slices, improvements)
-    elif algorithm == '4':
-        bfs.bfs(RushHour)
+            input_dict['algorithm'][1](RushHour)
+    elif input_dict['algorithm'][0] == '3':
+        input_dict['algorithm'][1](RushHour, input_dict)
+    elif input_dict['algorithm'][0] == '4':
+        input_dict['algorithm'][1](RushHour)
             

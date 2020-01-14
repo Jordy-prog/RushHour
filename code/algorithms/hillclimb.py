@@ -8,7 +8,7 @@ from .random import random_constraint
 from ..classes import board
 
 
-def hillclimb(RushHour_initial, slices, improvements):
+def hillclimb(RushHour_initial, input_dict):
     boardstates = []
     plot_data = {}
 
@@ -33,7 +33,7 @@ def hillclimb(RushHour_initial, slices, improvements):
     print(len(boardstates))
     slice_times = 0
 
-    while slice_times < slices:
+    while slice_times < input_dict['slices']:
         slice_times += 1
         print('slice:', slice_times)
         first_slice = random.randrange(0, len(boardstates)//2)
@@ -50,7 +50,7 @@ def hillclimb(RushHour_initial, slices, improvements):
 
         improvement_times = 0
 
-        while improvement_times < improvements:
+        while improvement_times < input_dict['improvements']:
             improvement_times += 1
             RushHour_new = copy.deepcopy(RushHour_template)
             boardstates_new = [copy.deepcopy(RushHour_new.matrix)]
