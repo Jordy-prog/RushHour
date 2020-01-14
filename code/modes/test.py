@@ -3,7 +3,7 @@ import os
 from code.algorithms import random, hillclimb, bfs
 
 
-def test(RushHour, algorithm, to_print):
+def test(RushHour, algorithm, to_print, slices, improvements):
     '''
     A function that does a single run of an algorithm.
     '''
@@ -27,7 +27,7 @@ def test(RushHour, algorithm, to_print):
             
             random.random_constraint(RushHour)
     elif algorithm == '3':
-        hillclimb.hillclimb(RushHour)
+        hillclimb.hillclimb(RushHour, slices, improvements)
     elif algorithm == '4':
         bfs.bfs(RushHour)
             

@@ -24,7 +24,9 @@ if __name__ == '__main__':
     mode = None
     algorithm = None
     to_print = None
-    number_of_runs = -1
+    number_of_runs = 0
+    slices = 0
+    improvements = 0
 
     # asks user for a mode in which program should be run
     while mode not in ['manual', 'plot', 'test']:
@@ -32,9 +34,9 @@ if __name__ == '__main__':
 
     # asks user for number of runs, if plot option was selected
     if mode == 'plot':
-        while number_of_runs < 0:
+        while number_of_runs <= 0:
             try:
-                number_of_runs = int(input('How many times?'))
+                number_of_runs = int(input('How many times? '))
             except ValueError:
                 pass
 
@@ -45,6 +47,15 @@ if __name__ == '__main__':
                            \n2. Random with constraints \
                            \n3. Hillclimb \
                            \n4. Breadth first\n')
+
+    # asks user how many times the algorithm should try to improve amount of moves
+    if algorithm == '3':
+        while slices <= 0 or improvements <= 0:
+            try:
+                slices = int(input('Slices? '))
+                improvements = int(input('Improvements per slice? '))
+            except ValueError:
+                pass
 
     # asks user if he wants results to be printed
     while to_print not in ['yes', 'no'] and mode == 'test':
@@ -58,4 +69,4 @@ if __name__ == '__main__':
     elif mode == 'plot':
         plot.plot(algorithm, board_path, number_of_runs)
     else:
-        test.test(RushHour, algorithm, to_print)
+        test.test(RushHour, algorithm, to_print, slices, improvements)

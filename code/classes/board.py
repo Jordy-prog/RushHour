@@ -90,6 +90,12 @@ class RushHour():
         '''
         # uses two for loops to delete and rebuild the car in the matrix, 
         # one loop would cause problems with small distances
+        free_space = car.look_around(self)
+
+        # checks if there is enough space to move the car
+        if free_space['rear'] > distance or distance > free_space['front'] or distance == 0:
+            return False
+
         if car.direction == 'H':
             for i in range(car.length):
                 self.matrix[car.row][car.col + i] = 0
