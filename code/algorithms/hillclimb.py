@@ -10,12 +10,14 @@ from ..classes import board
 
 def hillclimb(RushHour_initial, slices, improvements):
     boardstates = []
+    plot_data = {}
 
     # do one random run and save the moves that were done
     while not RushHour_initial.game_won():
         random_constraint(RushHour_initial)
         boardstates.append(copy.deepcopy(RushHour_initial.matrix))
 
+    plot_data['initial'] = len(boardstates)
     print(len(boardstates))
 
     # cut that shit
@@ -27,6 +29,7 @@ def hillclimb(RushHour_initial, slices, improvements):
             last = i + indexes[-1]
             del boardstates[first:last]
 
+    plot_data['elimination'] = len(boardstates)
     print(len(boardstates))
     slice_times = 0
 
@@ -59,17 +62,13 @@ def hillclimb(RushHour_initial, slices, improvements):
             if len(boardstates_new) < len(boardstates_initial):
                 del boardstates[first_slice:last_slice]
                 print('Improved')
-
+                
                 for i, boardstate in enumerate(boardstates_new):
                     boardstates.insert(first_slice + i, boardstate)
 
                 break
+
+        plot_data[str(slice_times)] = len(boardstates)
     
     print(len(boardstates))
-    # loop over random algoritme en laat algoritme 1 move returnen en sla die hier op in movelist
-    # maak nieuw gameobject aan, loop over moves tot bepaalde toestand sla die op, loop verder tot nieuwe toestand, sla die ook op
-    # start nu vanaf de nieuwe matrix en loop over random algoritme, en check na elke move of het bord in dezelfde toestand staat als de verst opgeslagen matrix door over matrix te loopen en te kijken of alles goed staat
-    # als zelfde state gevonden is, pak de lijst met huidige moves en vergelijk hem met de lijst van moves tussen de twee opgeslagen states in.
-
-    # selectieve eliminatie uit de movelist van een oplossing
-    # random hoeft nu geen move meer te returnen want je slaat boardstates op
+    return plot_data

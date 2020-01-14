@@ -35,7 +35,7 @@ def random_constraint(RushHour):
         car = random.choice(list(RushHour.cars.values()))
         free_space = car.look_around(RushHour)
         distance = 0
-        
+
         # if a car can move, determine a random distance to move the car
         if free_space['rear'] or free_space['front']:
             while distance == 0:
@@ -46,4 +46,3 @@ def random_constraint(RushHour):
             break
 
     RushHour.move(car, distance)
-    return (car, distance)

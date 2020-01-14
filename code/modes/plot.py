@@ -12,20 +12,30 @@ def plot(algorithm, board_path, number_of_runs):
     '''
     stepdata = []
 
-    # run the game a certain times to collect enough data points
-    for i in range(number_of_runs):
-        RushHour = board.RushHour(board_path)
-        # plays the game according to an algorithm
-        while not RushHour.game_won():            
-            # differentiate between algorithms
-            if algorithm == '1':
-                random.random_pure(RushHour)
-            elif algorithm == '2':
-                random.random_constraint(RushHour)
-            elif algorithm == '3':
-                hillclimb.hillclimb(RushHour, slices, improvements)
+    # differentiate between algorithms
+    if algorithm == '1':
+        # run the game a certain times to collect enough data points
+        for i in range(number_of_runs):
+            RushHour = board.RushHour(board_path)
 
-        stepdata.append(RushHour.steps)
+            # plays the game
+            while not RushHour.game_won():            
+                random.random_pure(RushHour)
+
+            stepdata.append(RushHour.steps)
+    elif algorithm == '2':
+        # run the game a certain times to collect enough data points
+        for i in range(number_of_runs):
+            RushHour = board.RushHour(board_path)
+
+            # plays the game
+            while not RushHour.game_won():            
+                random.random_constraint(RushHour)
+
+            stepdata.append(RushHour.steps)
+    elif algorithm == '3':
+        # runs algorithm and retrieves plotdata
+        plot_data = hillclimb.hillclimb(RushHour, slices, improvements)
 
     avg_steps = round(sum(stepdata) / len(stepdata), 0)
     sorted_steps = sorted(stepdata)
