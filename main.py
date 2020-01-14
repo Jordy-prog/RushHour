@@ -27,10 +27,11 @@ if __name__ == '__main__':
     number_of_runs = 0
     slices = 0
     improvements = 0
+    input_dict = {}
 
     # asks user for a mode in which program should be run
     while mode not in ['manual', 'plot', 'test']:
-        mode = input('Select a mode (manual, plot, test): ')
+        input_dict['mode'] = input('Select a mode (manual, plot, test): ')
 
     # asks user for number of runs, if plot option was selected
     if mode == 'plot':
