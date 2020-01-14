@@ -22,6 +22,8 @@ def plot(algorithm, board_path, number_of_runs):
                 random.random_pure(RushHour)
             elif algorithm == '2':
                 random.random_constraint(RushHour)
+            elif algorithm == '3':
+                hillclimb.hillclimb(RushHour, slices, improvements)
 
         stepdata.append(RushHour.steps)
 
@@ -53,3 +55,8 @@ def plot(algorithm, board_path, number_of_runs):
     plt.title ('Frequency of moved cars')
     plt.text(0.65, 0.9, f'Average steps: {avg_steps}', transform=plt.gca().transAxes)
     plt.show()
+
+    # INFORMATIE HILLCLIMB
+    # Variabelen: Aantal slices, aantal improvements per slice,
+    # In de plot de overgang van lengte van de oplossing.
+    # 1 oplossing, dan de selectieve eleminatie en dan het slicen.

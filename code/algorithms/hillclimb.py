@@ -45,7 +45,6 @@ def hillclimb(RushHour_initial, slices, improvements):
                     RushHour_template.cars[car.name].row = car.row
                     RushHour_template.cars[car.name].col = car.col
 
-
         improvement_times = 0
 
         while improvement_times < improvements:
@@ -59,7 +58,8 @@ def hillclimb(RushHour_initial, slices, improvements):
 
             if len(boardstates_new) < len(boardstates_initial):
                 del boardstates[first_slice:last_slice]
-                print('YAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY')
+                print('Improved')
+
                 for i, boardstate in enumerate(boardstates_new):
                     boardstates.insert(first_slice + i, boardstate)
 
