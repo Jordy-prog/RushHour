@@ -43,7 +43,7 @@ class Car():
                 i += 1
                 free_rear -= 1
 
-            while j < self.row and not RushHour.matrix[self.row - (self.length - 1) - j][self.col]:
+            while j <= self.row - (self.length - 1) and not RushHour.matrix[self.row - (self.length - 1) - j][self.col]:
                 j += 1
                 free_front += 1
 
