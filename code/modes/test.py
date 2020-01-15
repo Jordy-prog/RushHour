@@ -27,4 +27,6 @@ def test(RushHour, input_dict):
         input_dict['algorithm'][1](RushHour)
     elif input_dict['algorithm'][0] == '4':
         input_dict['algorithm'][1](RushHour)
+    elif input_dict['algorithm'][0] == '5':
+        input_dict['algorithm'][1](RushHour)
             
