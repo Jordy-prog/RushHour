@@ -2,6 +2,7 @@ from math import sqrt
 
 import matplotlib.pyplot as plt
 import numpy as np
+from  matplotlib.ticker import FuncFormatter
 
 from ..classes import board
 from ..algorithms import random, hillclimb, bfs
@@ -46,6 +47,10 @@ def plot(RushHour, input_dict):
                 steps_dict[dict_bracket] += 1
             else:
                 steps_dict[dict_bracket] = 1 
+
+        print(".aaaaaaaaa")
+        print(list(steps_dict.keys()))
+        print(steps_dict.values())
         
         # specify properties of bar plot
         plt.bar(list(steps_dict.keys()), steps_dict.values(), color='g')
@@ -58,23 +63,29 @@ def plot(RushHour, input_dict):
 
     elif input_dict['algorithm'][0] == '3':
         # runs algorithm and retrieves plotdata
-        plot_data = input_dict['algorithm'][1](RushHour, input_dict)
+        plot_data = input_dict['algorithm'][1]()
+        #print(plot_data)
 
         initial_steps = plot_data['initial']
         elimination = plot_data['elimination']
         print(initial_steps, elimination)
 
         del plot_data['initial']
-        del plot_data['elimination']
 
         for key in plot_data:
             stepdata.append(plot_data[key])
 
-        print('.....')
+        # print('.....')
+        # print(stepdata)
+        # print(plot_data)
+        # print("ppppppppp")
+        print(list(plot_data.keys()))
         print(stepdata)
-        print(plot_data)
-        
+        print(plot_data.values())
+
         plt.plot(list(plot_data.keys()), stepdata)
+        plt.xticks(rotation=45)
+        plt.locator_params(integer=True)
         plt.ylabel('Steps to solve game')
         plt.xlabel('# of slices')
         plt.title ('Hillclimbing with selective elimination')
