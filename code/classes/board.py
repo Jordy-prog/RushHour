@@ -126,7 +126,7 @@ class RushHour():
         if self.matrix[self.cars['X'].row][-1] == self.cars['X']:
             # os.system('cls')
             # self.printboard()
-            print('Congratulations! The game was finished in:', self.steps, 'steps.')
+            # print('Congratulations! The game was finished in:', self.steps, 'steps.')
             return True
 
         return False
