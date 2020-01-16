@@ -24,7 +24,6 @@ def hillclimb():
 
     # do 5 random runs, choose the fastest and save the moves that were done
     for i in range(5):
-        print(i)
         RushHour_initial = board.RushHour(f'data/{argv[1]}')
         boardstates_random[i] = []
 
@@ -33,8 +32,11 @@ def hillclimb():
             move = random_constraint(RushHour_initial)
             boardstates_random[i].append(move + (str(RushHour_initial.matrix),))
         
-        if i and len(boardstates_random[i]) < len(boardstates_random[i - 1]):
-            del boardstates_random[i - 1]
+        if i and len(boardstates_random[i]) < len(list(boardstates_random.values())[0]):
+            key_to_remove = list(boardstates_random.keys())[0]
+            boardstates_random.pop(key_to_remove)
+        elif i:
+            del boardstates_random[i]
 
     boardstates = list(boardstates_random.values())[0]
     plot_data['initial'] = len(boardstates)
@@ -46,10 +48,15 @@ def hillclimb():
         print('slice:', slice_times)
         first_slice = 0
         last_slice = 0
+        print('length:', len(boardstates))
         
-        while last_slice - first_slice < (len(boardstates) // 10):
+        while last_slice - first_slice <= (len(boardstates) // 10):
             first_slice = random.randrange(0, len(boardstates) // 2)
             last_slice = random.randrange(len(boardstates) // 2, len(boardstates))
+
+        print('first:', first_slice)
+        print('last:', last_slice)
+        print()
             
         boardstates_initial = boardstates[first_slice:last_slice]
         RushHour_template = board.RushHour(f'data/{argv[1]}')
@@ -67,6 +74,12 @@ def hillclimb():
             while not len(boardstates_new) or (not boardstates_new[-1][2] == boardstates_initial[-1][2] and len(boardstates_new) < len(boardstates_initial)):
                 move = random_constraint(RushHour_new)
                 boardstates_new.append(move + (str(RushHour_new.matrix),))
+                # print(boardstates_new[-1][2])
+                # print(boardstates_initial[-1][2])
+
+            # print('old:', len(boardstates_initial))
+            # print('new:', len(boardstates_new))
+            # print()
 
             if len(boardstates_new) < len(boardstates_initial):
                 del boardstates[first_slice:last_slice]
