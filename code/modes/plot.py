@@ -1,6 +1,7 @@
 from math import sqrt
 
 import matplotlib.pyplot as plt
+import numpy as np
 
 from ..classes import board
 from ..algorithms import random, hillclimb, bfs
@@ -13,6 +14,7 @@ def plot(RushHour, input_dict):
     stepdata = []
 
     print(input_dict['algorithm'][0])
+
     # differentiate between algorithms
     if input_dict['algorithm'][0] in ['1', '2']:
         # run the game a certain times to collect enough data points
@@ -53,10 +55,34 @@ def plot(RushHour, input_dict):
         plt.title ('Frequency of moved cars')
         plt.text(0.65, 0.9, f'Average steps: {avg_steps}', transform=plt.gca().transAxes)
         plt.show()
+
     elif input_dict['algorithm'][0] == '3':
         # runs algorithm and retrieves plotdata
         plot_data = input_dict['algorithm'][1](RushHour, input_dict)
+
+        initial_steps = plot_data['initial']
+        elimination = plot_data['elimination']
+        print(initial_steps, elimination)
+
+        del plot_data['initial']
+        del plot_data['elimination']
+
+        for key in plot_data:
+            stepdata.append(plot_data[key])
+
+        print('.....')
+        print(stepdata)
         print(plot_data)
+        
+        plt.plot(list(plot_data.keys()), stepdata)
+        plt.ylabel('Steps to solve game')
+        plt.xlabel('# of slices')
+        plt.title ('Hillclimbing with selective elimination')
+        plt.text(0.65, 0.9, f'Initital steps: {initial_steps} \n Elimination: {elimination}', transform=plt.gca().transAxes)
+        plt.show()
+        
+
+        
 
 
         

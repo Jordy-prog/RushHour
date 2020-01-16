@@ -23,18 +23,6 @@ if __name__ == '__main__':
         exit()
 
     # initializing input variables
-<<<<<<< HEAD
-    mode = None
-    algorithm = None
-    to_print = None
-    number_of_runs = 0
-    slices = 0
-    improvements = 0
-    input_dict = {}
-
-    # asks user for a mode in which program should be run
-    while mode not in ['manual', 'plot', 'test']:
-=======
     algorithm = 0
     input_dict['mode'] = None
     input_dict['algorithm'] = None
@@ -46,7 +34,6 @@ if __name__ == '__main__':
 
     # asks user for a mode in which program should be run
     while input_dict['mode'] not in ['manual', 'plot', 'test']:
->>>>>>> 5bcfb0e521b0f067e42d0b27034a36ed24376e78
         input_dict['mode'] = input('Select a mode (manual, plot, test): ')
 
     
