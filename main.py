@@ -62,3 +62,14 @@ if __name__ == '__main__':
         plot.plot(RushHour, input_dict)
     else:
         test.test(RushHour, input_dict)
+
+    '''
+    State-space: Totale hoeveelheid bordconfiguraties
+    Upper-bound: Oneindig (max. aantal moves tot een oplossing)
+    Lower-bound: Minimaal aantal stappen tot een oplossing (verschilt per bord)
+    Advanced fixen
+    Simulated annealing
+    hillclimb loop eromheen zetten voor meer runs vanaf start
+    breadfirst fixen
+    depthfirst implementeren
+    '''
