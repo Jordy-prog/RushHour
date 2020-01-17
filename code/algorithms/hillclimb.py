@@ -20,7 +20,8 @@ def hillclimb():
         except ValueError:
             pass
 
-    plotting_data = []
+    info_dict = {'slices': slices, 'improvements': improvements, 'runtimes': runtimes}
+    plotting_data = [info_dict]
 
     # runs the hillclimber a certain amount of times
     for i in range(runtimes):
@@ -101,3 +102,7 @@ def hillclimb():
         plotting_data.append(plot_data)
         
     return plotting_data
+
+    # alle boardstates na slice van list in dictionary opslaan
+    # dictionary met indexes van lijst voor het filteren van dubbele moves
+    # selectieve eliminatie moet dan voor slicing!!
