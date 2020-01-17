@@ -97,7 +97,6 @@ def hillclimb():
                     break
 
         plot_data['elimination'] = len(boardstates)
-        print(plot_data['initial'])
         print(len(boardstates))
         plotting_data.append(plot_data)
         
