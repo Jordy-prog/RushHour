@@ -44,7 +44,7 @@ if __name__ == '__main__':
     
     if algorithm:
         input_dict['algorithm'] = (algorithm, algorithms_dict[algorithm])
-        
+
     RushHour = board.RushHour(input_dict['boardpath'])
 
     # run certain algorithm depending on the selections made
@@ -64,4 +64,6 @@ if __name__ == '__main__':
     hillclimb loop eromheen zetten voor meer runs vanaf start
     breadfirst fixen
     depthfirst implementeren
+    ONDERZOEKJE
+    slicegrootte aanpassen
     '''
