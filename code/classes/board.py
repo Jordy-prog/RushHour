@@ -15,10 +15,9 @@ class RushHour():
         self.boardsize = int(argv[1][0] + argv[1][1]) if int(argv[1][0]) == 1 else int(argv[1][0]) 
         self.matrix = []
         self.cars = {}
-        self.last_move = (None, 0)
         self.colors = ['blue_1', 'yellow_1', 'green_1', 'dark_green', 'deep_pink_1a', 'dark_orange']
         self.load( board_path)
-        self.steps = 0
+        self.steps = []
         
     def load(self, board_path):
         '''
@@ -114,8 +113,7 @@ class RushHour():
             car.position(car.row - distance, car.col)
 
         # remembers last move that was done on the board
-        self.last_move = (car, distance)
-        self.steps += 1
+        self.steps.append((car.name, distance))
         return True
     
     def game_won(self):
@@ -124,9 +122,10 @@ class RushHour():
         '''
         # checks if the win conditions of the game are met
         if self.matrix[self.cars['X'].row][-1] == self.cars['X']:
-            # os.system('cls')
-            # self.printboard()
-            # print('Congratulations! The game was finished in:', self.steps, 'steps.')
+            os.system('cls')
+            self.printboard()
+            print('Congratulations! The game was finished in:', len(self.steps), 'steps.')
+            print(self.steps)
             return True
 
         return False
