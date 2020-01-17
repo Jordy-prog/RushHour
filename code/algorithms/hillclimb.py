@@ -20,7 +20,7 @@ def hillclimb():
             pass
 
     # runs the hillclimber a certain amount of times
-    for i in range(100):
+    for i in range(1):
         boardstates_random = {}
         plot_data = {}
 
@@ -97,4 +97,4 @@ def hillclimb():
         print(plot_data['initial'])
         print(len(boardstates))
         
-        # return plot_data
+        return plot_data

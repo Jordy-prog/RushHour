@@ -64,21 +64,15 @@ def plot(RushHour, input_dict):
     elif input_dict['algorithm'][0] == '3':
         # runs algorithm and retrieves plotdata
         plot_data = input_dict['algorithm'][1]()
-        #print(plot_data)
 
         initial_steps = plot_data['initial']
         elimination = plot_data['elimination']
-        print(initial_steps, elimination)
 
         del plot_data['initial']
 
         for key in plot_data:
             stepdata.append(plot_data[key])
 
-        # print('.....')
-        # print(stepdata)
-        # print(plot_data)
-        # print("ppppppppp")
         print(list(plot_data.keys()))
         print(stepdata)
         print(plot_data.values())
