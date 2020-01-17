@@ -18,8 +18,17 @@ def plot(RushHour, input_dict):
 
     # differentiate between algorithms
     if input_dict['algorithm'][0] in ['1', '2']:
+        number_of_runs = 0
+    
+        # asks user for number of runs
+        while number_of_runs <= 0:
+            try:
+                number_of_runs = int(input('How many times? '))
+            except ValueError:
+                pass
+            
         # run the game a certain times to collect enough data points
-        for i in range(input_dict['number_of_runs']):
+        for i in range(number_of_runs):
             RushHour = board.RushHour(input_dict['boardpath'])
 
             # plays the game
@@ -63,7 +72,10 @@ def plot(RushHour, input_dict):
 
     elif input_dict['algorithm'][0] == '3':
         # runs algorithm and retrieves plotdata
-        plot_data = input_dict['algorithm'][1]()
+        plotting_data = input_dict['algorithm'][1]()
+        #print(plot_data)
+
+        # FOR PLOT_DATA IN PLOTTING_DATA
 
         initial_steps = plot_data['initial']
         elimination = plot_data['elimination']

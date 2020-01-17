@@ -8,19 +8,16 @@ from .random import random_constraint
 from ..classes import board
 
 
-def hillclimb():
+def simulated():
     # asks user how many times the algorithm should try to improve amount of moves
-    slices, improvements, runtimes = 0, 0, 0
+    slices, runtimes = 0, 0
     
-    while slices <= 0 or improvements <= 0 or runtimes <= 0:
+    while slices <= 0 or runtimes <= 0:
         try:
             slices = int(input('Slices? '))
-            improvements = int(input('Improvements per slice? '))
             runtimes = int(input('Times to run? '))
         except ValueError:
             pass
-
-    plotting_data = []
 
     # runs the hillclimber a certain amount of times
     for i in range(runtimes):
@@ -48,6 +45,7 @@ def hillclimb():
         slice_times = 0
 
         while slice_times < slices:
+            temperature = 1000 * (0.99 ** slice_times)
             slice_times += 1
             print('slice:', slice_times)
             first_slice = 0
@@ -63,25 +61,18 @@ def hillclimb():
             for boardstate in boardstates[:first_slice + 1]:
                 RushHour_template.move(RushHour_template.cars[boardstate[0]], boardstate[1])
 
-            improvement_times = 0
+            boardstates_new = [boardstates_initial[0]]
 
-            while improvement_times < improvements:
-                improvement_times += 1
-                RushHour_new = copy.deepcopy(RushHour_template)
-                boardstates_new = [boardstates_initial[0]]
+            while not boardstates_new[-1][2] == boardstates_initial[-1][2] and len(boardstates_new) < 10 * len(boardstates_initial):
+                move = random_constraint(RushHour_template)
+                boardstates_new.append(move + (str(RushHour_template.matrix),))
 
-                while not boardstates_new[-1][2] == boardstates_initial[-1][2] and len(boardstates_new) < len(boardstates_initial):
-                    move = random_constraint(RushHour_new)
-                    boardstates_new.append(move + (str(RushHour_new.matrix),))
-
-                if len(boardstates_new) < len(boardstates_initial):
-                    del boardstates[first_slice:last_slice]
-                    print('Improved')
-                    
-                    for i, boardstate in enumerate(boardstates_new):
-                        boardstates.insert(first_slice + i, boardstate)
-
-                    break
+            if boardstates_new[-1][2] == boardstates_initial[-1][2] and random.random() < chance(len(boardstates_initial), len(boardstates_new), temperature):
+                del boardstates[first_slice:last_slice]
+                print('Changed')
+                
+                for i, boardstate in enumerate(boardstates_new):
+                    boardstates.insert(first_slice + i, boardstate)
 
             plot_data[str(slice_times)] = len(boardstates)
             print(len(boardstates))
@@ -99,6 +90,11 @@ def hillclimb():
         plot_data['elimination'] = len(boardstates)
         print(plot_data['initial'])
         print(len(boardstates))
-        plotting_data.append(plot_data)
         
-    return plotting_data
+        return plot_data
+
+def chance(moves_old, moves_new, temperature):
+    score_old = 0
+    score_new = moves_new / moves_old
+    chance = 2 ** ((score_old - score_new) / temperature)
+    return chance
