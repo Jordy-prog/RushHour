@@ -27,7 +27,6 @@ def random_constraint(RushHour):
     Makes sure a car can't undo its last move, 
     this is done to prevent the algorithm from just moving a car back and forth.
     '''
-    chosen_cars = []
     car_counter = 0
 
     # picks a random car until it finds one that can move
@@ -45,7 +44,7 @@ def random_constraint(RushHour):
         # heuristic below may cause game to be stuck, so eventually turn it off
         if car_counter < len(RushHour.cars.values()):
             # continues if move is the exact opposite of last move, else breaks
-            if not (car, - distance) == RushHour.last_move and distance:
+            if len(RushHour.steps) and not (car, - distance) == RushHour.steps[-1] and distance:
                 break
         elif distance:
             break

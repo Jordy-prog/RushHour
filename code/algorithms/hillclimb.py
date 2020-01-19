@@ -25,72 +25,99 @@ def hillclimb():
 
     # runs the hillclimber a certain amount of times
     for i in range(runtimes):
-        boardstates = []
+        boardstates_initial = []
         boardstates_indexes = {}
+        boardstates = {}
+        elimination_data = []
         plot_data = {}
         RushHour_initial = board.RushHour(f'data/{argv[1]}')
     
         # do a random run and save the moves that were done
         while not RushHour_initial.game_won():
             move = random_constraint(RushHour_initial)
-            boardstates.append(move + (str(RushHour_initial.matrix),))
+            boardstates_initial.append(move + (str(RushHour_initial.matrix),))
 
+            # selective elimination of double boardstates
             if str(RushHour_initial.matrix) in boardstates_indexes:
-                boardstates_indexes[str(RushHour_initial.matrix)].append(len(boardstates) - 1)
+                first = boardstates_indexes[str(RushHour_initial.matrix)]
+                last = len(boardstates_initial) - 1
+                elimination_data.append(len(boardstates_initial[first:last]))
+                del boardstates_initial[first:last]
             else:
-                boardstates_indexes[str(RushHour_initial.matrix)] = [len(boardstates) - 1]
+                boardstates_indexes[str(RushHour_initial.matrix)] = len(boardstates_initial) - 1
 
-        plot_data['initial'] = len(boardstates)
-        # print('length:', len(boardstates))
+        for move in boardstates_initial:
+            boardstates[move[2]] = (move[0], move[1], move[2])
 
-        # cut that shit
-        for boardstate in boardstates_indexes:
-            print(boardstate)
-            first = i
-
-            for j, check in enumerate(boardstates[i + 1:], 1):
-                if check[2] == boardstate[2]:
-                    last = i + j
-                    del boardstates[first:last]
-                    break
-        
-        plot_data['elimination'] = len(boardstates)
-
+        plot_data['initial'] = len(boardstates) + sum(elimination_data)
+        plot_data['elimination'] = sum(elimination_data)
+        print('length:', len(boardstates))
         slice_times = 0
 
+        # take a sequence out of the solution and try to improve it
         while slice_times < slices:
             slice_times += 1
             print('slice:', slice_times)
             first_slice = 0
             last_slice = 0
             
+            # take a sequence that is at least 10% of the length of the current solution
             while last_slice - first_slice <= (len(boardstates) // 10):
                 first_slice = random.randrange(0, len(boardstates) // 2)
                 last_slice = random.randrange(len(boardstates) // 2, len(boardstates))
                 
-            boardstates_initial = boardstates[first_slice:last_slice]
+            sequence = list(boardstates.values())[first_slice:last_slice]
+            boardstates_goal = {}
+
+            for step in list(boardstates.values())[last_slice:]:
+                boardstates_goal[step[2]] = (step[0], step[1])
+
             RushHour_template = board.RushHour(f'data/{argv[1]}')
 
-            for boardstate in boardstates[:first_slice + 1]:
+            # bring board in starting boardstate
+            for boardstate in list(boardstates.values())[:first_slice + 1]:
                 RushHour_template.move(RushHour_template.cars[boardstate[0]], boardstate[1])
 
             improvement_times = 0
 
+            # try to improve the sequence a number of times
             while improvement_times < improvements:
                 improvement_times += 1
                 RushHour_new = copy.deepcopy(RushHour_template)
-                boardstates_new = [boardstates_initial[0]]
+                boardstates_new = [sequence[0]]
+                boardstates_new_indexes = {sequence[0]: 0}
 
-                while not boardstates_new[-1][2] == boardstates_initial[-1][2] and len(boardstates_new) < len(boardstates_initial):
+                while not boardstates_new[-1][2] in boardstates_goal and len(boardstates_new) < len(sequence):
                     move = random_constraint(RushHour_new)
                     boardstates_new.append(move + (str(RushHour_new.matrix),))
 
-                if len(boardstates_new) < len(boardstates_initial):
-                    del boardstates[first_slice:last_slice]
+                    # selective elimination of double boardstates
+                    if str(RushHour_new.matrix) in boardstates_new_indexes:
+                        first = boardstates_new_indexes[str(RushHour_new.matrix)]
+                        last = len(boardstates) - 1
+                        del boardstates_new[first:last]
+                    else:
+                        boardstates_new_indexes[str(RushHour_new.matrix)] = len(boardstates_new) - 1
+
+                if len(boardstates_new) < len(sequence):
+                    boardstates_temp = list(boardstates.values())
+                    finish = boardstates_temp.index(boardstates[boardstates_new[-1][2]])
+                    start = first_slice
+                    after_sequence = list(boardstates.values())[finish + 1:]
+                    del boardstates_temp[start:]
+                    sequence_new = boardstates_temp + boardstates_new + after_sequence
+                    boardstates = {}
                     print('Improved')
                     
-                    for i, boardstate in enumerate(boardstates_new):
-                        boardstates.insert(first_slice + i, boardstate)
+                    for boardstate in sequence_new:
+                        boardstates[boardstate[2]] = (boardstate[0], boardstate[1], boardstate[2])
+
+                    if len(boardstates) < 8:
+                        print(first_slice)
+                        print(last_slice)
+                        print(len(sequence))
+                        print(len(boardstates_new))
+                        return
 
                     break
 
@@ -109,3 +136,7 @@ def hillclimb():
     # alle boardstates na slice van list in dictionary opslaan
     # dictionary met indexes van lijst voor het filteren van dubbele moves
     # selectieve eliminatie moet dan voor slicing!!
+    # voor het slices, moet index weten van boardstate die het geworden is om het te verwijderen, enn dan veranderen weer alle indexes
+    # Sla reserve hillclimber op, of zoek terug
+    # fix lager dan laagste oplossing gaan
+    # test voor grotere borden

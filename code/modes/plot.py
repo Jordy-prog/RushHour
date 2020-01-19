@@ -3,6 +3,7 @@ from math import sqrt
 import matplotlib.pyplot as plt
 import numpy as np
 from  matplotlib.ticker import FuncFormatter
+import pandas as pd
 
 from ..classes import board
 from ..algorithms import random, hillclimb, bfs
@@ -35,7 +36,7 @@ def plot(RushHour, input_dict):
             while not RushHour.game_won():            
                 input_dict['algorithm'][1](RushHour)
 
-            stepdata.append(RushHour.steps)
+            stepdata.append(len(RushHour.steps))
 
         avg_steps = round(sum(stepdata) / len(stepdata), 0)
         sorted_steps = sorted(stepdata)
@@ -57,7 +58,6 @@ def plot(RushHour, input_dict):
             else:
                 steps_dict[dict_bracket] = 1 
 
-        print(".aaaaaaaaa")
         print(list(steps_dict.keys()))
         print(steps_dict.values())
         
@@ -67,42 +67,41 @@ def plot(RushHour, input_dict):
         plt.xlabel ('Category')
         plt.ylabel ('Frequency')
         plt.title ('Frequency of moved cars')
-        plt.text(0.65, 0.9, f'Average steps: {avg_steps}', transform=plt.gca().transAxes)
+        plt.text(0.65, 0.9, f'Average steps: {avg_steps} \n Number of runs: {number_of_runs}', transform=plt.gca().transAxes)
         plt.show()
 
     elif input_dict['algorithm'][0] == '3':
         # runs algorithm and retrieves plotdata
         plotting_data = input_dict['algorithm'][1]()
-        #print(plot_data)
+        info_dict = plotting_data.pop(0) #slices, improvements, runtimes
 
-        # FOR PLOT_DATA IN PLOTTING_DATA
+        slices_amount = info_dict['slices']
+        improvements_amount = info_dict['improvements']
+        runtime_amount = info_dict['runtimes']
 
-        initial_steps = plot_data['initial']
-        elimination = plot_data['elimination']
-        print(initial_steps, elimination)
+        for plot_data in plotting_data:
+            initial_steps = plot_data['initial']
+            elimination = plot_data['elimination']
+            stepdata = []
 
-        del plot_data['initial']
+            del plot_data['initial']
 
-        for key in plot_data:
-            stepdata.append(plot_data[key])
+            for key in plot_data:
+                stepdata.append(plot_data[key])
 
-        # print('.....')
-        # print(stepdata)
-        # print(plot_data)
-        # print("ppppppppp")
-        print(list(plot_data.keys()))
-        print(stepdata)
-        print(plot_data.values())
+            plt.plot(list(plot_data.keys()), stepdata)
 
-        plt.plot(list(plot_data.keys()), stepdata)
         plt.xticks(rotation=45)
         plt.locator_params(integer=True)
         plt.ylabel('Steps to solve game')
         plt.xlabel('# of slices')
         plt.title ('Hillclimbing with selective elimination')
-        plt.text(0.65, 0.9, f'Initital steps: {initial_steps} \n Elimination: {elimination}', transform=plt.gca().transAxes)
+        plt.text(0.75, 0.75, f'Slices: {slices_amount} \
+            \nImprovements: {improvements_amount} \
+            \n# of runs: {runtime_amount}', transform=plt.gca().transAxes)
         plt.show()
-        
+
+            
 
         
 
