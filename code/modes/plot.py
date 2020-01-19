@@ -75,7 +75,9 @@ def plot(RushHour, input_dict):
         plotting_data = input_dict['algorithm'][1]()
         info_dict = plotting_data.pop(0) #slices, improvements, runtimes
 
-        #print(plotting_data)
+        slices_amount = info_dict['slices']
+        improvements_amount = info_dict['improvements']
+        runtime_amount = info_dict['runtimes']
 
         for plot_data in plotting_data:
             initial_steps = plot_data['initial']
@@ -87,9 +89,6 @@ def plot(RushHour, input_dict):
             for key in plot_data:
                 stepdata.append(plot_data[key])
 
-            # print(list(plot_data.keys()))
-            # print(stepdata)
-            # print(plot_data.values())
             plt.plot(list(plot_data.keys()), stepdata)
 
         plt.xticks(rotation=45)
@@ -97,7 +96,9 @@ def plot(RushHour, input_dict):
         plt.ylabel('Steps to solve game')
         plt.xlabel('# of slices')
         plt.title ('Hillclimbing with selective elimination')
-        plt.text(0.65, 0.9, f'Initital steps: {initial_steps} \n Elimination: {elimination}', transform=plt.gca().transAxes)
+        plt.text(0.75, 0.75, f'Slices: {slices_amount} \
+            \nImprovements: {improvements_amount} \
+            \n# of runs: {runtime_amount}', transform=plt.gca().transAxes)
         plt.show()
 
             
