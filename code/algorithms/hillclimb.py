@@ -25,27 +25,37 @@ def hillclimb():
 
     # runs the hillclimber a certain amount of times
     for i in range(runtimes):
-        boardstates_random = {}
+        boardstates = []
+        boardstates_indexes = {}
         plot_data = {}
+        RushHour_initial = board.RushHour(f'data/{argv[1]}')
+    
+        # do a random run and save the moves that were done
+        while not RushHour_initial.game_won():
+            move = random_constraint(RushHour_initial)
+            boardstates.append(move + (str(RushHour_initial.matrix),))
 
-        # do a number of random runs, choose the fastest and save the moves that were done
-        for i in range(5):
-            RushHour_initial = board.RushHour(f'data/{argv[1]}')
-            boardstates_random[i] = []
+            if str(RushHour_initial.matrix) in boardstates_indexes:
+                boardstates_indexes[str(RushHour_initial.matrix)].append(len(boardstates) - 1)
+            else:
+                boardstates_indexes[str(RushHour_initial.matrix)] = [len(boardstates) - 1]
 
-            while not RushHour_initial.game_won():
-                move = random_constraint(RushHour_initial)
-                boardstates_random[i].append(move + (str(RushHour_initial.matrix),))
-            
-            if i and len(boardstates_random[i]) < len(list(boardstates_random.values())[0]):
-                key_to_remove = list(boardstates_random.keys())[0]
-                boardstates_random.pop(key_to_remove)
-            elif i:
-                del boardstates_random[i]
-
-        boardstates = list(boardstates_random.values())[0]
         plot_data['initial'] = len(boardstates)
-        print('length:', len(boardstates))
+        # print('length:', len(boardstates))
+
+        # cut that shit
+        for boardstate in boardstates_indexes:
+            print(boardstate)
+            first = i
+
+            for j, check in enumerate(boardstates[i + 1:], 1):
+                if check[2] == boardstate[2]:
+                    last = i + j
+                    del boardstates[first:last]
+                    break
+        
+        plot_data['elimination'] = len(boardstates)
+
         slice_times = 0
 
         while slice_times < slices:
@@ -87,17 +97,9 @@ def hillclimb():
             plot_data[str(slice_times)] = len(boardstates)
             print(len(boardstates))
 
-        # cut that shit
-        for i, boardstate in enumerate(boardstates):
-            first = i
+        
 
-            for j, check in enumerate(boardstates[i + 1:], 1):
-                if check[2] == boardstate[2]:
-                    last = i + j
-                    del boardstates[first:last]
-                    break
 
-        plot_data['elimination'] = len(boardstates)
         print(plot_data['initial'])
         print(len(boardstates))
         plotting_data.append(plot_data)
