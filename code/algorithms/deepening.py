@@ -4,6 +4,7 @@ import re
 def deepening(RushHour):
     depth = 0
     while True:
+        
         stack = [RushHour]
         archive = {}
         archive[re.sub(', ', '', str(RushHour.matrix))] = len(RushHour.steps)

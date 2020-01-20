@@ -34,13 +34,14 @@ if __name__ == '__main__':
 
     # asks user which algorithm he would like to use
     while algorithm not in algorithms_dict.keys() and not input_dict['mode'] == 'manual':
-        algorithm = input('Select an algorithm: \
-                           \n1. Purely random \
-                           \n2. Random with constraints \
-                           \n3. Hillclimb \
-                           \n4. Breadth first \
-                           \n5. Iterative deepening \
-                           \n6. Simulated Annealing \n')
+        algorithm = input('Select an algorithm:'
+                           '\n1. Purely random'
+                           '\n2. Random with constraints'
+                           '\n3. Hillclimb'
+                           '\n4. Breadth first'
+                           '\n5. Breadth first with beam search'
+                           '\n6. Iterative deepening'
+                           '\n7. Simulated Annealing\n')
     
     if algorithm:
         input_dict['algorithm'] = (algorithm, algorithms_dict[algorithm])
