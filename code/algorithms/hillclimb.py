@@ -62,7 +62,7 @@ def hillclimb():
             last_slice = 0
             
             # take a sequence that is at least 10% of the length of the current solution
-            while last_slice - first_slice <= 0 or last_slice - first_slice > (len(boardstates) // 10):
+            while last_slice - first_slice <= 0 or last_slice - first_slice > (len(boardstates) // 4):
                 first_slice = random.randrange(0, len(boardstates))
                 last_slice = random.randrange(first_slice, len(boardstates))
                 
@@ -108,7 +108,6 @@ def hillclimb():
                     sequence_new = boardstates_temp + boardstates_new + after_sequence
                     boardstates = {}
                     print('Improved')
-                    return
                     
                     for boardstate in sequence_new:
                         boardstates[boardstate[2]] = (boardstate[0], boardstate[1], boardstate[2])
