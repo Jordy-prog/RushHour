@@ -112,15 +112,6 @@ def hillclimb():
                     for boardstate in sequence_new:
                         boardstates[boardstate[2]] = (boardstate[0], boardstate[1], boardstate[2])
 
-                    if len(boardstates) < 8:
-                        print(first_slice)
-                        print(last_slice)
-                        print(len(sequence))
-                        print(len(boardstates_new))
-                        print(sequence)
-                        print(boardstates_new)
-                        return
-
                     break
 
             plot_data[str(slice_times)] = len(boardstates)
