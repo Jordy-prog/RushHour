@@ -62,11 +62,11 @@ def hillclimb():
             last_slice = 0
             
             # take a sequence that is at least 10% of the length of the current solution
-            while not 3 <= last_slice - first_slice < (len(boardstates) // 10):
+            while last_slice - first_slice <= 0 or last_slice - first_slice > (len(boardstates) // 10):
                 first_slice = random.randrange(0, len(boardstates))
                 last_slice = random.randrange(first_slice, len(boardstates))
                 
-            sequence = list(boardstates.values())[first_slice:last_slice]
+            sequence = list(boardstates.values())[first_slice:]
             boardstates_goal = {}
 
             for step in list(boardstates.values())[last_slice:]:
@@ -99,7 +99,7 @@ def hillclimb():
                     else:
                         boardstates_new_indexes[str(RushHour_new.matrix)] = len(boardstates_new) - 1
 
-                if len(boardstates_new) < len(sequence):
+                if boardstates_new[-1][2] in boardstates_goal and len(boardstates_new) < sequence.index(boardstates[boardstates_new[-1][2]]) + 1:
                     boardstates_temp = list(boardstates.values())
                     finish = boardstates_temp.index(boardstates[boardstates_new[-1][2]])
                     start = first_slice
@@ -108,6 +108,7 @@ def hillclimb():
                     sequence_new = boardstates_temp + boardstates_new + after_sequence
                     boardstates = {}
                     print('Improved')
+                    return
                     
                     for boardstate in sequence_new:
                         boardstates[boardstate[2]] = (boardstate[0], boardstate[1], boardstate[2])
@@ -125,6 +126,9 @@ def hillclimb():
 
             plot_data[str(slice_times)] = len(boardstates)
             print(len(boardstates))
+
+        
+
 
         print(plot_data['initial'])
         print(len(boardstates))

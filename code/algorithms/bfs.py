@@ -1,12 +1,13 @@
 import copy
+import re
+import time
 
 def bfs(RushHour):
     archive = set()
-    archive.add(str(RushHour.matrix))
+    archive.add(re.sub(', ', '', str(RushHour.matrix)))
     queue = []
     queue.append(RushHour)
-
-    knowndepths = set()
+    current_depth = 0
     while len(queue):
         parent = queue.pop(0)
         for car in parent.cars.values():
@@ -16,8 +17,9 @@ def bfs(RushHour):
                 child.move(child.cars[car.name], distance + 1)
                 if child.game_won():
                     return True
-                if str(child.matrix) not in archive:
-                    archive.add(str(child.matrix))
+                string = re.sub(', ', '', str(child.matrix))
+                if string not in archive:
+                    archive.add(string)
                     queue.append(child)
             
             for distance in range(0, free_space['rear'], -1):
@@ -25,12 +27,13 @@ def bfs(RushHour):
                 child.move(child.cars[car.name], (distance - 1))
                 if child.game_won():
                     return True
-                if str(child.matrix) not in archive:
-                    archive.add(str(child.matrix))
+                string = re.sub(', ', '', str(child.matrix))
+                if string not in archive:
+                    archive.add(string)
                     queue.append(child)
-        if len(child.steps) not in knowndepths:
-            knowndepths.add(len(child.steps))
-            print(len(child.steps))
+        if len(parent.steps) > current_depth:
+            current_depth += 1 
+            print(current_depth)
         
         
             
