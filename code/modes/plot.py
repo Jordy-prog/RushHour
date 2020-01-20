@@ -3,7 +3,6 @@ from math import sqrt
 import matplotlib.pyplot as plt
 import numpy as np
 from  matplotlib.ticker import FuncFormatter
-import pandas as pd
 
 from ..classes import board
 from ..algorithms import random, hillclimb, bfs
