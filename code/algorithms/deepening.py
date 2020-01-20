@@ -1,14 +1,12 @@
 import copy
-from queue import Queue
+import re
 
 def deepening(RushHour):
-    
     depth = 0
-    while depth < 30:
+    while True:
         stack = [RushHour]
         archive = {}
-        archive[str(RushHour.matrix)] = len(RushHour.steps)
-        maxstack = 0
+        archive[re.sub(', ', '', str(RushHour.matrix))] = len(RushHour.steps)
         while len(stack) > 0:
             parent = stack.pop()
             if len(parent.steps) < depth:
@@ -19,8 +17,9 @@ def deepening(RushHour):
                         child.move(child.cars[car.name], distance + 1)
                         if child.game_won():
                             return True
-                        if str(child.matrix) not in archive or len(child.steps) < archive[str(child.matrix)]:
-                            archive[str(child.matrix)] = len(child.steps)
+                        board = re.sub(', ', '', str(child.matrix))
+                        if board not in archive or len(child.steps) < archive[board]:
+                            archive[board] = len(child.steps)
                             stack.append(child)
 
                     for distance in range(0, free_space['rear'], -1):
@@ -28,11 +27,10 @@ def deepening(RushHour):
                         child.move(child.cars[car.name], distance - 1)
                         if child.game_won():
                             return True
-                        if str(child.matrix) not in archive or len(child.steps) < archive[str(child.matrix)]:
-                            archive[str(child.matrix)] = len(child.steps)
+                        board = re.sub(', ', '', str(child.matrix))
+                        if board not in archive or len(child.steps) < archive[board]:
+                            archive[board] = len(child.steps)
                             stack.append(child)
-            if len(stack) > maxstack:
-                maxstack = len(stack)
         depth += 1
-        print(depth, len(archive))     
+        print(depth)
 

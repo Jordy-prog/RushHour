@@ -1,45 +1,48 @@
 import copy
+import re
+import random
 
 def bfs_beam(RushHour):
     archive = set()
-    archive.add(str(RushHour.matrix))
+    archive.add(re.sub(', ', '', str(RushHour.matrix)))
     queue = []
     queue.append(RushHour)
     beam = 2
-    knowndepths = set()
+    current_depth = 0
     while len(queue):
         parent = queue.pop(0)
-        child_counter = 0
+        children = []
         for car in parent.cars.values():
-            if child_counter > beam:
-                break
             free_space = car.look_around(parent)
             for distance in range(free_space['front']):
-                if child_counter > beam:
-                    break
                 child = copy.deepcopy(parent)
                 child.move(child.cars[car.name], distance + 1)
                 if child.game_won():
                     return True
-                if str(child.matrix) not in archive:
-                    archive.add(str(child.matrix))
-                    queue.append(child)
-                    child_counter += 1
+                string = re.sub(', ', '', str(child.matrix))
+                if string not in archive:
+                    archive.add(string)
+                    children.append(child)
             
             for distance in range(0, free_space['rear'], -1):
-                if child_counter > beam:
-                    break
                 child = copy.deepcopy(parent)
                 child.move(child.cars[car.name], (distance - 1))
                 if child.game_won():
                     return True
-                if str(child.matrix) not in archive:
-                    archive.add(str(child.matrix))
-                    queue.append(child)
-                    child_counter += 1
-        if len(child.steps) not in knowndepths:
-            knowndepths.add(len(child.steps))
-            print(len(child.steps), len(queue))
+                string = re.sub(', ', '', str(child.matrix))
+                if string not in archive:
+                    archive.add(string)
+                    children.append(child)
+
+        i = 0
+        while len(children) and i < beam:
+            index = random.randint(0, len(children))
+            queue.append(children.pop(index - 1))
+            i += 1
+
+        if len(parent.steps) > current_depth:
+            current_depth += 1 
+            print(current_depth)
         
         
             

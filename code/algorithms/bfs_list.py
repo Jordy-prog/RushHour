@@ -16,7 +16,7 @@ def bfs_list(RushHour):
                 parent.move(parent.cars[move[0]], move[1])
         else:
             parent = copy.deepcopy(RushHour)
-            
+
             
         for car in parent.cars.values():
             free_space = car.look_around(parent)

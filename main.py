@@ -26,7 +26,7 @@ if __name__ == '__main__':
     algorithm = 0
     input_dict['mode'] = None
     input_dict['algorithm'] = None
-    algorithms_dict = {'1': random.random_pure, '2': random.random_constraint, '3': hillclimb.hillclimb, '4': bfs_beam.bfs_beam, '5': deepening.deepening, '6': simulated.simulated}
+    algorithms_dict = {'1': random.random_pure, '2': random.random_constraint, '3': hillclimb.hillclimb, '4': bfs.bfs, '5': deepening.deepening, '6': simulated.simulated}
 
     # asks user for a mode in which program should be run
     while input_dict['mode'] not in ['manual', 'plot', 'test']:
