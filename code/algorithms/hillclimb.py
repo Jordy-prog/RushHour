@@ -50,7 +50,7 @@ def hillclimb():
             boardstates[move[2]] = (move[0], move[1], move[2])
 
         plot_data['initial'] = len(boardstates) + sum(elimination_data)
-        plot_data['elimination'] = sum(elimination_data)
+        plot_data['elimination'] = len(boardstates)
         print('length:', len(boardstates))
         slice_times = 0
 
@@ -62,9 +62,9 @@ def hillclimb():
             last_slice = 0
             
             # take a sequence that is at least 10% of the length of the current solution
-            while last_slice - first_slice <= (len(boardstates) // 10):
-                first_slice = random.randrange(0, len(boardstates) // 2)
-                last_slice = random.randrange(len(boardstates) // 2, len(boardstates))
+            while not 3 <= last_slice - first_slice < (len(boardstates) // 10):
+                first_slice = random.randrange(0, len(boardstates))
+                last_slice = random.randrange(first_slice, len(boardstates))
                 
             sequence = list(boardstates.values())[first_slice:last_slice]
             boardstates_goal = {}
@@ -85,7 +85,7 @@ def hillclimb():
                 improvement_times += 1
                 RushHour_new = copy.deepcopy(RushHour_template)
                 boardstates_new = [sequence[0]]
-                boardstates_new_indexes = {sequence[0]: 0}
+                boardstates_new_indexes = {sequence[0][2]: 0}
 
                 while not boardstates_new[-1][2] in boardstates_goal and len(boardstates_new) < len(sequence):
                     move = random_constraint(RushHour_new)
@@ -94,7 +94,7 @@ def hillclimb():
                     # selective elimination of double boardstates
                     if str(RushHour_new.matrix) in boardstates_new_indexes:
                         first = boardstates_new_indexes[str(RushHour_new.matrix)]
-                        last = len(boardstates) - 1
+                        last = len(boardstates_new) - 1
                         del boardstates_new[first:last]
                     else:
                         boardstates_new_indexes[str(RushHour_new.matrix)] = len(boardstates_new) - 1
@@ -117,15 +117,14 @@ def hillclimb():
                         print(last_slice)
                         print(len(sequence))
                         print(len(boardstates_new))
+                        print(sequence)
+                        print(boardstates_new)
                         return
 
                     break
 
             plot_data[str(slice_times)] = len(boardstates)
             print(len(boardstates))
-
-        
-
 
         print(plot_data['initial'])
         print(len(boardstates))
