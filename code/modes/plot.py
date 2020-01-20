@@ -82,14 +82,21 @@ def plot(RushHour, input_dict):
         for plot_data in plotting_data:
             initial_steps = plot_data['initial']
             elimination = plot_data['elimination']
+            #print(elimination)
+            #print("-----------------")
             stepdata = []
 
-            del plot_data['initial']
+            #del plot_data['initial']
+            #del plot_data['elimination']
 
             for key in plot_data:
                 stepdata.append(plot_data[key])
 
             plt.plot(list(plot_data.keys()), stepdata)
+            plt.annotate(stepdata[0], (list(plot_data.keys())[0], stepdata[0]),
+            textcoords="offset points", xytext=(0,10), ha='center')
+            plt.annotate(stepdata[-1], (list(plot_data.keys())[-1], stepdata[-1]),
+            textcoords="offset points", xytext=(10,0), ha='center')
 
         plt.xticks(rotation=45)
         plt.locator_params(integer=True)
@@ -98,7 +105,8 @@ def plot(RushHour, input_dict):
         plt.title ('Hillclimbing with selective elimination')
         plt.text(0.75, 0.75, f'Slices: {slices_amount} \
             \nImprovements: {improvements_amount} \
-            \n# of runs: {runtime_amount}', transform=plt.gca().transAxes)
+            \n# of runs: {runtime_amount} \
+            \nElimination: {elimination}', transform=plt.gca().transAxes)
         plt.show()
 
             
