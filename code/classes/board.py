@@ -125,7 +125,6 @@ class RushHour():
             os.system('cls')
             self.printboard()
             print('Congratulations! The game was finished in:', len(self.steps), 'steps.')
-            print(self.steps)
             return True
 
         return False
