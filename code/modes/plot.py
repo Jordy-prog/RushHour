@@ -78,26 +78,33 @@ def plot(RushHour, input_dict):
         improvements_amount = info_dict['improvements']
         runtime_amount = info_dict['runtimes']
 
-
         for plot_data in plotting_data:
             initial_steps = plot_data['initial']
             elimination = plot_data['elimination']
-            #print(elimination)
-            #print("-----------------")
             stepdata = []
 
-            #del plot_data['initial']
-            #del plot_data['elimination']
 
             for key in plot_data:
                 stepdata.append(plot_data[key])
 
-            plt.plot(list(plot_data.keys()), stepdata)
+            plt.figure(1)
+            plt.plot(['initial_steps', 'elimination'], stepdata[0:2])
+
+            del plot_data['initial']
+            del plot_data['elimination']
+
+            print(plot_data)
+            print(list(plot_data.keys()))
+            print(plot_data.values())
+            
+            plt.figure(2)
+            plt.plot(list(plot_data.keys()), list(plot_data.values()))
             plt.annotate(stepdata[0], (list(plot_data.keys())[0], stepdata[0]),
             textcoords="offset points", xytext=(0,10), ha='center')
             plt.annotate(stepdata[-1], (list(plot_data.keys())[-1], stepdata[-1]),
             textcoords="offset points", xytext=(10,0), ha='center')
 
+        plt.figure(2)
         plt.xticks(rotation=45)
         plt.locator_params(integer=True)
         plt.ylabel('Steps to solve game')
@@ -105,9 +112,10 @@ def plot(RushHour, input_dict):
         plt.title ('Hillclimbing with selective elimination')
         plt.text(0.75, 0.75, f'Slices: {slices_amount} \
             \nImprovements: {improvements_amount} \
-            \n# of runs: {runtime_amount} \
-            \nElimination: {elimination}', transform=plt.gca().transAxes)
+            \n# of runs: {runtime_amount}', transform=plt.gca().transAxes)
         plt.show()
+
+
 
             
 

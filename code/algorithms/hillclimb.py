@@ -108,7 +108,6 @@ def hillclimb():
                     sequence_new = boardstates_temp + boardstates_new + after_sequence
                     boardstates = {}
                     print('Improved')
-                    return
                     
                     for boardstate in sequence_new:
                         boardstates[boardstate[2]] = (boardstate[0], boardstate[1], boardstate[2])
