@@ -79,6 +79,7 @@ def plot(RushHour, input_dict):
         improvements_amount = info_dict['improvements']
         runtime_amount = info_dict['runtimes']
 
+
         for plot_data in plotting_data:
             initial_steps = plot_data['initial']
             elimination = plot_data['elimination']
