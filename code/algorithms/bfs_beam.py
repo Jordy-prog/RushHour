@@ -5,8 +5,7 @@ import random
 def bfs_beam(RushHour):
     archive = set()
     archive.add(re.sub(', ', '', str(RushHour.matrix)))
-    queue = []
-    queue.append(RushHour)
+    queue = [RushHour]
     beam = 2
     current_depth = 0
     while len(queue):
@@ -19,19 +18,21 @@ def bfs_beam(RushHour):
                 child.move(child.cars[car.name], distance + 1)
                 if child.game_won():
                     return True
-                string = re.sub(', ', '', str(child.matrix))
-                if string not in archive:
-                    archive.add(string)
+                board = re.sub(', ', '', str(child.matrix))
+                if board not in archive:
+                    archive.add(board)
                     children.append(child)
             
             for distance in range(0, free_space['rear'], -1):
                 child = copy.deepcopy(parent)
                 child.move(child.cars[car.name], (distance - 1))
+
                 if child.game_won():
                     return True
-                string = re.sub(', ', '', str(child.matrix))
-                if string not in archive:
-                    archive.add(string)
+                    
+                board = re.sub(', ', '', str(child.matrix))
+                if board not in archive:
+                    archive.add(board)
                     children.append(child)
 
         i = 0
