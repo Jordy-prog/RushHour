@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import csv
 import os
 import matplotlib.pyplot as plt
@@ -169,7 +170,6 @@ def main():
             if not rush.move(rush.cars[car_to_move], distance):
                 print('Too bad sucker')
                 sleep(1)
-            sleep(2)
             os.system('cls')
             rush.printboard()
     elif mode == 'plot':
@@ -199,7 +199,7 @@ def main():
             steps += 1
             random_move(rush)
             os.system('cls')
-            # rush.printboard()
+            #rush.printboard()
             
         print(steps)
 
