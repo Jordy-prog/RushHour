@@ -107,43 +107,45 @@ def hillclimb(RushHour):
         boardstates_indexes = {}
 
         # selective elimination of double boardstates
-        # i = 0
-        # for boardstate in boardstates:
-        #     if boardstate[2] in boardstates_indexes:
-        #         first = boardstates_indexes[boardstate[2]]
-        #         last = i
-        #         # print(len(boardstates))
-        #         del boardstates[first:last]
-        #         # print(len(boardstates))
-        #         i = first
-        #     else:
-        #         boardstates_indexes[boardstate[2]] = boardstates.index(boardstate)
-        #     i += 1
+        i = 0
+        while i < len(boardstates):
+            if boardstates[i][2] in boardstates_indexes:
+                first = boardstates_indexes[boardstates[i][2]]
+                last = i
+                del boardstates[first:last]
+                i = first
+
+                for key in list(boardstates_indexes.keys())[first + 1:last]:
+                    del boardstates_indexes[key]
+            else:
+                boardstates_indexes[boardstates[i][2]] = boardstates.index(boardstates[i])
+
+            i += 1
 
         
-        uniques = {}
-        number_of_duplicates = 0
-        for i, board in enumerate(boardstates):
-            if not board[2] in uniques:
-                uniques[board[2]] = [i] 
-            elif board[2] in uniques:
-                uniques[board[2]].append(i)
-                number_of_duplicates += 1
+        # uniques = {}
+        # number_of_duplicates = 0
+        # for i, board in enumerate(boardstates):
+        #     if not board[2] in uniques:
+        #         uniques[board[2]] = [i] 
+        #     elif board[2] in uniques:
+        #         uniques[board[2]].append(i)
+        #         number_of_duplicates += 1
 
-        for i in range(number_of_duplicates):
-            uniques = {}
+        # for i in range(number_of_duplicates):
+        #     uniques = {}
             
-            for i, board in enumerate(boardstates):
-                if not board[2] in uniques:
-                    uniques[board[2]] = [i] 
-                elif board[2] in uniques:
-                    uniques[board[2]].append(i)
+        #     for i, board in enumerate(boardstates):
+        #         if not board[2] in uniques:
+        #             uniques[board[2]] = [i] 
+        #         elif board[2] in uniques:
+        #             uniques[board[2]].append(i)
 
-            max_difference = 0
-            for whatever in uniques.values():
-                if whatever[-1] - whatever[0] > max_difference:
-                    max_difference = whatever[-1] - whatever[0]
-                    del boardstates[whatever[0]:whatever[-1]]
+        #     max_difference = 0
+        #     for whatever in uniques.values():
+        #         if whatever[-1] - whatever[0] > max_difference:
+        #             max_difference = whatever[-1] - whatever[0]
+        #             del boardstates[whatever[0]:whatever[-1]]
 
         uniques = {}
         number_of_duplicates = 0
@@ -152,7 +154,7 @@ def hillclimb(RushHour):
                 uniques[board[2]] = [i] 
             elif board[2] in uniques:
                 uniques[board[2]].append(i)
-                print("DUbbel")
+                print("Dubbel")
 
 
 
