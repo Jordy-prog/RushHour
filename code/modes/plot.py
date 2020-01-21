@@ -77,46 +77,38 @@ def plot(RushHour, input_dict):
         slices_amount = info_dict['slices']
         improvements_amount = info_dict['improvements']
         runtime_amount = info_dict['runtimes']
+        slice_size = info_dict['slice_size']
+
+        decline_sum = 0
+
+        for data in plotting_data:
+            decline_sum += ((data['initial'] - data['elimination']) / data['initial']) * 100
+        
+        avg_decline = decline_sum / runtime_amount
 
         for plot_data in plotting_data:
-            # initial_steps = plot_data['initial']
-            # elimination = plot_data['elimination']
             stepdata = []
-
             del plot_data['initial']
-            del plot_data['elimination']
 
             for key in plot_data:
                 stepdata.append(plot_data[key])
 
-            plt.figure(1)
-            plt.plot(['initial_steps', 'elimination'], stepdata[0:2])
-            plt.annotate(stepdata[0], ('initial_steps', stepdata[0] ),
-            textcoords="offset points", xytext=(0,10), ha='center')
-            plt.annotate(stepdata[1], ('elimination', stepdata[1]),
-            textcoords="offset points", xytext=(10,0), ha='center')
-
-            plt.figure(2)
             plt.plot(list(plot_data.keys()), list(plot_data.values()))
-            plt.annotate(stepdata[0], (list(plot_data.keys())[0], stepdata[0]),
-            textcoords="offset points", xytext=(0,10), ha='center')
-            plt.annotate(stepdata[-1], (list(plot_data.keys())[-1], stepdata[-1]),
-            textcoords="offset points", xytext=(10,0), ha='center')
+            # plt.annotate(stepdata[0], (list(plot_data.keys())[0], stepdata[0]),
+            # textcoords="offset points", xytext=(0,10), ha='center')
+            # plt.annotate(stepdata[-1], (list(plot_data.keys())[-1], stepdata[-1]),
+            # textcoords="offset points", xytext=(10,0), ha='center')
             
-        plt.figure(2)
-        plt.xticks(rotation=45)
+        plt.xticks(rotation=90)
         plt.locator_params(integer=True)
         plt.title ('Hillclimbing with selective elimination')
         plt.ylabel('Steps to solve game')
         plt.xlabel('# of slices')
         plt.text(0.75, 0.75, f'Slices: {slices_amount} \
             \nImprovements: {improvements_amount} \
-            \n# of runs: {runtime_amount}', transform=plt.gca().transAxes)
-
-        plt.figure(1)
-        plt.ylabel('# of steps')
-        plt.xlabel('Step name')
-        plt.title ('Initial to improvement')
+            \nSlice size: {slice_size}  \
+            \n# of runs: {runtime_amount} \
+            \nAverage decline: {avg_decline}', transform=plt.gca().transAxes)
         plt.show()
 
 
