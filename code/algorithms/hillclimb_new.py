@@ -45,9 +45,9 @@ def hillclimb():
             last_slice = 0
             
             # take a sequence that is smaller than ~10% of the length of the current solution
-            while last_slice - first_slice <= 0 or last_slice - first_slice > (len(boardstates) // 8):
-                first_slice = random.randrange(0, len(boardstates))
-                last_slice = random.randrange(first_slice, len(boardstates))
+            while last_slice - first_slice <= 0 or last_slice - first_slice > 10:
+                first_slice = random.randrange(0, len(boardstates) // 2)
+                last_slice = random.randrange(first_slice + 1, len(boardstates))
                 
             sequence = boardstates[first_slice:last_slice]
             boardstates_goal = {}
@@ -86,18 +86,20 @@ def hillclimb():
             plot_data[str(slice_times)] = len(boardstates)
             print(len(boardstates))
 
-        # cut that shit
+        # selective elimination of double boardstates
         for i, boardstate in enumerate(boardstates):
-            first = i
+            if boardstate in boardstates[i + 1:]:
+                first = i
 
-            for j, check in enumerate(boardstates[i + 1:], 1):
-                if check[2] == boardstate[2]:
-                    last = i + j
-                    del boardstates[first:last]
-                    break
+                for j, check in enumerate(boardstates[i + 1:], 1):
+                    if check[2] == boardstate[2]:
+                        last = i + j
+                        del boardstates[first:last]
+                        break
 
         plot_data['elimination'] = len(boardstates)
-        print(len(boardstates))
+        print('initial:', plot_data['initial'])
+        print('finally:', len(boardstates))
         plotting_data.append(plot_data)
         
     return plotting_data

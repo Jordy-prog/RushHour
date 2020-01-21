@@ -1,6 +1,6 @@
 car,orientation,row,col,length
 A,H,0,1,2
-B,H,0,3,2
+B,H,0,3,3
 C,H,1,1,2
 D,H,1,4,2
 E,V,2,3,2
