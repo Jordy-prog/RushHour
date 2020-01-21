@@ -8,7 +8,7 @@ from .random import random_constraint
 from ..classes import board
 
 
-def hillclimb():
+def hillclimb(RushHour):
     # initialize paramaters according to upcoming while condition
     slices, max_slice_size, improvements, runtimes = 0, 21, 0, 0
     
@@ -29,7 +29,7 @@ def hillclimb():
     for i in range(runtimes):
         boardstates = []
         plot_data = {}
-        RushHour_initial = board.RushHour(f'data/{argv[1]}')
+        RushHour_initial = copy.deepcopy(RushHour)
 
         # do a random run and save the moves that were done
         while not RushHour_initial.game_won():
@@ -58,7 +58,7 @@ def hillclimb():
             for step in boardstates[last_slice:]:
                 boardstates_goal[step[2]] = (step[0], step[1], step[2])
 
-            RushHour_template = board.RushHour(f'data/{argv[1]}')
+            RushHour_template = copy.deepcopy(RushHour)
 
             for boardstate in boardstates[:first_slice + 1]:
                 RushHour_template.move(RushHour_template.cars[boardstate[0]], boardstate[1])

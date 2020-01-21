@@ -4,7 +4,7 @@ from sys import exit, argv
 from time import sleep
 
 from code.classes import board
-from code.algorithms import bfs, hillclimb, random, deepening, bfs_beam
+from code.algorithms import bfs, hillclimb, random, deepening, bfs_beam, dfs
 from code.modes import manual, plot, test
 
 
@@ -26,7 +26,7 @@ if __name__ == '__main__':
     algorithm = 0
     input_dict['mode'] = None
     input_dict['algorithm'] = None
-    algorithms_dict = {'1': random.random_pure, '2': random.random_constraint, '3': hillclimb.hillclimb, '4': bfs.bfs, '5': bfs_beam.bfs_beam, '6': deepening.deepening}
+    algorithms_dict = {'1': random.random_pure, '2': random.random_constraint, '3': hillclimb.hillclimb, '4': bfs.bfs, '5': bfs_beam.bfs_beam, '6': deepening.deepening, '7': dfs.dfs}
 
     # asks user for a mode in which program should be run
     while input_dict['mode'] not in ['manual', 'plot', 'test']:
@@ -40,7 +40,8 @@ if __name__ == '__main__':
                            '\n3. Hillclimb'
                            '\n4. Breadth first'
                            '\n5. Breadth first with beam search'
-                           '\n6. Iterative deepening\n')
+                           '\n6. Iterative deepening'
+                           '\n7. Depth first\n')
     
     if algorithm:
         input_dict['algorithm'] = (algorithm, algorithms_dict[algorithm])
