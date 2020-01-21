@@ -2,14 +2,20 @@ import copy
 import re
 
 def deepening(RushHour):
+    # Initialize depth and start algorithm
     depth = 0
     while True:
-        
+        # Initialize archive and stack with the initial Rush hour in them
         stack = [RushHour]
         archive = {}
         archive[re.sub(', ', '', str(RushHour.matrix))] = len(RushHour.steps)
+
+        # Work through the stack and check all boards for solution
         while len(stack) > 0:
+            # Take a parent from the top of the stack
             parent = stack.pop()
+    
+            
             if len(parent.steps) < depth:
                 for car in parent.cars.values():
                     free_space = car.look_around(parent)
