@@ -1,7 +1,7 @@
 from math import sqrt
+import time
 
 import matplotlib.pyplot as plt
-import numpy as np
 from  matplotlib.ticker import FuncFormatter
 
 from ..classes import board
@@ -9,12 +9,11 @@ from ..algorithms import random, hillclimb, bfs
 
 
 def plot(RushHour, input_dict):
-    '''
+    """
     This function runs a certain algorithm a number of times and then plots the data in a graph.
-    '''
+    """
+    elapsed_time_list = []
     stepdata = []
-
-    print(input_dict['algorithm'][0])
 
     # differentiate between algorithms
     if input_dict['algorithm'][0] in ['1', '2']:
@@ -29,14 +28,27 @@ def plot(RushHour, input_dict):
             
         # run the game a certain times to collect enough data points
         for i in range(number_of_runs):
+            
+            # time the execution of each run
+            start_time = time.time()
             RushHour = board.RushHour(input_dict['boardpath'])
 
             # plays the game
             while not RushHour.game_won():            
                 input_dict['algorithm'][1](RushHour)
+    
+            elapsed_time = (time.time() - start_time)
+            elapsed_time_list.append(elapsed_time) 
 
             stepdata.append(len(RushHour.steps))
 
+        total_time = 0
+        
+        for timed_run in elapsed_time_list:
+            total_time += timed_run
+        
+        
+        avg_time = round(total_time / len(elapsed_time_list), 2)
         avg_steps = round(sum(stepdata) / len(stepdata), 0)
         sorted_steps = sorted(stepdata)
 
@@ -57,16 +69,15 @@ def plot(RushHour, input_dict):
             else:
                 steps_dict[dict_bracket] = 1 
 
-        print(list(steps_dict.keys()))
-        print(steps_dict.values())
-        
         # specify properties of bar plot
         plt.bar(list(steps_dict.keys()), steps_dict.values(), color='g')
         plt.xticks(rotation=45)
         plt.xlabel ('Category')
         plt.ylabel ('Frequency')
         plt.title ('Frequency of moved cars')
-        plt.text(0.65, 0.9, f'Average steps: {avg_steps} \n Number of runs: {number_of_runs}', transform=plt.gca().transAxes)
+        plt.text(0.65, 0.9, f'Average steps: {avg_steps} \
+            \nNumber of runs: {number_of_runs} \
+            \nAverage runtime: {avg_time} seconds', transform=plt.gca().transAxes)
         plt.show()
 
     elif input_dict['algorithm'][0] == '3':

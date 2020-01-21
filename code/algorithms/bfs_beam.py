@@ -8,6 +8,7 @@ def bfs_beam(RushHour):
     queue = [RushHour]
     beam = 2
     current_depth = 0
+    
     while len(queue):
         parent = queue.pop(0)
         children = []
@@ -44,6 +45,9 @@ def bfs_beam(RushHour):
         if len(parent.steps) > current_depth:
             current_depth += 1 
             print(current_depth)
+
+    
+
         
         
             
