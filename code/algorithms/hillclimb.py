@@ -9,10 +9,15 @@ from ..classes import board
 
 
 def hillclimb():
+    '''
+    Algorithm that generates a random solution and tries to improve it.
+    This is done by continously taking sequences out of the solution and try to shorten them, using random moves.
+    Also, double boardstates and the moves in between are being removed at the end by selective elimination.
+    '''
     # initialize paramaters according to upcoming while condition
     slices, max_slice_size, improvements, runtimes = 0, 21, 0, 0
     
-    # asks user how many times the algorithm should try to improve amount of moves
+    # requests user input for algorithm parameters
     while slices <= 0 or improvements <= 0 or runtimes <= 0 or max_slice_size > 20:
         try:
             slices = int(input('Slices? '))
@@ -40,13 +45,14 @@ def hillclimb():
         print('length:', len(boardstates))
         slice_times = 0
 
+        # take slices out of solution and try to improve them
         while slice_times < slices:
             slice_times += 1
             print('slice:', slice_times)
             first_slice = 0
             last_slice = 0
             
-            # take a sequence that is smaller than ~10% of the length of the current solution
+            # take a sequence that is smaller than the maximum slice size
             while last_slice - first_slice <= 0 or last_slice - first_slice > max_slice_size:
                 first_slice = random.randrange(0, len(boardstates) // 2)
                 last_slice = random.randrange(first_slice + 1, len(boardstates))
@@ -60,20 +66,24 @@ def hillclimb():
 
             RushHour_template = board.RushHour(f'data/{argv[1]}')
 
+            # bring boardstate in starting condition
             for boardstate in boardstates[:first_slice + 1]:
                 RushHour_template.move(RushHour_template.cars[boardstate[0]], boardstate[1])
 
             improvement_times = 0
 
+            # try to improve the same slice a number of times, using random moves
             while improvement_times < improvements:
                 improvement_times += 1
                 RushHour_new = copy.deepcopy(RushHour_template)
                 boardstates_new = [sequence[0]]
 
+                # improve the sequence using random moves
                 while not boardstates_new[-1][2] in boardstates_goal and len(boardstates_new) < len(sequence):
                     move = random_constraint(RushHour_new)
                     boardstates_new.append(move + (str(RushHour_new.matrix),))
 
+                # if sequence is improved, replace it with old sequence in original solution
                 if len(boardstates_new) < len(sequence):
                     start = first_slice
                     finish = boardstates.index(boardstates_goal[boardstates_new[-1][2]]) + 1
