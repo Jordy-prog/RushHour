@@ -1,5 +1,6 @@
 from math import sqrt
 import time
+import copy
 
 import matplotlib.pyplot as plt
 from  matplotlib.ticker import FuncFormatter
@@ -8,7 +9,7 @@ from ..classes import board
 from ..algorithms import random, hillclimb, bfs
 
 
-def plot(RushHour, input_dict):
+def plot(RushHour_initial, algorithm):
     """
     This function runs a certain algorithm a number of times and then plots the data in a graph.
     """
@@ -16,7 +17,7 @@ def plot(RushHour, input_dict):
     stepdata = []
 
     # differentiate between algorithms
-    if input_dict['algorithm'][0] in ['1', '2']:
+    if algorithm in [random.random_pure, random.random_constraint]:
         number_of_runs = 0
     
         # asks user for number of runs
@@ -28,14 +29,14 @@ def plot(RushHour, input_dict):
             
         # run the game a certain times to collect enough data points
         for i in range(number_of_runs):
-            
+            RushHour = copy.deepcopy(RushHour_initial)
+
             # time the execution of each run
             start_time = time.time()
-            RushHour = board.RushHour(input_dict['boardpath'])
 
             # plays the game
             while not RushHour.game_won():            
-                input_dict['algorithm'][1](RushHour)
+                algorithm(RushHour)
     
             elapsed_time = (time.time() - start_time)
             elapsed_time_list.append(elapsed_time) 
@@ -80,9 +81,9 @@ def plot(RushHour, input_dict):
             \nAverage runtime: {avg_time} seconds', transform=plt.gca().transAxes)
         plt.show()
 
-    elif input_dict['algorithm'][0] == '3':
+    elif algorithm == hillclimb.hillclimb:
         # runs algorithm and retrieves plotdata
-        plotting_data = input_dict['algorithm'][1]()
+        plotting_data = algorithm(RushHour_initial)
         info_dict = plotting_data.pop(0) #slices, improvements, runtimes
 
         slices_amount = info_dict['slices']

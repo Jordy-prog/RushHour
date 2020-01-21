@@ -16,7 +16,6 @@ def dfs(RushHour):
     depth = min(depth)
     print(depth)
     
-    
 
     while True:
         print("a")

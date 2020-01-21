@@ -1,9 +1,10 @@
+import os
 import random
 from time import sleep
 
 from ..classes import car
 
-def user_input(RushHour):
+def manager(RushHour, algorithm):
     # asks user if he wants results to be printed
     to_print = None
 
@@ -16,7 +17,8 @@ def user_input(RushHour):
         if to_print in ['yes', 'y']:
             os.system('cls')
             RushHour.printboard()
-        input_dict['algorithm'][1](RushHour)
+
+        algorithm(RushHour)
 
 def random_pure(RushHour):
     '''

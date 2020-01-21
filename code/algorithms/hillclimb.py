@@ -88,22 +88,65 @@ def hillclimb(RushHour):
             plot_data[str(slice_times)] = len(boardstates)
             print(len(boardstates))
 
-        # selective elimination of double boardstates
-        for i, boardstate in enumerate(boardstates):
-            if boardstate in boardstates[i + 1:]:
-                first = i
+        boardstates_indexes = {}
 
-                for j, check in enumerate(boardstates[i + 1:], 1):
-                    if check[2] == boardstate[2]:
-                        last = i + j
-                        del boardstates[first:last]
-                        break
+        # selective elimination of double boardstates
+        # i = 0
+        # for boardstate in boardstates:
+        #     if boardstate[2] in boardstates_indexes:
+        #         first = boardstates_indexes[boardstate[2]]
+        #         last = i
+        #         # print(len(boardstates))
+        #         del boardstates[first:last]
+        #         # print(len(boardstates))
+        #         i = first
+        #     else:
+        #         boardstates_indexes[boardstate[2]] = boardstates.index(boardstate)
+        #     i += 1
+
+        
+        uniques = {}
+        number_of_duplicates = 0
+        for i, board in enumerate(boardstates):
+            if not board[2] in uniques:
+                uniques[board[2]] = [i] 
+            elif board[2] in uniques:
+                uniques[board[2]].append(i)
+                number_of_duplicates += 1
+
+        for i in range(number_of_duplicates):
+            uniques = {}
+            
+            for i, board in enumerate(boardstates):
+                if not board[2] in uniques:
+                    uniques[board[2]] = [i] 
+                elif board[2] in uniques:
+                    uniques[board[2]].append(i)
+
+            max_difference = 0
+            for whatever in uniques.values():
+                if whatever[-1] - whatever[0] > max_difference:
+                    max_difference = whatever[-1] - whatever[0]
+                    del boardstates[whatever[0]:whatever[-1]]
+
+        uniques = {}
+        number_of_duplicates = 0
+        for i, board in enumerate(boardstates):
+            if not board[2] in uniques:
+                uniques[board[2]] = [i] 
+            elif board[2] in uniques:
+                uniques[board[2]].append(i)
+                print("DUbbel")
+
+
 
         plot_data['elimination'] = len(boardstates)
         print('initial:', plot_data['initial'])
         print('finally:', len(boardstates))
         plotting_data.append(plot_data)
         
+
+
     return plotting_data
 
     # alle boardstates na slice van list in dictionary opslaan

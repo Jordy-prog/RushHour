@@ -63,7 +63,6 @@ def bfs_beam(RushHour):
             index = random.randint(0, len(children))
             queue.append(children.pop(index - 1))
             i += 1
-        print(len(queue))
 
         # If the algorithm goes a layer deeper into the tree, let the user know
         if len(parent.steps) > current_depth:

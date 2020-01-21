@@ -12,7 +12,7 @@ def bfs(RushHour):
     current_depth = 0
     while len(queue):
         # Take a parent from the front of the queue
-        parent = queue.pop()
+        parent = queue.pop(0)
 
         # Loop over the parent's cars to generate its children
         for car in parent.cars.values():
