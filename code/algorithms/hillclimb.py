@@ -2,7 +2,7 @@ import copy
 import os
 import random
 from sys import argv
-from time import sleep
+import time
 
 from .random import random_constraint
 from ..classes import board
@@ -24,9 +24,14 @@ def hillclimb(RushHour):
 
     info_dict = {'slices': slices, 'slice_size': max_slice_size, 'improvements': improvements, 'runtimes': runtimes}
     plotting_data = [info_dict]
+    elapsed_time_list = []
 
     # runs the hillclimber a certain amount of times
     for i in range(runtimes):
+
+        # time the execution of each run
+        start_time = time.time()
+
         boardstates = []
         plot_data = {}
         RushHour_initial = copy.deepcopy(RushHour)
@@ -87,6 +92,17 @@ def hillclimb(RushHour):
 
             plot_data[str(slice_times)] = len(boardstates)
             print(len(boardstates))
+
+            elapsed_time = (time.time() - start_time)
+            elapsed_time_list.append(elapsed_time) 
+
+        total_time = 0
+        
+        for timed_run in elapsed_time_list:
+            total_time += timed_run
+        
+        avg_time = round(total_time / len(elapsed_time_list), 2)
+        info_dict['avg_runtime'] = avg_time
 
         boardstates_indexes = {}
 
