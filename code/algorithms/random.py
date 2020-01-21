@@ -1,8 +1,24 @@
+import os
 import random
 from time import sleep
 
 from ..classes import car
 
+def manager(RushHour, algorithm):
+    # asks user if he wants results to be printed
+    to_print = None
+
+    while to_print not in ['yes', 'y', 'no', 'n']:
+        to_print = input('Do you want to print? (yes, no): ')
+
+    # plays game until won
+    while not RushHour.game_won():
+        # prints gameboard
+        if to_print in ['yes', 'y']:
+            os.system('cls')
+            RushHour.printboard()
+
+        algorithm(RushHour)
 
 def random_pure(RushHour):
     '''

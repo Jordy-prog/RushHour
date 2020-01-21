@@ -2,13 +2,13 @@ import copy
 import os
 import random
 from sys import argv
-from time import sleep
+import time
 
 from .random import random_constraint
 from ..classes import board
 
 
-def hillclimb():
+def hillclimb(RushHour):
     '''
     Algorithm that generates a random solution and tries to improve it.
     This is done by continously taking sequences out of the solution and try to shorten them, using random moves.
@@ -29,12 +29,17 @@ def hillclimb():
 
     info_dict = {'slices': slices, 'slice_size': max_slice_size, 'improvements': improvements, 'runtimes': runtimes}
     plotting_data = [info_dict]
+    elapsed_time_list = []
 
     # runs the hillclimber a certain amount of times
     for i in range(runtimes):
+
+        # time the execution of each run
+        start_time = time.time()
+
         boardstates = []
         plot_data = {}
-        RushHour_initial = board.RushHour(f'data/{argv[1]}')
+        RushHour_initial = copy.deepcopy(RushHour)
 
         # do a random run and save the moves that were done
         while not RushHour_initial.game_won():
@@ -64,7 +69,7 @@ def hillclimb():
             for step in boardstates[last_slice:]:
                 boardstates_goal[step[2]] = (step[0], step[1], step[2])
 
-            RushHour_template = board.RushHour(f'data/{argv[1]}')
+            RushHour_template = copy.deepcopy(RushHour)
 
             # bring boardstate in starting condition
             for boardstate in boardstates[:first_slice + 1]:
@@ -98,22 +103,78 @@ def hillclimb():
             plot_data[str(slice_times)] = len(boardstates)
             print(len(boardstates))
 
-        # selective elimination of double boardstates
-        for i, boardstate in enumerate(boardstates):
-            if boardstate in boardstates[i + 1:]:
-                first = i
+            elapsed_time = (time.time() - start_time)
+            elapsed_time_list.append(elapsed_time) 
 
-                for j, check in enumerate(boardstates[i + 1:], 1):
-                    if check[2] == boardstate[2]:
-                        last = i + j
-                        del boardstates[first:last]
-                        break
+        total_time = 0
+        
+        for timed_run in elapsed_time_list:
+            total_time += timed_run
+        
+        avg_time = round(total_time / len(elapsed_time_list), 2)
+        info_dict['avg_runtime'] = avg_time
+
+        boardstates_indexes = {}
+
+        # selective elimination of double boardstates
+        i = 0
+        while i < len(boardstates):
+            if boardstates[i][2] in boardstates_indexes:
+                first = boardstates_indexes[boardstates[i][2]]
+                last = i
+                del boardstates[first:last]
+                i = first
+
+                for key in list(boardstates_indexes.keys())[first + 1:last]:
+                    del boardstates_indexes[key]
+            else:
+                boardstates_indexes[boardstates[i][2]] = boardstates.index(boardstates[i])
+
+            i += 1
+
+        
+        # uniques = {}
+        # number_of_duplicates = 0
+        # for i, board in enumerate(boardstates):
+        #     if not board[2] in uniques:
+        #         uniques[board[2]] = [i] 
+        #     elif board[2] in uniques:
+        #         uniques[board[2]].append(i)
+        #         number_of_duplicates += 1
+
+        # for i in range(number_of_duplicates):
+        #     uniques = {}
+            
+        #     for i, board in enumerate(boardstates):
+        #         if not board[2] in uniques:
+        #             uniques[board[2]] = [i] 
+        #         elif board[2] in uniques:
+        #             uniques[board[2]].append(i)
+
+        #     max_difference = 0
+        #     for whatever in uniques.values():
+        #         if whatever[-1] - whatever[0] > max_difference:
+        #             max_difference = whatever[-1] - whatever[0]
+        #             del boardstates[whatever[0]:whatever[-1]]
+
+        uniques = {}
+        number_of_duplicates = 0
+        for i, board in enumerate(boardstates):
+            if not board[2] in uniques:
+                uniques[board[2]] = [i] 
+            elif board[2] in uniques:
+                uniques[board[2]].append(i)
+                print("Dubbel")
+
+
 
         plot_data['elimination'] = len(boardstates)
         print('initial:', plot_data['initial'])
         print('finally:', len(boardstates))
         plotting_data.append(plot_data)
         
+
+
     return plotting_data
 
     # alle boardstates na slice van list in dictionary opslaan
