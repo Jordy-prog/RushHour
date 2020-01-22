@@ -105,6 +105,40 @@ def hillclimb(RushHour):
         #     i += 1
 
         
+        # uniques = {}
+        # number_of_duplicates = 0
+        # for i, board in enumerate(boardstates):
+        #     if not board[2] in uniques:
+        #         uniques[board[2]] = [i] 
+        #     elif board[2] in uniques:
+        #         uniques[board[2]].append(i)
+        #         number_of_duplicates += 1
+
+        initiate = True
+        while initiate or duplicates:
+            initiate = False
+            duplicates = []
+            uniques = {}
+            for i, board in enumerate(boardstates):
+                if not board[2] in uniques:
+                    uniques[board[2]] = [i] 
+                elif board[2] in uniques:
+                    uniques[board[2]].append(i)
+                    duplicates.append(board[2])
+
+            max_difference = (None, 0)
+            for duplicate in duplicates:
+                indexes = uniques[duplicate]
+                difference = indexes[-1] - indexes[0]
+                if difference > max_difference[1]:
+                    max_difference = (duplicate, difference)
+            
+            if duplicates:
+                indexes = uniques[max_difference[0]]
+                del boardstates[indexes[0]:indexes[-1]]
+
+
+
         uniques = {}
         number_of_duplicates = 0
         for i, board in enumerate(boardstates):
@@ -113,30 +147,8 @@ def hillclimb(RushHour):
             elif board[2] in uniques:
                 uniques[board[2]].append(i)
                 number_of_duplicates += 1
-
-        for i in range(number_of_duplicates):
-            uniques = {}
-            
-            for i, board in enumerate(boardstates):
-                if not board[2] in uniques:
-                    uniques[board[2]] = [i] 
-                elif board[2] in uniques:
-                    uniques[board[2]].append(i)
-
-            max_difference = 0
-            for whatever in uniques.values():
-                if whatever[-1] - whatever[0] > max_difference:
-                    max_difference = whatever[-1] - whatever[0]
-                    del boardstates[whatever[0]:whatever[-1]]
-
-        uniques = {}
-        number_of_duplicates = 0
-        for i, board in enumerate(boardstates):
-            if not board[2] in uniques:
-                uniques[board[2]] = [i] 
-            elif board[2] in uniques:
-                uniques[board[2]].append(i)
-                print("DUbbel")
+                print("AAAAAAAAAAAA DUBBBEL AAAAAAAAAAA")
+        print("number:", number_of_duplicates)
 
 
 
