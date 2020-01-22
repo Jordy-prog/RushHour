@@ -108,58 +108,11 @@ def hillclimb(RushHour):
 
         total_time = 0
         
-<<<<<<< HEAD
-        # uniques = {}
-        # number_of_duplicates = 0
-        # for i, board in enumerate(boardstates):
-        #     if not board[2] in uniques:
-        #         uniques[board[2]] = [i] 
-        #     elif board[2] in uniques:
-        #         uniques[board[2]].append(i)
-        #         number_of_duplicates += 1
-
-        initiate = True
-        while initiate or duplicates:
-            initiate = False
-            duplicates = []
-            uniques = {}
-            for i, board in enumerate(boardstates):
-                if not board[2] in uniques:
-                    uniques[board[2]] = [i] 
-                elif board[2] in uniques:
-                    uniques[board[2]].append(i)
-                    duplicates.append(board[2])
-
-            max_difference = (None, 0)
-            for duplicate in duplicates:
-                indexes = uniques[duplicate]
-                difference = indexes[-1] - indexes[0]
-                if difference > max_difference[1]:
-                    max_difference = (duplicate, difference)
-            
-            if duplicates:
-                indexes = uniques[max_difference[0]]
-                del boardstates[indexes[0]:indexes[-1]]
-
-
-
-        uniques = {}
-        number_of_duplicates = 0
-        for i, board in enumerate(boardstates):
-            if not board[2] in uniques:
-                uniques[board[2]] = [i] 
-            elif board[2] in uniques:
-                uniques[board[2]].append(i)
-                number_of_duplicates += 1
-                print("AAAAAAAAAAAA DUBBBEL AAAAAAAAAAA")
-        print("number:", number_of_duplicates)
-=======
         for timed_run in elapsed_time_list:
             total_time += timed_run
         
         avg_time = round(total_time / len(elapsed_time_list), 2)
         info_dict['avg_runtime'] = avg_time
->>>>>>> 9050b12dd403174b803814a62d75a8ddb05f5756
 
         boardstates_indexes = {}
 
