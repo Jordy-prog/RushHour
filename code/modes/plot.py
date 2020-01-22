@@ -117,9 +117,6 @@ def plot(RushHour_initial, algorithm):
 
             plt.plot(list(plot_data.keys()), list(plot_data.values()))
 
-        # plt.annotate(stepdata[-1], (list(plot_data.keys())[-1], stepdata[-1]),
-        # textcoords="offset points", xytext=(10,0), ha='center')
-
         plt.annotate(smallest_endpoint, (list(plot_data.keys())[-1], smallest_endpoint),
         textcoords="offset points", xytext=(10,0), ha='center')
             
