@@ -118,6 +118,7 @@ def hillclimb(RushHour):
 
         # selective elimination of double boardstates
         i = 0
+        
         while i < len(boardstates):
             if boardstates[i][2] in boardstates_indexes:
                 first = boardstates_indexes[boardstates[i][2]]
@@ -131,42 +132,6 @@ def hillclimb(RushHour):
                 boardstates_indexes[boardstates[i][2]] = boardstates.index(boardstates[i])
 
             i += 1
-
-        
-        # uniques = {}
-        # number_of_duplicates = 0
-        # for i, board in enumerate(boardstates):
-        #     if not board[2] in uniques:
-        #         uniques[board[2]] = [i] 
-        #     elif board[2] in uniques:
-        #         uniques[board[2]].append(i)
-        #         number_of_duplicates += 1
-
-        # for i in range(number_of_duplicates):
-        #     uniques = {}
-            
-        #     for i, board in enumerate(boardstates):
-        #         if not board[2] in uniques:
-        #             uniques[board[2]] = [i] 
-        #         elif board[2] in uniques:
-        #             uniques[board[2]].append(i)
-
-        #     max_difference = 0
-        #     for whatever in uniques.values():
-        #         if whatever[-1] - whatever[0] > max_difference:
-        #             max_difference = whatever[-1] - whatever[0]
-        #             del boardstates[whatever[0]:whatever[-1]]
-
-        uniques = {}
-        number_of_duplicates = 0
-        for i, board in enumerate(boardstates):
-            if not board[2] in uniques:
-                uniques[board[2]] = [i] 
-            elif board[2] in uniques:
-                uniques[board[2]].append(i)
-                print("Dubbel")
-
-
 
         plot_data['elimination'] = len(boardstates)
         print('initial:', plot_data['initial'])

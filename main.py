@@ -5,7 +5,7 @@ from time import sleep
 
 from code.classes import board
 from code.algorithms import bfs, hillclimb, random, deepening, bfs_beam, dfs
-from code.modes import manual, plot, test
+from code.modes import manual, plot
 
 
 if __name__ == '__main__':
