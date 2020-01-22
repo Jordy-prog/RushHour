@@ -16,7 +16,7 @@ class RushHour():
         self.matrix = []
         self.cars = {}
         self.colors = ['blue_1', 'yellow_1', 'green_1', 'dark_green', 'deep_pink_1a', 'dark_orange']
-        self.load( board_path)
+        self.load(board_path)
         self.steps = []
         
     def load(self, board_path):
@@ -125,6 +125,7 @@ class RushHour():
             os.system('cls')
             self.printboard()
             print('Congratulations! The game was finished in:', len(self.steps), 'steps.')
+            print(self.steps)
             return True
 
         return False

@@ -29,19 +29,20 @@ def plot(RushHour_initial, algorithm):
             
         # run the game a certain times to collect enough data points
         for i in range(number_of_runs):
-            RushHour = copy.deepcopy(RushHour_initial)
 
             # time the execution of each run
             start_time = time.time()
 
+            RushHour = copy.deepcopy(RushHour_initial)
+
             # plays the game
             while not RushHour.game_won():            
                 algorithm(RushHour)
+            
+            stepdata.append(len(RushHour.steps))
     
             elapsed_time = (time.time() - start_time)
             elapsed_time_list.append(elapsed_time) 
-
-            stepdata.append(len(RushHour.steps))
 
         total_time = 0
         
@@ -90,13 +91,14 @@ def plot(RushHour_initial, algorithm):
         improvements_amount = info_dict['improvements']
         runtime_amount = info_dict['runtimes']
         slice_size = info_dict['slice_size']
+        avg_runtime = info_dict['avg_runtime']
 
         decline_sum = 0
 
         for data in plotting_data:
             decline_sum += ((data['initial'] - data['elimination']) / data['initial']) * 100
         
-        avg_decline = decline_sum / runtime_amount
+        avg_decline = round(decline_sum / runtime_amount, 2)
 
         for plot_data in plotting_data:
             stepdata = []
@@ -120,7 +122,8 @@ def plot(RushHour_initial, algorithm):
             \nImprovements: {improvements_amount} \
             \nSlice size: {slice_size}  \
             \n# of runs: {runtime_amount} \
-            \nAverage decline: {avg_decline}', transform=plt.gca().transAxes)
+            \nAverage decline: {avg_decline}% \
+            \nAverage runtime: {avg_runtime} seconds', transform=plt.gca().transAxes)
         plt.show()
 
 

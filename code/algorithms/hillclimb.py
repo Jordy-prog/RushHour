@@ -2,17 +2,22 @@ import copy
 import os
 import random
 from sys import argv
-from time import sleep
+import time
 
 from .random import random_constraint
 from ..classes import board
 
 
 def hillclimb(RushHour):
+    '''
+    Algorithm that generates a random solution and tries to improve it.
+    This is done by continously taking sequences out of the solution and try to shorten them, using random moves.
+    Also, double boardstates and the moves in between are being removed at the end by selective elimination.
+    '''
     # initialize paramaters according to upcoming while condition
     slices, max_slice_size, improvements, runtimes = 0, 21, 0, 0
     
-    # asks user how many times the algorithm should try to improve amount of moves
+    # requests user input for algorithm parameters
     while slices <= 0 or improvements <= 0 or runtimes <= 0 or max_slice_size > 20:
         try:
             slices = int(input('Slices? '))
@@ -24,9 +29,14 @@ def hillclimb(RushHour):
 
     info_dict = {'slices': slices, 'slice_size': max_slice_size, 'improvements': improvements, 'runtimes': runtimes}
     plotting_data = [info_dict]
+    elapsed_time_list = []
 
     # runs the hillclimber a certain amount of times
     for i in range(runtimes):
+
+        # time the execution of each run
+        start_time = time.time()
+
         boardstates = []
         plot_data = {}
         RushHour_initial = copy.deepcopy(RushHour)
@@ -40,13 +50,14 @@ def hillclimb(RushHour):
         print('length:', len(boardstates))
         slice_times = 0
 
+        # take slices out of solution and try to improve them
         while slice_times < slices:
             slice_times += 1
             print('slice:', slice_times)
             first_slice = 0
             last_slice = 0
             
-            # take a sequence that is smaller than ~10% of the length of the current solution
+            # take a sequence that is smaller than the maximum slice size
             while last_slice - first_slice <= 0 or last_slice - first_slice > max_slice_size:
                 first_slice = random.randrange(0, len(boardstates) // 2)
                 last_slice = random.randrange(first_slice + 1, len(boardstates))
@@ -60,20 +71,24 @@ def hillclimb(RushHour):
 
             RushHour_template = copy.deepcopy(RushHour)
 
+            # bring boardstate in starting condition
             for boardstate in boardstates[:first_slice + 1]:
                 RushHour_template.move(RushHour_template.cars[boardstate[0]], boardstate[1])
 
             improvement_times = 0
 
+            # try to improve the same slice a number of times, using random moves
             while improvement_times < improvements:
                 improvement_times += 1
                 RushHour_new = copy.deepcopy(RushHour_template)
                 boardstates_new = [sequence[0]]
 
+                # improve the sequence using random moves
                 while not boardstates_new[-1][2] in boardstates_goal and len(boardstates_new) < len(sequence):
                     move = random_constraint(RushHour_new)
                     boardstates_new.append(move + (str(RushHour_new.matrix),))
 
+                # if sequence is improved, replace it with old sequence in original solution
                 if len(boardstates_new) < len(sequence):
                     start = first_slice
                     finish = boardstates.index(boardstates_goal[boardstates_new[-1][2]]) + 1
@@ -88,23 +103,12 @@ def hillclimb(RushHour):
             plot_data[str(slice_times)] = len(boardstates)
             print(len(boardstates))
 
-        boardstates_indexes = {}
+            elapsed_time = (time.time() - start_time)
+            elapsed_time_list.append(elapsed_time) 
 
-        # selective elimination of double boardstates
-        # i = 0
-        # for boardstate in boardstates:
-        #     if boardstate[2] in boardstates_indexes:
-        #         first = boardstates_indexes[boardstate[2]]
-        #         last = i
-        #         # print(len(boardstates))
-        #         del boardstates[first:last]
-        #         # print(len(boardstates))
-        #         i = first
-        #     else:
-        #         boardstates_indexes[boardstate[2]] = boardstates.index(boardstate)
-        #     i += 1
-
+        total_time = 0
         
+<<<<<<< HEAD
         # uniques = {}
         # number_of_duplicates = 0
         # for i, board in enumerate(boardstates):
@@ -149,8 +153,32 @@ def hillclimb(RushHour):
                 number_of_duplicates += 1
                 print("AAAAAAAAAAAA DUBBBEL AAAAAAAAAAA")
         print("number:", number_of_duplicates)
+=======
+        for timed_run in elapsed_time_list:
+            total_time += timed_run
+        
+        avg_time = round(total_time / len(elapsed_time_list), 2)
+        info_dict['avg_runtime'] = avg_time
+>>>>>>> 9050b12dd403174b803814a62d75a8ddb05f5756
 
+        boardstates_indexes = {}
 
+        # selective elimination of double boardstates
+        i = 0
+        
+        while i < len(boardstates):
+            if boardstates[i][2] in boardstates_indexes:
+                first = boardstates_indexes[boardstates[i][2]]
+                last = i
+                del boardstates[first:last]
+                i = first
+
+                for key in list(boardstates_indexes.keys())[first + 1:last]:
+                    del boardstates_indexes[key]
+            else:
+                boardstates_indexes[boardstates[i][2]] = boardstates.index(boardstates[i])
+
+            i += 1
 
         plot_data['elimination'] = len(boardstates)
         print('initial:', plot_data['initial'])
