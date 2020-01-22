@@ -1,0 +1,12 @@
+car,orientation,row,col,length
+X,H,2,0,2
+A,H,0,2,2
+B,H,5,2,3
+C,V,4,3,2
+D,V,4,1,2
+E,V,2,5,2
+F,V,2,2,2
+G,V,5,5,2
+H,V,1,4,2
+I,H,5,0,2
+J,V,2,3,2
