@@ -3,7 +3,7 @@ import re
 import time
 from time import sleep
 
-def bfs_move(RushHour):
+def bfs(RushHour):
     # Initialize archive and queue with the initial Rush hour in them
     archive = set()
     archive.add(re.sub(', ', '', str(RushHour.matrix)))
