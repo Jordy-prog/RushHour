@@ -38,6 +38,7 @@ class RushHour():
                     # create a list of cars on the board
                     self.cars[data['car']] = Car(data['car'], data['orientation'], row, col, color, int(data['length']))
         except FileNotFoundError:
+            print(board_path)
             print('Invalid file')
             exit()
 
