@@ -29,6 +29,9 @@ def plot(RushHour_initial, algorithm):
             
         # run the game a certain times to collect enough data points
         for i in range(number_of_runs):
+            # printing
+            if not i % 10:
+                print(i)
 
             # time the execution of each run
             start_time = time.time()

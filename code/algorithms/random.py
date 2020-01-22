@@ -2,7 +2,6 @@ import os
 import random
 from time import sleep
 
-from ..classes import car
 
 def manager(RushHour, algorithm):
     # asks user if he wants results to be printed
