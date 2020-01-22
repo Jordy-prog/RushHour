@@ -1,6 +1,7 @@
 from math import sqrt
-import time
 import copy
+import time
+import sys
 
 import matplotlib.pyplot as plt
 from  matplotlib.ticker import FuncFormatter
@@ -15,6 +16,7 @@ def plot(RushHour_initial, algorithm):
     """
     elapsed_time_list = []
     stepdata = []
+    board = sys.argv[1]
 
     # differentiate between algorithms
     if algorithm in [random.random_pure, random.random_constraint]:
@@ -76,7 +78,7 @@ def plot(RushHour_initial, algorithm):
         plt.xticks(rotation=45)
         plt.xlabel ('Category')
         plt.ylabel ('Frequency')
-        plt.title ('Frequency of moved cars')
+        plt.title (f'{board}: Frequency of moved cars')
         plt.text(0.65, 0.9, f'Average steps: {avg_steps} \
             \nNumber of runs: {number_of_runs} \
             \nAverage runtime: {avg_time} seconds', transform=plt.gca().transAxes)
@@ -100,6 +102,8 @@ def plot(RushHour_initial, algorithm):
         
         avg_decline = round(decline_sum / runtime_amount, 2)
 
+        smallest_endpoint = 9999
+
         for plot_data in plotting_data:
             stepdata = []
             del plot_data['initial']
@@ -107,15 +111,21 @@ def plot(RushHour_initial, algorithm):
             for key in plot_data:
                 stepdata.append(plot_data[key])
 
+                if key == 'elimination':
+                    if plot_data[key] < smallest_endpoint:
+                        smallest_endpoint = plot_data[key]
+
             plt.plot(list(plot_data.keys()), list(plot_data.values()))
-            # plt.annotate(stepdata[0], (list(plot_data.keys())[0], stepdata[0]),
-            # textcoords="offset points", xytext=(0,10), ha='center')
-            # plt.annotate(stepdata[-1], (list(plot_data.keys())[-1], stepdata[-1]),
-            # textcoords="offset points", xytext=(10,0), ha='center')
+
+        # plt.annotate(stepdata[-1], (list(plot_data.keys())[-1], stepdata[-1]),
+        # textcoords="offset points", xytext=(10,0), ha='center')
+
+        plt.annotate(smallest_endpoint, (list(plot_data.keys())[-1], smallest_endpoint),
+        textcoords="offset points", xytext=(10,0), ha='center')
             
         plt.xticks(rotation=90)
         plt.locator_params(integer=True)
-        plt.title ('Hillclimbing with selective elimination')
+        plt.title (f'{board}: Hillclimbing with selective elimination')
         plt.ylabel('Steps to solve game')
         plt.xlabel('# of slices')
         plt.text(0.75, 0.75, f'Slices: {slices_amount} \

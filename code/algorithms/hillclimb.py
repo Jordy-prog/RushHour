@@ -14,6 +14,7 @@ def hillclimb(RushHour):
     This is done by continously taking sequences out of the solution and try to shorten them, using random moves.
     Also, double boardstates and the moves in between are being removed at the end by selective elimination.
     '''
+
     # initialize paramaters according to upcoming while condition
     slices, max_slice_size, improvements, runtimes = 0, 21, 0, 0
     
