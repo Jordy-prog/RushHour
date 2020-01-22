@@ -1,7 +1,6 @@
 import copy
 import re
-import time
-from time import sleep
+
 
 def bfs(RushHour):
     # Initialize archive and queue with the initial Rush hour in them
@@ -12,7 +11,7 @@ def bfs(RushHour):
     # Work through the queue and check all boards for solution
     current_depth = 0
     while len(queue):
-        # Take a parent from the front of the queue
+        # Take move list for parent from the front of the queue and execute moves
         parent_moves = queue.pop(0)
         parent = copy.deepcopy(RushHour)
         for move in parent_moves:
@@ -25,10 +24,10 @@ def bfs(RushHour):
             
             # Generate children for moving this car forward
             for distance in range(free_space['front']):
-                # Create a copy for the child and move the car
+                # Move the car on the parent
                 parent.move(car, distance + 1)
                 
-                # Return True if this child results in a win
+                # Return True if this move results in a win, else pop the last move
                 if parent.game_won():
                     return True
                 last_move = parent.steps.pop() 
@@ -37,6 +36,8 @@ def bfs(RushHour):
                 board = re.sub(', ', '', str(parent.matrix))
                 if board not in archive:
                     archive.add(board)
+
+                    # Add the last move to the move_list that creates this child and add to queue
                     move_list = parent_moves + [last_move]
                     queue.append(move_list)
 
@@ -60,11 +61,12 @@ def bfs(RushHour):
 
                 parent.move(car, - (distance - 1))
                 parent.steps.pop()
-                    
+
         # If the algorithm goes a layer deeper into the tree, let the user know
         if len(parent.steps) > current_depth:
             current_depth += 1 
             print(current_depth)
+            
         
         
             

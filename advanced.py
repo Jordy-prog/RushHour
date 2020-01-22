@@ -1,7 +1,7 @@
 import random
-from algorithms.random import random_pure
-from classes.car import Car
-from classes.board import RushHour
+from code.algorithms.random import random_pure
+from code.classes.car import Car
+from code.classes.board import RushHour
 from sys import argv
 from colored import fg, stylize
 import csv
@@ -12,7 +12,7 @@ def advanced():
     # make matrix
     # make cars dictionary
     # maybe write to csv
-    names = 'ABCDEFGHIJKLMNOPQRSTUVWYZ'
+    names = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AY', 'AZ']
     matrix = []
     cars = {}
     colors = ['blue_1', 'yellow_1', 'green_1', 'dark_green', 'deep_pink_1a', 'dark_orange']
@@ -121,7 +121,7 @@ def advanced():
         
         car_list.append(car_dict)
 
-    with open(f'../data/{argv[1]}', 'w', newline='') as file:
+    with open(f'data/{argv[1]}', 'w', newline='') as file:
         fieldnames = ['car', 'orientation', 'row', 'col', 'length']
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
@@ -129,7 +129,7 @@ def advanced():
         for car in car_list:
             writer.writerow(car)
 
-    Rushhour = RushHour(f'../data/{argv[1]}')
+    Rushhour = RushHour(f'data/{argv[1]}')
 
     for i in range(200):
         random_pure(Rushhour)
@@ -146,13 +146,15 @@ def advanced():
         
         car_list_new.append(car_dict)
 
-    with open(f'../data/{argv[1]}', 'w', newline='') as file:
+    with open(f'data/{argv[1]}', 'w', newline='') as file:
         fieldnames = ['car', 'orientation', 'row', 'col', 'length']
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
 
         for car in car_list_new:
             writer.writerow(car)
+
+    print()
 
     Rushhour.printboard()
     
