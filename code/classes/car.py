@@ -2,18 +2,18 @@ class Car():
     '''
     Object that stores parameters for a car.
     '''
-    def __init__(self, name, direction, row, col, color, length):
+    def __init__(self, name, orientation, row, col, color, length):
         '''
         Initializes attributes for car.
         '''
         self.name = name
         self.color = color
         self.length = length
-        self.direction = direction
+        self.orientation = orientation
         self.row = row
         self.col = col
 
-    def position(self, row, col):
+    def set_position(self, row, col):
         '''
         Position setter method.
         '''
@@ -26,11 +26,11 @@ class Car():
         '''
         free_rear, free_front = 0, 0
 
-        # start i, j at 1 to prevent a car from selecting itself
+        # Start i, j at 1 to prevent a car from selecting itself
         i, j = 1, 1
 
-        # loops from car to edge of board and determine free places
-        if self.direction == 'H':
+        # Loops from car to edge of board and determine free places
+        if self.orientation == 'H':
             while i <= self.col and not RushHour.matrix[self.row][self.col - i]:
                 i += 1
                 free_rear -= 1
@@ -38,7 +38,7 @@ class Car():
             while j < RushHour.boardsize - (self.length - 1) - self.col and not RushHour.matrix[self.row][self.col + (self.length - 1) + j]:
                 j += 1
                 free_front += 1
-        elif self.direction == 'V':
+        elif self.orientation == 'V':
             while i < RushHour.boardsize - self.row and not RushHour.matrix[self.row + i][self.col]:
                 i += 1
                 free_rear -= 1

@@ -1,9 +1,9 @@
 import copy
-import re
-import time
 import random
-from time import sleep
+import re
+
 from .random import random_constraint
+
 
 def dfs(RushHour):
 
