@@ -1,12 +1,8 @@
 import copy
-import os
 import random
-from sys import argv
 import time
 
-from ..classes import board
 from .random import random_constraint
-
 
 
 def hillclimb(RushHour):
@@ -77,18 +73,18 @@ def hillclimb(RushHour):
 
             improvement_times = 0
 
-            # try to improve the same slice a number of times, using random moves
+            # Try to improve the same slice a number of times, using random moves
             while improvement_times < improvements:
                 improvement_times += 1
                 RushHour_new = copy.deepcopy(RushHour_template)
                 boardstates_new = [sequence[0]]
 
-                # improve the sequence using random moves
+                # Improve the sequence using random moves
                 while not boardstates_new[-1][2] in boardstates_goal and len(boardstates_new) < len(sequence):
                     move = random_constraint(RushHour_new)
                     boardstates_new.append(move + (str(RushHour_new.matrix),))
 
-                # if sequence is improved, replace it with old sequence in original solution
+                # If sequence is improved, replace it with old sequence in original solution
                 if len(boardstates_new) < len(sequence):
                     start = first_slice
                     finish = boardstates.index(boardstates_goal[boardstates_new[-1][2]]) + 1
@@ -108,6 +104,7 @@ def hillclimb(RushHour):
 
         total_time = 0
         
+        # Determine average runtime
         for timed_run in elapsed_time_list:
             total_time += timed_run
         
@@ -115,11 +112,11 @@ def hillclimb(RushHour):
         info_dict['avg_runtime'] = avg_time
 
         boardstates_indexes = {}
-
-        # selective elimination of double boardstates
         i = 0
         
+        # Selective elimination of double boardstates
         while i < len(boardstates):
+            # If boardstate is found multiple times in moveset, delete everything in between
             if boardstates[i][2] in boardstates_indexes:
                 first = boardstates_indexes[boardstates[i][2]]
                 last = i

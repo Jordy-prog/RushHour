@@ -1,10 +1,8 @@
-from math import sqrt
 import os
 from sys import exit, argv
-from time import sleep
 
-from code.classes import board
 from code.algorithms import bfs, hillclimb, random, deepening, bfs_beam, dfs
+from code.classes import board
 from code.modes import manual, plot
 
 
@@ -59,16 +57,3 @@ if __name__ == '__main__':
         random.manager(RushHour, algorithm)
     else:
         algorithm(RushHour)
-
-    '''
-    State-space: Totale hoeveelheid bordconfiguraties
-    Upper-bound: Oneindig (max. aantal moves tot een oplossing)
-    Lower-bound: Minimaal aantal stappen tot een oplossing (verschilt per bord)
-    Advanced fixen
-    Simulated annealing
-    hillclimb loop eromheen zetten voor meer runs vanaf start
-    breadfirst fixen
-    depthfirst implementeren
-    ONDERZOEKJE
-    slicegrootte aanpassen
-    '''

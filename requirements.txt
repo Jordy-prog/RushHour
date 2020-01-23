@@ -1,3 +1,2 @@
 matplotlib
 colored
-memory_profiler
