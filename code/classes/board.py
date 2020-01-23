@@ -134,11 +134,13 @@ class RushHour():
             for distance in range(free_space['front']):
                 # Move the car and register child
                 self.move(car, distance + 1)
-                move = [self.steps.pop()]
 
                 # Register child if it results in a win
                 if self.game_won():
-                    winning_child = self.steps + move
+                    winning_child = True
+
+                # Create the dictionary with data of this child and add to list
+                move = [self.steps.pop()] 
                 matrix = re.sub(', ', '', str(self.matrix))
                 children.append({"moves": self.steps + move, "matrix": matrix})
 
@@ -149,10 +151,11 @@ class RushHour():
             # Generate all children for moving this car backward
             for distance in range(0, free_space['rear'], -1):
                 self.move(car, (distance - 1))
-                move = [self.steps.pop()]
-
+                
                 if self.game_won():
-                    winning_child = self.steps + move
+                    winning_child = True
+                
+                move = [self.steps.pop()]
                 matrix = re.sub(', ', '', str(self.matrix))
                 children.append({"moves": self.steps + move, "matrix": matrix})
 
