@@ -40,7 +40,6 @@ def hillclimb(RushHour):
 
     # Runs the hillclimber a certain amount of times
     for i in range(runtimes):
-
         # Time the execution of each run
         start_time = time.time()
 
@@ -128,7 +127,6 @@ def hillclimb(RushHour):
         
         # Selective elimination of double boardstates
         while i < len(boardstates):
-
             # If boardstate is found multiple times in moveset, delete everything in between
             if boardstates[i][2] in boardstates_indexes:
                 first = boardstates_indexes[boardstates[i][2]]
@@ -140,6 +138,7 @@ def hillclimb(RushHour):
                     del boardstates_indexes[key]
             else:
                 boardstates_indexes[boardstates[i][2]] = boardstates.index(boardstates[i])
+                
             i += 1
 
         plot_data['elimination'] = len(boardstates)

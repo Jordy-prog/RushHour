@@ -1,2 +1,0 @@
-### 7-1
-- We hebben gediscussieerd over de beste manier om posities van auto's op te slaan. We hebben afwegingen gemaakt tussen efficiëntie en overbodige code. We hadden namelijk de optie om ofwel over de matrix heen te loopen elke keer dat we een move zetten, of we houden de positie van de auto bij zowel in de matrix als in het auto-object wat ervoor zorgt dat we veel sneller de positie van een auto kunnen bepalen.
