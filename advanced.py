@@ -42,7 +42,6 @@ def advanced():
 
     # Setup variables that determine how many cars should be placed
     space_to_occupy = (boardsize * boardsize) - ((boardsize * boardsize) // 4) - boardsize
-    free_space = boardsize // 3
 
     # Place red car
     row_x = (boardsize - 1) // 2
@@ -130,7 +129,7 @@ def write_csv(cars):
     """Creates a csv_file of the current board.
 
     Parameters:
-        cars (dictionary values): ...
+        cars (dictionary values): A list of car objects.
     """
     car_list = []
 
