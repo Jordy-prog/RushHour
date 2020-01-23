@@ -17,11 +17,12 @@ def bfs(RushHour):
         for move in parent_moves:
             parent.move(parent.cars[move[0]], move[1])
 
+        # Retrieve children from this parent and return if game is over
         children, winning_child = parent.get_children()
-        
         if winning_child:
             return True
 
+        # Else append the unknown children to the queue
         for child in children:
             if not child["matrix"] in archive:
                 archive.add(child["matrix"])
@@ -29,7 +30,7 @@ def bfs(RushHour):
 
         # If the algorithm goes a layer deeper into the tree, let the user know
         if len(parent.steps) > current_depth:
-            current_depth += 1 
+            current_depth += 1
             print(current_depth)
             
         
