@@ -9,7 +9,6 @@ from ..algorithms import random, hillclimb, bfs, dfs
 from ..classes import board
 
 
-
 def plot(RushHour_initial, algorithm):
     """
     This function runs a certain algorithm a number of times and then plots the data in a graph.
