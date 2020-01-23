@@ -1,12 +1,13 @@
+import copy
 from math import sqrt
 import time
-import copy
 
 import matplotlib.pyplot as plt
 from  matplotlib.ticker import FuncFormatter
 
-from ..classes import board
 from ..algorithms import random, hillclimb, bfs, dfs
+from ..classes import board
+
 
 
 def plot(RushHour_initial, algorithm):
@@ -131,14 +132,14 @@ def plot(RushHour_initial, algorithm):
     elif algorithm == dfs.dfs:
         number_of_runs = 0
     
-        # asks user for number of runs
+        # Asks user for number of runs
         while number_of_runs <= 0:
             try:
                 number_of_runs = int(input('How many times? '))
             except ValueError:
                 pass
             
-        # run the game a certain times to collect enough data points
+        # Run the game a certain times to collect enough data points
         for i in range(number_of_runs):
             plotting_data = algorithm(RushHour_initial)
             x_list = [data[0] for data in plotting_data]
@@ -153,16 +154,3 @@ def plot(RushHour_initial, algorithm):
         #     \nNumber of runs: {number_of_runs} \
         #     \nAverage runtime: {avg_time} seconds', transform=plt.gca().transAxes)
         plt.show()
-            
-
-        
-
-
-        
-
-    # # INFORMATIE HILLCLIMB
-    # # Variabelen: Aantal slices, aantal improvements per slice,
-    # # In de plot de overgang van lengte van de oplossing.
-    # # 1 oplossing, dan de selectieve eleminatie en dan het slicen.
-    # Elimination is de eliminatie stap 
-    # alle slices hebben nummer van de slice als key en de huidige van de movelijst als value

@@ -56,18 +56,18 @@ def advanced():
 
     # Generates cars and places them on the board
     while total_length < space_to_occupy:
-        # Determine, the length, color and direction of the car
+        # Determine, the length, color and orientation of the car
         possible_places = []
         percentage_length = random.random()
         length = (2 if percentage_length < 0.8 else 3)
         color = colors[counter % len(colors)]
         percentage_dir = random.random()
-        direction = ('V' if percentage_dir < 0.7 else 'H')
+        orientation = ('V' if percentage_dir < 0.7 else 'H')
 
         # Check where a car can possibly stand on the board and add that to a list
         for row in range(boardsize):
             for col in range(boardsize):
-                if direction == 'H':
+                if orientation == 'H':
                     occupied = False
 
                     # Make sure a car can stand on a place, and make sure it can't stand in the row of the red car
@@ -79,7 +79,7 @@ def advanced():
                         except IndexError:
                             occupied = True
                             break
-                elif direction == 'V':
+                elif orientation == 'V':
                     occupied = False
 
                     # Make sure a car can stand on a place, and make sure it can't stand in the row of the red car
@@ -100,12 +100,12 @@ def advanced():
         if len(possible_places):
             position = random.choice(possible_places)
             name = names[counter]
-            cars[name] = Car(name, direction, position[0], position[1], color, length)
+            cars[name] = Car(name, orientation, position[0], position[1], color, length)
             car = cars[name]
             matrix[car.row][car.col] = car
 
-            # After first coördinate of car is placed, extend the car in it's direction
-            if car.direction == 'H':
+            # After first coördinate of car is placed, extend the car in it's orientation
+            if car.orientation == 'H':
                 matrix[car.row][car.col + 1] = car
                 matrix[car.row][car.col + car.length - 1] = car
             else:
@@ -136,7 +136,7 @@ def write_csv(cars):
     for car in cars:
         car_dict = {}
         car_dict['car'] = car.name
-        car_dict['orientation'] = car.direction
+        car_dict['orientation'] = car.orientation
         car_dict['row'] = car.row
         car_dict['col'] = car.col
         car_dict['length'] = car.length
