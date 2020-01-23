@@ -1,7 +1,7 @@
 from math import sqrt
 import copy
-import time
 import sys
+import time
 
 import matplotlib.pyplot as plt
 from  matplotlib.ticker import FuncFormatter
