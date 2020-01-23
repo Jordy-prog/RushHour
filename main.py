@@ -9,27 +9,34 @@ from code.modes import manual, plot
 
 
 if __name__ == '__main__':
-    # checks if a filename is given by the user
+    # Checks if a filename is given by the user
     if len(argv) < 2:
         print('Usage: python main.py "filename"')
         exit()
 
-    # checks if file exists and initiate RushHour game
+    # Checks if file exists and initiate RushHour game
     if not os.path.isfile(f'data/{argv[1]}'):
         print('Could not open file')
         exit()
+
+    # Initializing inputs and algorithms dictionary, and the gameboard
     RushHour = board.RushHour(f'data/{argv[1]}')
-
-    # initializing inputs and algorithms dictionary
-    inputs = {}
+    modes = {'1': 'manual', '2': 'plot', '3': 'single_run'}
     algorithms = {'1': random.random_pure, '2': random.random_constraint, '3': hillclimb.hillclimb, '4': bfs.bfs, '5': bfs_beam.bfs_beam, '6': deepening.deepening, '7': dfs.dfs}
-
-    # asks user for a mode in which program should be run
     mode = None
-    while mode not in ['manual', 'plot', 'test']:
-        mode = input('Select a mode (manual, plot, test): ')
 
-    # asks user which algorithm he would like to use
+    # Asks user for a mode in which program should be run
+    while True:
+        key = input('Select a mode:' 
+                            '\n1. Manual' 
+                            '\n2. Plot'
+                            '\n3. Single run\n')
+        
+        if key in modes:
+            mode = modes[key]
+            break
+
+    # Asks user which algorithm he would like to use
     while not mode == 'manual':
         key = input('Select an algorithm:'
                            '\n1. Purely random'
@@ -43,7 +50,7 @@ if __name__ == '__main__':
             algorithm = algorithms[key]
             break
 
-    # run certain algorithm depending on the selections made
+    # Run certain algorithm depending on the selections made
     if mode == 'manual':
         manual.manual(RushHour)
     elif mode == 'plot':

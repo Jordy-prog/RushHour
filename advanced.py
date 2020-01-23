@@ -1,30 +1,50 @@
-import random
-from code.algorithms.random import random_pure
-from code.classes.car import Car
-from code.classes.board import RushHour
-from sys import argv
-from colored import fg, stylize
 import csv
 import os
+import random
+from sys import argv
+
+from colored import fg, stylize
+
+from code.algorithms.random import random_pure
+from code.classes.board import RushHour
+from code.classes.car import Car
+
 
 def advanced():
-    # RushHour = board.RushHour(f'data/{argv[1]}')
-    # make matrix
-    # make cars dictionary
-    # maybe write to csv
+    '''
+    This function generates random solved boards, and shuffles them with a random algorithm.
+    The board is saved in a csv file and takes 1 argument, being the filename, as input.
+    '''
+    # Check if user writes csv filename
+    if not argv[1][-4:] == '.csv':
+        print('Invalid filename')
+        return
+
+    # Checks if file exists as a failsave
+    if os.path.isfile(f'data/{argv[1]}'):
+        while True:
+            confirm = input('That file already exists, do you want to overwrite it?' )
+
+            if confirm in ['yes', 'y']:
+                break
+            elif confirm in ['no', 'n']:
+                return
+
     names = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AY', 'AZ']
     matrix = []
     cars = {}
     colors = ['blue_1', 'yellow_1', 'green_1', 'dark_green', 'deep_pink_1a', 'dark_orange']
     boardsize = int(argv[1][0] + argv[1][1]) if int(argv[1][0]) == 1 else int(argv[1][0])
 
+    # Setup an empty board
     for i in range(boardsize):
         matrix.append([0] * boardsize)
 
+    # Setup variables that determine how many cars should be placed
     space_to_occupy = (boardsize * boardsize) - ((boardsize * boardsize) // 4) - boardsize
     free_space = boardsize // 3
 
-    # place red car
+    # Place red car
     row_x = (boardsize - 1) // 2
     col_x = random.randrange(0, boardsize - 2)
     cars['X'] = Car('X', 'H', row_x, col_x, 'red_1', 2)
@@ -33,21 +53,24 @@ def advanced():
 
     total_length = 0
     counter = 0 
-    print('1')
 
+    # Generates cars and places them on the board
     while total_length < space_to_occupy:
+        # Determine, the length, color and orientation of the car
         possible_places = []
         percentage_length = random.random()
         length = (2 if percentage_length < 0.8 else 3)
         color = colors[counter % len(colors)]
         percentage_dir = random.random()
-        direction = ('V' if percentage_dir < 0.7 else 'H')
+        orientation = ('V' if percentage_dir < 0.7 else 'H')
 
+        # Check where a car can possibly stand on the board and add that to a list
         for row in range(boardsize):
             for col in range(boardsize):
-                if direction == 'H':
+                if orientation == 'H':
                     occupied = False
 
+                    # Make sure a car can stand on a place, and make sure it can't stand in the row of the red car
                     for i in range(length):
                         try:
                             if matrix[row][col + i] or row == row_x or matrix[row].count(0) - length == 0:
@@ -56,9 +79,10 @@ def advanced():
                         except IndexError:
                             occupied = True
                             break
-                elif direction == 'V':
+                elif orientation == 'V':
                     occupied = False
 
+                    # Make sure a car can stand on a place, and make sure it can't stand in the row of the red car
                     for i in range(length):
                         try:
                             if row - i < 0 or matrix[row - i][col] or row - i == row_x or matrix[row - i].count(0) - 1 == 0:
@@ -68,18 +92,20 @@ def advanced():
                             occupied = True
                             break
 
+                # Append possible place to a list
                 if not occupied:
                     possible_places.append((row, col))
-        print('2')
+
+        # If there are places where the car can stand, pick one randomly and place the car
         if len(possible_places):
             position = random.choice(possible_places)
             name = names[counter]
-            cars[name] = Car(name, direction, position[0], position[1], color, length)
+            cars[name] = Car(name, orientation, position[0], position[1], color, length)
             car = cars[name]
             matrix[car.row][car.col] = car
 
-            # after first coördinate of car is placed, extend the car in it's direction
-            if car.direction == 'H':
+            # After first coördinate of car is placed, extend the car in it's orientation
+            if car.orientation == 'H':
                 matrix[car.row][car.col + 1] = car
                 matrix[car.row][car.col + car.length - 1] = car
             else:
@@ -88,39 +114,36 @@ def advanced():
 
             total_length += length
             counter += 1
-                            
-    print(matrix)
-    print(cars)
 
-    for i, row in enumerate(matrix):
-        for element in row:
-            if not element:
-                print(stylize(u'\u25A0', fg('light_gray')), end=" ")
-            else:
-                print(stylize(f'{element.name}', fg(element.color)), end=" ")
+    # Create solved csv_file for use of random algorithm
+    write_csv(cars.values())
+    Rushhour = RushHour(f'data/{argv[1]}')
 
-            # compensates the view of the board for 12x12 situation
-            if len(cars) > 26 and (not element or len(element.name) < 2):
-                print(" ", end="")
+    # Shuffle the board
+    for i in range(1000):
+        random_pure(Rushhour)
 
-        # draw an arrow at the exit
-        if i == cars['X'].row:
-            print('-->', end="")
-
-        print()
-
+    # Overwrite previous csv file with a shuffled one
+    write_csv(Rushhour.cars.values())
+    
+def write_csv(cars):
+    '''
+    Creates a csv_file of the current board.
+    '''
     car_list = []
 
-    for car in cars.values():
+    # Loop over cars and retrieve useful values
+    for car in cars:
         car_dict = {}
         car_dict['car'] = car.name
-        car_dict['orientation'] = car.direction
+        car_dict['orientation'] = car.orientation
         car_dict['row'] = car.row
         car_dict['col'] = car.col
         car_dict['length'] = car.length
         
         car_list.append(car_dict)
 
+    # Open a file for writing, and write the csv file
     with open(f'data/{argv[1]}', 'w', newline='') as file:
         fieldnames = ['car', 'orientation', 'row', 'col', 'length']
         writer = csv.DictWriter(file, fieldnames=fieldnames)
@@ -128,37 +151,6 @@ def advanced():
 
         for car in car_list:
             writer.writerow(car)
-
-    Rushhour = RushHour(f'data/{argv[1]}')
-
-    for i in range(200):
-        random_pure(Rushhour)
-
-    car_list_new = []
-
-    for car in Rushhour.cars.values():
-        car_dict = {}
-        car_dict['car'] = car.name
-        car_dict['orientation'] = car.direction
-        car_dict['row'] = car.row
-        car_dict['col'] = car.col
-        car_dict['length'] = car.length
-        
-        car_list_new.append(car_dict)
-
-    with open(f'data/{argv[1]}', 'w', newline='') as file:
-        fieldnames = ['car', 'orientation', 'row', 'col', 'length']
-        writer = csv.DictWriter(file, fieldnames=fieldnames)
-        writer.writeheader()
-
-        for car in car_list_new:
-            writer.writerow(car)
-
-    print()
-
-    Rushhour.printboard()
-    
-
 
 
 if __name__ == '__main__':
