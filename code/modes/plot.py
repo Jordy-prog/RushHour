@@ -6,7 +6,6 @@ import time
 import matplotlib.pyplot as plt
 
 from ..algorithms import random, hillclimb, bfs, dfs
-from ..classes import board
 
 
 def plot(RushHour_initial, algorithm):

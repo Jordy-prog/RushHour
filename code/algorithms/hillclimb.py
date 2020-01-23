@@ -6,12 +6,20 @@ from .random import random_constraint
 
 
 def hillclimb(RushHour):
-    '''
-    Algorithm that generates a random solution and tries to improve it.
-    This is done by continously taking sequences out of the solution and try to shorten them, using random moves.
-    Also, double boardstates and the moves in between are being removed at the end by selective elimination.
-    '''
-    # Initialize paramaters according to upcoming while condition
+    """Algorithm that generates a random solution and tries to improve it.
+    This is done by continously taking sequences out of the solution and trying to shorten them, 
+        using random moves.
+    Also, double boardstates and the moves in between are being removed at the end by selective 
+        elimination.
+    
+    Parameters:
+        RushHour (object): The initial RushHour board object.
+
+    Returns:
+        plotting_data (list): A list with an information dictionary containing (meta) data and 
+            a dictionary containing the steps and slices.
+    """
+    # Initialize parameters according to upcoming while condition
     slices, max_slice_size, improvements, runtimes = 0, 21, 0, 0
     
     # Requests user input for algorithm parameters
@@ -24,12 +32,15 @@ def hillclimb(RushHour):
         except ValueError:
             pass
 
+    # Dictionary with information for the plot.py mode
     info_dict = {'slices': slices, 'slice_size': max_slice_size, 'improvements': improvements, 'runtimes': runtimes}
     plotting_data = [info_dict]
+
     elapsed_time_list = []
 
     # Runs the hillclimber a certain amount of times
     for i in range(runtimes):
+
         # Time the execution of each run
         start_time = time.time()
 
@@ -102,9 +113,10 @@ def hillclimb(RushHour):
             elapsed_time = (time.time() - start_time)
             elapsed_time_list.append(elapsed_time) 
 
+        # Initialize total_time to store the total run time
         total_time = 0
         
-        # Determine average runtime
+        # Determine total and average time, add it to the info_dict
         for timed_run in elapsed_time_list:
             total_time += timed_run
         
@@ -116,6 +128,7 @@ def hillclimb(RushHour):
         
         # Selective elimination of double boardstates
         while i < len(boardstates):
+
             # If boardstate is found multiple times in moveset, delete everything in between
             if boardstates[i][2] in boardstates_indexes:
                 first = boardstates_indexes[boardstates[i][2]]
@@ -127,7 +140,6 @@ def hillclimb(RushHour):
                     del boardstates_indexes[key]
             else:
                 boardstates_indexes[boardstates[i][2]] = boardstates.index(boardstates[i])
-
             i += 1
 
         plot_data['elimination'] = len(boardstates)
