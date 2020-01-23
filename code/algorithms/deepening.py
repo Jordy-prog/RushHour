@@ -56,6 +56,8 @@ def deepening(RushHour):
 
                         parent.move(car, - (distance - 1))
                         parent.steps.pop()
+
         depth += 1
         print(depth)
+        
 

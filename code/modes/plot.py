@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from  matplotlib.ticker import FuncFormatter
 
 from ..classes import board
-from ..algorithms import random, hillclimb, bfs
+from ..algorithms import random, hillclimb, bfs, dfs
 
 
 def plot(RushHour_initial, algorithm):
@@ -77,9 +77,9 @@ def plot(RushHour_initial, algorithm):
         # specify properties of bar plot
         plt.bar(list(steps_dict.keys()), steps_dict.values(), color='g')
         plt.xticks(rotation=45)
-        plt.xlabel ('Category')
-        plt.ylabel ('Frequency')
-        plt.title ('Frequency of moved cars')
+        plt.xlabel('Category')
+        plt.ylabel('Frequency')
+        plt.title('Frequency of moved cars')
         plt.text(0.65, 0.9, f'Average steps: {avg_steps} \
             \nNumber of runs: {number_of_runs} \
             \nAverage runtime: {avg_time} seconds', transform=plt.gca().transAxes)
@@ -118,7 +118,7 @@ def plot(RushHour_initial, algorithm):
             
         plt.xticks(rotation=90)
         plt.locator_params(integer=True)
-        plt.title ('Hillclimbing with selective elimination')
+        plt.title('Hillclimbing with selective elimination')
         plt.ylabel('Steps to solve game')
         plt.xlabel('# of slices')
         plt.text(0.75, 0.75, f'Slices: {slices_amount} \
@@ -128,9 +128,31 @@ def plot(RushHour_initial, algorithm):
             \nAverage decline: {avg_decline}% \
             \nAverage runtime: {avg_runtime} seconds', transform=plt.gca().transAxes)
         plt.show()
+    elif algorithm == dfs.dfs:
+        number_of_runs = 0
+    
+        # asks user for number of runs
+        while number_of_runs <= 0:
+            try:
+                number_of_runs = int(input('How many times? '))
+            except ValueError:
+                pass
+            
+        # run the game a certain times to collect enough data points
+        for i in range(number_of_runs):
+            plotting_data = algorithm(RushHour_initial)
+            x_list = [data[0] for data in plotting_data]
+            y_list = [data[1] for data in plotting_data]
 
-
-
+            plt.plot(x_list, y_list, color='g')
+        plt.xticks(rotation=45)
+        plt.xlabel('Category')
+        plt.ylabel('Frequency')
+        plt.title('Frequency of moved cars')
+        # plt.text(0.65, 0.9, f'Average steps: {avg_steps} \
+        #     \nNumber of runs: {number_of_runs} \
+        #     \nAverage runtime: {avg_time} seconds', transform=plt.gca().transAxes)
+        plt.show()
             
 
         
