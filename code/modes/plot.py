@@ -1,25 +1,28 @@
 from math import sqrt
 import copy
-import sys
+from sys import argv
 import time
 
 import matplotlib.pyplot as plt
 
-from ..algorithms import random, hillclimb, bfs, dfs
-from ..classes import board
+from ..algorithms import random, hillclimb, dfs
 
 
 def plot(RushHour_initial, algorithm):
-    """This function runs a certain algorithm a number of times and then plots the data in a MatPlotLib graph.
+    '''
+    This function runs a certain algorithm a number of times and then plots the data in a MatPlotLib graph.
     
     Parameters:
         RushHour_initial (object): The initial RushHour board object.
         algorithm (function): The algorithm variation to use and visualize with MatPlotLib.
-    """
+
+    Output:
+        Generates graph.
+    '''
     # Initialize variables
     elapsed_time_list = []
     stepdata = []
-    board = sys.argv[1]
+    board = argv[1]
 
     # Differentiate between algorithms
     if algorithm in [random.random_pure, random.random_constraint]:
@@ -34,7 +37,6 @@ def plot(RushHour_initial, algorithm):
             
         # Run the game a certain times to collect enough data points
         for i in range(number_of_runs):
-
             # Time the execution of each run
             start_time = time.time()
 
@@ -64,14 +66,14 @@ def plot(RushHour_initial, algorithm):
         sorted_steps = sorted(stepdata)
         steps_dict = {}
 
-        # Determine the width of each bracket in the bar plot
+        # Determine the range of steps per bar in the plot
         range_list = max(sorted_steps) - min(sorted_steps)
         bracket_width = int(range_list / sqrt(len(sorted_steps)))
 
         # Categorize the amount of steps with a dictionary structure
         for step in sorted_steps:
             dict_bracket = int(step / bracket_width)
-            dict_bracket = f'{min(sorted_steps) + dict_bracket * bracket_width}' + " to " + f'{min(sorted_steps) + dict_bracket * bracket_width + bracket_width}'
+            dict_bracket = f'{min(sorted_steps) + dict_bracket * bracket_width}' + ' to ' + f'{min(sorted_steps) + dict_bracket * bracket_width + bracket_width}'
             
             # Add or set the amount in the steps category
             if dict_bracket in steps_dict:
@@ -90,9 +92,7 @@ def plot(RushHour_initial, algorithm):
             \nNumber of runs: {number_of_runs} \
             \nAverage runtime: {avg_time} seconds', transform=plt.gca().transAxes)
         plt.show()
-
     elif algorithm == hillclimb.hillclimb:
-
         # Runs algorithm and retrieves plotdata
         plotting_data = algorithm(RushHour_initial)
 
@@ -106,7 +106,6 @@ def plot(RushHour_initial, algorithm):
         slice_size = info_dict['slice_size']
         avg_runtime = info_dict['avg_runtime']
 
-        # Initialize variable
         decline_sum = 0
 
         # Calculate the aggregated decline percentage
@@ -115,10 +114,10 @@ def plot(RushHour_initial, algorithm):
         
         avg_decline = round(decline_sum / runtime_amount, 2)
 
-        # Initialize variable with a large number
+        # Initialize variable with a large number, to determine lowest value in graph
         smallest_endpoint = 9999
 
-        # For loop to plot each run
+        # Plot each run in graph
         for plot_data in plotting_data:
             stepdata = []
             del plot_data['initial']
@@ -151,7 +150,6 @@ def plot(RushHour_initial, algorithm):
             \nAverage decline: {avg_decline}% \
             \nAverage runtime: {avg_runtime} seconds', transform=plt.gca().transAxes)
         plt.show()
-
     elif algorithm == dfs.dfs:
         number_of_runs = 0
     
@@ -166,11 +164,11 @@ def plot(RushHour_initial, algorithm):
         for i in range(number_of_runs):
             plotting_data = algorithm(RushHour_initial)
 
-            # extract tuple data with list enumeration
+            # Extract tuple data with list enumeration
             x_list = [data[0] for data in plotting_data]
             y_list = [data[1] for data in plotting_data]
             
-            # plot each run
+            # Plot each run
             plt.plot(x_list, y_list, color='g')
 
         # Specify properties of MatPlotLib bar plot
