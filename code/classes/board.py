@@ -1,7 +1,7 @@
 import csv
 import os
 import re
-from sys import exit, argv
+from sys import argv, exit
 
 from colored import fg, stylize
 
@@ -10,9 +10,11 @@ from .car import Car
 
 class RushHour():
     def __init__(self, board_path):
-        '''
-        Initializing variables.
-        '''
+        """__init__ function to initialize variables.
+        
+        Parameters:
+            board_path (string): File path to the desired board.
+        """
         self.boardsize = int(argv[1][0] + argv[1][1]) if int(argv[1][0]) == 1 else int(argv[1][0]) 
         self.matrix = []
         self.cars = {}
@@ -21,9 +23,11 @@ class RushHour():
         self.steps = []
         
     def load(self, board_path):
-        '''
-        Load cars from file and initialize matrix.
-        '''            
+        """Load cars from file and initialize the matrix.
+        
+        Parameters:
+            board_path (string): File path to the desired board.
+        """      
         # Try to open the given file and start reading
         try:
             with open(board_path, 'r') as in_file:
@@ -64,9 +68,7 @@ class RushHour():
                 exit()
 
     def printboard(self):
-        '''
-        Prints the current gameboard.
-        '''
+        """Prints the current gameboard."""
         # Printing of the current gameboard
         for i, row in enumerate(self.matrix):
             for element in row:
@@ -86,11 +88,18 @@ class RushHour():
             print()
 
     def move(self, car, distance):
-        '''
-        Attempts to move the car.
-        Uses two for loops to delete and rebuild the car in the matrix, 
-        one loop would cause problems with small distances
-        '''
+        """Attempts to move the car.
+        Uses two for loops to delete and rebuild the car in the matrix;
+            one loop would cause problems with small distances
+        
+        Parameters:
+            car (object): The car object to move.
+            distance (int): The distance the should move.
+        
+        Returns:
+            False (boolean): The car isn't able to move.
+            True (boolean): The car is able to move.
+        """
         free_space = car.look_around(self)
 
         # Checks if there is enough space to move the car
@@ -120,12 +129,15 @@ class RushHour():
         return True
     
     def get_children(self):
-        '''
-        ASDF
-        '''
+        """...
+        
+        Returns:
+            children, winning_child (): 
+        """
         # Loop over the cars to generate its children
         children = []
         winning_child = None
+        
         for car in self.cars.values():
             # Determine free space in front and behind the car
             free_space = car.look_around(self)
@@ -161,12 +173,16 @@ class RushHour():
 
                 self.move(car, - (distance - 1))
                 self.steps.pop()
+        
         return children, winning_child
 
     def game_won(self):
-        '''
-        Returns True if the game is won, else false.
-        '''
+        """Function to check if the current game has been won.
+
+        Returns:
+            True (boolean): The game has been won.
+            False (boolean): The game is not won yet.
+        """
         # Checks if the win conditions of the game are met
         if self.matrix[self.cars['X'].row][-1] == self.cars['X']:
             # os.system('cls')

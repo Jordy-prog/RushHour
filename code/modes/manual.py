@@ -3,9 +3,11 @@ from time import sleep
 
 
 def manual(RushHour):
-    '''
-    Function that implements a manual gameplay of Rushhour.
-    '''
+    """Implements a manual gameplay variation of the Rushhour game.
+
+    Parameters:
+        RushHour (object): The Rush Hour board object.
+    """
     # Plays the game until it is won
     while not RushHour.game_won():
         # Clears terminal and prints useful information

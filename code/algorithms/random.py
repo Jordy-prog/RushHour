@@ -3,6 +3,13 @@ import random
 
 
 def manager(RushHour, algorithm):
+    """Function to manage user interaction. Responsible for printing results and printing
+        the game board.
+    
+    Parameters:
+        RushHour (object): The initial RushHour board object.
+        algorithm (function): The algorithm variation to run.
+    """
     to_print = None
 
     # Asks user if he wants results to be printed
@@ -19,10 +26,12 @@ def manager(RushHour, algorithm):
         algorithm(RushHour)
 
 def random_pure(RushHour):
-    '''
-    Implementation of the random algorithm.
+    """Implementation of the pure random algorithm.
     Picks a random car until it finds a car that can move, then moves it.
-    '''
+    
+    Parameters:
+        RushHour (object): The initial RushHour board object.
+    """
     # Pick random car, if it can move, move it
     while True:
         car = random.choice(list(RushHour.cars.values()))
@@ -35,13 +44,18 @@ def random_pure(RushHour):
     RushHour.move(car, distance)
 
 def random_constraint(RushHour):
-    '''
-    Implements the random algorithm.
-
+    """Implements the semi-random contraint algorithm.
     Adds an extra constraint to the 'random_pure' function:
-    Makes sure a car can't undo its last move, 
-    this is done to prevent the algorithm from just moving a car back and forth.
-    '''
+        Makes sure a car can't undo its last move, 
+            this is done to prevent the algorithm from just moving a car back and forth.
+    
+    Parameters:
+        RushHour (object): The initial RushHour board object.
+    
+    Returns:
+        (car.name, distance) (tuple): A tuple containing the unique car letter 
+            and the amount of spaces it has been moved.
+    """
     car_counter = 0
 
     # Picks a random car until it finds one that can move

@@ -1,29 +1,42 @@
 class Car():
-    '''
-    Object that stores parameters for a car.
-    '''
     def __init__(self, name, orientation, row, col, color, length):
-        '''
-        Initializes attributes for car.
-        '''
+        """__init__ function to initialize variables.
+        
+        Parameters:
+            name (string): The name of the car.
+            orientation (string): The orientation of the car.
+            row (integer): The row of the car on the board.
+            col (integer): The column of the car on the board.
+            color (string): The colour of the car.
+            length (integer): The length of the car.
+        """
         self.name = name
-        self.color = color
-        self.length = length
         self.orientation = orientation
         self.row = row
         self.col = col
+        self.color = color
+        self.length = length
 
     def set_position(self, row, col):
-        '''
-        Position setter method.
-        '''
+        """Position setter method for row and column of the car.
+
+        Parameters:
+            row (integer): The row of the car on the board.
+            col (integer): The column of the car on the board. 
+        """
         self.row = row
         self.col = col
 
     def look_around(self, RushHour):
-        '''
-        Let's a car determine the amount of free space in front of the car and behind the car.
-        '''
+        """Determines the amount of free space in front and behind the car.
+
+        Parameters:
+            RushHour (object): The RushHour board object.
+
+        Returns: 
+            {'rear': free_rear, 'front': free_front} (dictionary): A dictionary containing 
+                the free space in front and behind the car.
+        """
         free_rear, free_front = 0, 0
 
         # Start i, j at 1 to prevent a car from selecting itself
@@ -50,7 +63,10 @@ class Car():
         return {'rear': free_rear, 'front': free_front}
 
     def __repr__(self):
-        '''
-        Returns name of car.
-        '''
+        """Printable representation of the name of the car.
+
+        Returns:
+            f"{self.name}" (string): Formatted string of the name of the car.
+        """
+        
         return f"{self.name}"
