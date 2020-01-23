@@ -132,7 +132,7 @@ class RushHour():
 
             # Generate children for moving this car forward
             for distance in range(free_space['front']):
-                # Move the car and register child
+                # Move the car
                 self.move(car, distance + 1)
 
                 # Register child if it results in a win

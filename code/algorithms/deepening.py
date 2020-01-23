@@ -18,44 +18,18 @@ def deepening(RushHour):
             for move in parent_moves:
                 parent.move(parent.cars[move[0]], move[1])
     
+            # Continue if this parent is still within the allowed depth
             if len(parent.steps) < depth:
-                for car in parent.cars.values():
-                    free_space = car.look_around(parent)
-                    for distance in range(free_space['front']):
-                        # Create a copy for the child and move the car
-                        parent.move(car, distance + 1)
-                        
-                        # Return True if this child results in a win
-                        if parent.game_won():
-                            return True
-                        last_move = parent.steps.pop() 
+                # Retrieve children from this parent and return if game is over
+                children, winning_child = parent.get_children()
+                if winning_child:
+                    return True
 
-                        # Only add unknown boards to the archive and to the queue (optimal pruning)
-                        board = re.sub(', ', '', str(parent.matrix))
-                        if board not in archive or len(parent.steps) < archive[board]:
-                            archive[board] = len(parent.steps)
-                            move_list = parent_moves + [last_move]
-                            stack.append(move_list)
-
-                        # Undo move to bring parent back to original state
-                        parent.move(car, - (distance + 1))
-                        parent.steps.pop()
-
-                    for distance in range(0, free_space['rear'], -1):
-                        parent.move(car, (distance - 1))
-
-                        if parent.game_won():
-                            return True
-                        last_move = parent.steps.pop()
-
-                        board = re.sub(', ', '', str(parent.matrix))
-                        if board not in archive or len(parent.steps) < archive[board]:
-                            archive[board] = len(parent.steps)
-                            move_list = parent_moves + [last_move]
-                            stack.append(move_list)
-
-                        parent.move(car, - (distance - 1))
-                        parent.steps.pop()
+                # Else append the unknown or better children to the stack
+                for child in children:
+                    if not child["matrix"] in archive or len(child["moves"]) < archive[child["matrix"]]:
+                        archive[child["matrix"]] = len(child["moves"])
+                        stack.append(child["moves"])
 
         depth += 1
         print(depth)
