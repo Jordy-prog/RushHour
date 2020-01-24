@@ -143,7 +143,7 @@ class RushHour():
             # Determine free space in front and behind the car
             free_space = car.look_around(self)
 
-            # # Generate children for moving this car
+            # Generate children for moving this car
             for free_space in range(free_space["rear"], free_space["front"]):
                 # Modify the distance for positive movement and move car
                 distance = free_space if free_space < 0 else free_space + 1

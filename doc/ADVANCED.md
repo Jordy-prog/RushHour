@@ -23,6 +23,15 @@ Hoeveelheid auto’s en grootte van het bord hebben op zichzelf niet een grote i
 
 Voor de moeilijkheid van algoritmes ligt de oorzaak echter net wat anders. Daar zien we dat ook al is een bord in 3 stappen op te lossen dat veel algoritmes er nog steeds erg lang over doen. Dit komt door de bewegingsvrijheid van alle auto’s. Hoe verder elke auto op elk moment kan bewegen, en hoe meer auto’s dat kunnen, hoe meer kinderen er zijn per bord-configuratie. Dit loopt flink snel op, en zo kan het dus best even duren voordat bijvoorbeeld breadth-first een bord van 3 stappen heeft opgelost.
 
-![Figure 1 6x6]()
-Fig.1 6x6 obstacle chain			  Fig. 2 9x9 obstacle chain
+---
+<div>
+    <figure style="display: inline-block;">
+        <img src="rushhour.png" width=300 height=300 alt="Figure 1 6x6">
+        <figcaption>Fig.1 6x6 obstacle chain</figcaption>
+    </figure>
+    <figure style="display: inline-block;">
+        <img src="rushhour2.png" width=300 height=300 alt="Figure 2 9x9">
+        <figcaption>Fig. 2 9x9 obstacle chain</figcaption>
+    </figure>
+</div>
 
