@@ -9,10 +9,12 @@ from code.classes.car import Car
 
 
 def advanced():
-    '''
-    This function generates random solved boards, and shuffles them with a random algorithm.
-    The board is saved in a csv file and takes 1 argument, being the filename, as input.
-    '''
+    """This function generates random solved boards, and shuffles them with a random algorithm.
+    The board is saved in a csv file and takes 1 argument (the filename) as input.
+
+    Returns:
+        False (boolean): ...
+    """
     # Check if user writes csv filename
     if not argv[1][-4:] == '.csv':
         print('Invalid filename')
@@ -40,7 +42,6 @@ def advanced():
 
     # Setup variables that determine how many cars should be placed
     space_to_occupy = (boardsize * boardsize) - ((boardsize * boardsize) // 4) - boardsize
-    free_space = boardsize // 3
 
     # Place red car
     row_x = (boardsize - 1) // 2
@@ -125,9 +126,11 @@ def advanced():
     write_csv(Rushhour.cars.values())
     
 def write_csv(cars):
-    '''
-    Creates a csv_file of the current board.
-    '''
+    """Creates a csv_file of the current board.
+
+    Parameters:
+        cars (dictionary values): A list of car objects.
+    """
     car_list = []
 
     # Loop over cars and retrieve useful values

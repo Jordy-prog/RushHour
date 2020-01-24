@@ -1,5 +1,5 @@
 import os
-from sys import exit, argv
+from sys import argv, exit
 
 from code.algorithms import bfs, hillclimb, random, deepening, bfs_beam, dfs
 from code.classes import board
