@@ -3,6 +3,14 @@ import re
 
 
 def bfs(RushHour):
+    """An implementation of the Bread First algorithm.
+        
+    Parameters:
+        RushHour (object): The Rush Hour board object.
+
+    Returns:
+        True (boolean): The game has been won.
+    """
     # Initialize archive and queue with the initial Rush hour in them
     archive = set()
     archive.add(re.sub(', ', '', str(RushHour.matrix)))
@@ -35,7 +43,3 @@ def bfs(RushHour):
         if len(parent.steps) > current_depth:
             current_depth += 1
             print(current_depth)
-            
-        
-        
-            

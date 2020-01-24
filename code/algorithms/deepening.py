@@ -2,6 +2,14 @@ import copy
 import re
 
 def deepening(RushHour):
+    """Implementation of the Iterative Deepening algorithm.
+        
+    Parameters:
+        RushHour (object): The Rush Hour board object.
+
+    Returns:
+        True (boolean): The game has been won.
+    """
     # Initialize depth and start algorithm
     depth = 0
 
@@ -36,5 +44,3 @@ def deepening(RushHour):
 
         depth += 1
         print(depth)
-        
-

@@ -129,11 +129,7 @@ class RushHour():
         return True
     
     def get_children(self):
-<<<<<<< HEAD
-        """
-=======
         """Determines which boards can be derived from the current board.
->>>>>>> afa70eb22dc2068251f2b0dadf3fda2038d93f5e
         
         Returns:
             children (list): List of dictionaries containing the matrix and move list of a child.

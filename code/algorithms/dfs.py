@@ -3,6 +3,14 @@ import re
 
 
 def dfs(RushHour):
+    """Implementation of the Depth First algorithm.
+        
+    Parameters:
+        RushHour (object): The Rush Hour board object.
+
+    Returns:
+        None (NoneType): Game quits if best solution was found.
+    """
     # Initial search depth
     initial_depth = 40
 
@@ -43,7 +51,3 @@ def dfs(RushHour):
             return
 
         initial_depth += 10
- 
-        
-        
-            

@@ -1,4 +1,14 @@
 class Car():
+    """A class which stores information of a car object, sets it position on the game board
+        and looks around to see if the car can move.
+
+    The contained methods are as follows:
+        __init__: Intialize car variables.
+        set_position: Setter method to set the position (col, row) for the car.
+        look_around: Determines the free space in front and behind the car.
+        __repr__: Printable representation of the car name.
+    """
+    
     def __init__(self, name, orientation, row, col, color, length):
         """__init__ function to initialize variables.
         
