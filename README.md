@@ -1,6 +1,6 @@
 # Programming theory: Rush Hour
 
-This project aims to solve the Rush Hour game/problem with various algorithms.
+Rush Hour is a sliding puzzle with a clear objective: move your red car to the exit of a 6x6 grid. However, other cars and trucks block the way. They can only be moved in their starting direction, so they cannot turn. The aim of this project is to solve Rush Hour with various algorithms to find the fastest way to leave the grid lock. Included in the project are three original 6x6 games, as well as three 9x9 and one 12x12 game.
 
 ## Installation
 
@@ -9,12 +9,25 @@ The required Python version for this project is 3.7 or higher.
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to be able to install the Python packages.
 
 ```bash
-pip install colored
+pip install -r requirements.txt
+```
+
+## Usage
+
+The program can be executed by entering the following command, in which the filename argument should correspond with one of the files in the "data" folder, e.g. 6x6_1.csv
+
+```bash
+python main.py <filename>
 ```
 
 ## Structure
 
-All Python files (.py) are in the folder Code. Within the Code folder, there is a folder called 'gameboards'; this folder contains the various gameboards in .csv files.
+The project is well structured, with all common files stored in the following folders:
+* /code: contains all Python files (.py)
+    * /code/algorithms contains the code for executing the six algorithms, and a README.md for explaining
+    * /code/classes has the code for the two classes
+    * /code/modes has the code for the two special game modes: manual and plot
+* /data: contains the various gameboards in .csv files
 
 ## Authors
 
