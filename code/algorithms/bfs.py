@@ -1,11 +1,11 @@
 import copy
 import re
-import time
 
 
 def bfs(RushHour):
     # Initialize archive and queue with the initial Rush hour in them
-    archive = set(re.sub(', ', '', str(RushHour.matrix)))
+    archive = set()
+    archive.add(re.sub(', ', '', str(RushHour.matrix)))
     queue = [RushHour.steps]
 
     # Work through the queue and check all boards for solution
