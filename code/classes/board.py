@@ -129,7 +129,7 @@ class RushHour():
         return True
     
     def get_children(self):
-        """...
+        """
         
         Returns:
             children, winning_child (): 

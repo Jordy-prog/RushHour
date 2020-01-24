@@ -10,6 +10,7 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to be able to inst
 
 ```bash
 pip install colored
+pip install matplotlib
 ```
 
 ## Structure
