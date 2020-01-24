@@ -98,7 +98,7 @@ class RushHour():
         
         Returns:
             False (boolean): The car isn't able to move.
-            True (boolean): The car is able to move.
+            True (boolean): The car was successfully moved
         """
         free_space = car.look_around(self)
 
