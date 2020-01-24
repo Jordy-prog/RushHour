@@ -4,6 +4,7 @@ import re
 def deepening(RushHour):
     # Initialize depth and start algorithm
     depth = 0
+
     while True:
         # Initialize archive and stack with the initial Rush hour in them
         stack = [RushHour.steps]
@@ -15,6 +16,7 @@ def deepening(RushHour):
             # Take a parent from the top of the stack
             parent_moves = stack.pop()
             parent = copy.deepcopy(RushHour)
+
             for move in parent_moves:
                 parent.move(parent.cars[move[0]], move[1])
     
@@ -22,6 +24,7 @@ def deepening(RushHour):
             if len(parent.steps) < depth:
                 # Retrieve children from this parent and return if game is over
                 children, winning_child = parent.get_children()
+                
                 if winning_child:
                     return True
 
