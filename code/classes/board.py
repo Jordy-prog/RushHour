@@ -1,7 +1,8 @@
+import copy
 import csv
 import os
 import re
-from sys import argv, exit
+from sys import argv
 
 from colored import fg, stylize
 
@@ -89,12 +90,11 @@ class RushHour():
 
     def move(self, car, distance):
         """Attempts to move the car.
-        Uses two for loops to delete and rebuild the car in the matrix;
-            one loop would cause problems with small distances
+        Uses two for loops to delete and rebuild the car in the matrix.
         
         Parameters:
             car (object): The car object to move.
-            distance (int): The distance the should move.
+            distance (int): The distance the car should move.
         
         Returns:
             False (boolean): The car isn't able to move.
@@ -129,15 +129,20 @@ class RushHour():
         return True
     
     def get_children(self):
+<<<<<<< HEAD
         """
+=======
+        """Determines which boards can be derived from the current board.
+>>>>>>> afa70eb22dc2068251f2b0dadf3fda2038d93f5e
         
         Returns:
-            children, winning_child (): 
+            children (list): List of dictionaries containing the matrix and move list of a child.
+            winning_child (list): move list of the winning child if present
         """
-        # Loop over the cars to generate its children
         children = []
-        winning_child = None
+        winning_child = []
         
+        # Loop over the cars to generate the children
         for car in self.cars.values():
             # Determine free space in front and behind the car
             free_space = car.look_around(self)
@@ -150,7 +155,7 @@ class RushHour():
                 
                 # Register child if it results in a win
                 if self.game_won():
-                    winning_child = True
+                    winning_child = copy.deepcopy(self.steps)
                 
                 # Create the dictionary with data of this child and add to list
                 move = [self.steps.pop()]
@@ -160,6 +165,7 @@ class RushHour():
                 # Undo move to bring parent back to original state
                 self.move(car, - distance)
                 self.steps.pop()
+
         return children, winning_child
 
     def game_won(self):
@@ -171,10 +177,7 @@ class RushHour():
         """
         # Checks if the win conditions of the game are met
         if self.matrix[self.cars['X'].row][-1] == self.cars['X']:
-            os.system('cls')
-            self.printboard()
             print('Congratulations! The game was finished in:', len(self.steps), 'steps.')
-            print(self.steps)
             return True
 
         return False
