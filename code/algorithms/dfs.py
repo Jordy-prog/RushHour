@@ -19,7 +19,7 @@ def dfs(RushHour):
     # Initialize archive and queue with the initial Rush hour in them
    
     #
-    initial_depth = 23
+    initial_depth = 40
     while True:
         archive = {}
         archive[re.sub(', ', '', str(RushHour.matrix))] = len(RushHour.steps)
