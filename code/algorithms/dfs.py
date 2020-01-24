@@ -23,61 +23,30 @@ def dfs(RushHour):
     while True:
         archive = {}
         archive[re.sub(', ', '', str(RushHour.matrix))] = len(RushHour.steps)
-        queue = [RushHour.steps]
+        stack = [RushHour.steps]
         depth = initial_depth
         print(depth)
 
         # Work through the queue and check all boards for solution
-        while len(queue):
+        while len(stack):
             # Take a parent from the back of the queue
-            parent_moves = queue.pop()
+            parent_moves = stack.pop()
             parent = copy.deepcopy(RushHour)
             for move in parent_moves:
                 parent.move(parent.cars[move[0]], move[1])
 
             if len(parent.steps) < depth - 1:
-                # Loop over the parent's cars to generate its children
-                for car in parent.cars.values():
-                    # Determine free space in front and behind the car
-                    free_space = car.look_around(parent)
+                 # Retrieve children from parent and set new depth limit if game is won
+                children, winning_child = parent.get_children()
+                if winning_child:
+                    depth = len(parent.steps) + 1
 
-                    # Generate children for moving this car forward
-                    for distance in range(free_space['front']):
-                        # Create a copy for the child and move the car
-                        parent.move(car, distance + 1)
-                        
-                        # Return True if this child results in a win
-                        if parent.game_won():
-                            depth = len(parent.steps)
-                        last_move = parent.steps.pop()
-
-                        # Only add unknown boards to the archive and to the queue (optimal pruning)
-                        board = re.sub(', ', '', str(parent.matrix))
-                        if board not in archive or len(parent.steps) < archive[board]:
-                            archive[board] = len(parent.steps)
-                            move_list = parent_moves + [last_move]
-                            queue.append(move_list)
-
-                        # Undo move to bring parent back to original state
-                        parent.move(car, - (distance + 1))
-                        parent.steps.pop()
-                    
-                    # Generate all children for moving this car backward
-                    for distance in range(0, free_space['rear'], -1):
-                        parent.move(car, (distance - 1))
-
-                        if parent.game_won():
-                            depth = len(parent.steps)
-                        last_move = parent.steps.pop()
-
-                        board = re.sub(', ', '', str(parent.matrix))
-                        if board not in archive or len(parent.steps) < archive[board]:
-                            archive[board] = len(parent.steps)
-                            move_list = parent_moves + [last_move]
-                            queue.append(move_list)
-
-                        parent.move(car, - (distance - 1))
-                        parent.steps.pop()
+                # Else append the unknown or better children to the stack
+                for child in children:
+                    if not child["matrix"] in archive or len(child["moves"]) < archive[child["matrix"]]:
+                        archive[child["matrix"]] = len(child["moves"])
+                        stack.append(child["moves"])
+  
         if depth < initial_depth:
             print(depth)
             return
