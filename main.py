@@ -1,11 +1,7 @@
 import os
 from sys import argv
 
-<<<<<<< HEAD
-from code.algorithms import bfs, hillclimb_advanced, random, deepening, bfs_beam, dfs
-=======
 from code.algorithms import bfs, hillclimb_new, random, deepening, bfs_beam, dfs
->>>>>>> bc6c7a61e4d4e4d866f8ebd2d4933587faa09e27
 from code.classes import board
 from code.modes import manual, plot
 
