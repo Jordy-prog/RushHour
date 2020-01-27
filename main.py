@@ -20,11 +20,7 @@ if __name__ == '__main__':
     # Initializing inputs and algorithms dictionary, and the gameboard
     RushHour = board.RushHour(f'data/{argv[1]}')
     modes = {'1': 'manual', '2': 'plot', '3': 'single_run'}
-<<<<<<< HEAD
-    algorithms = {'1': random.random_pure, '2': random.random_constraint, '3': hillclimb_advanced.hillclimb, '4': bfs.bfs, '5': bfs_beam.bfs_beam, '6': deepening.deepening, '7': dfs.dfs}
-=======
     algorithms = {'1': random.random_pure, '2': random.random_constraint, '3': hillclimb_new.hillclimb, '4': bfs.bfs, '5': bfs_beam.bfs_beam, '6': deepening.deepening, '7': dfs.dfs}
->>>>>>> bc6c7a61e4d4e4d866f8ebd2d4933587faa09e27
     mode = None
 
     # Asks user for a mode in which program should be run
