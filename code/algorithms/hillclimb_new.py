@@ -48,7 +48,9 @@ def hillclimb(RushHour):
         # Do a random run and save the moves that were done
         while not RushHour_initial.game_won():
             move = random_constraint(RushHour_initial)
-            movelist.append({'matrix': str(RushHour_initial.matrix), 'car': move[0], 'distance': move[1]})
+            movelist.append({'matrix': str(RushHour_initial.matrix), 
+                            'car': move[0], 
+                            'distance': move[1]})
 
         plot_data['initial'] = len(movelist)
         print('length:', len(movelist))
@@ -73,20 +75,25 @@ def hillclimb(RushHour):
             # Improve the sequence using random moves
             while len(movelist_new) < len(movelist):
                 move = random_constraint(RushHour_new)
-                movelist_new.append({'matrix': str(RushHour_new.matrix), 'car': move[0], 'distance': move[1]})
+                movelist_new.append({'matrix': str(RushHour_new.matrix), 
+                                    'car': move[0], 
+                                    'distance': move[1]})
                 last_board = movelist_new[-1]['matrix']
 
                 # If sequence is improved, replace it with old sequence in original solution
-                if last_board in boardstates_goal and len(movelist_new) < len(movelist[1:movelist.index(boardstates_goal[last_board])]):
-                    end = movelist.index(boardstates_goal[last_board])
-                    del movelist[1:end + 1]
-                    print('Improved')
-                    
-                    for i, move in enumerate(movelist_new):
-                        movelist.insert(1 + i, move)
+                if last_board in boardstates_goal:
+                    original_last_move = movelist.index(boardstates_goal[last_board])
 
-                    print('new_length:', len(movelist))
-                    break
+                    if len(movelist_new) < len(movelist[1:original_last_move]):
+                        end = original_last_move
+                        del movelist[1:end + 1]
+                        print('Improved')
+                        
+                        for i, move in enumerate(movelist_new):
+                            movelist.insert(1 + i, move)
+
+                        print('new_length:', len(movelist))
+                        break
 
         plot_data[str(improvement_counter)] = len(movelist)
         print(len(movelist))
