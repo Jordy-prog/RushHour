@@ -95,7 +95,7 @@ def hillclimb(RushHour):
                         print('new_length:', len(movelist))
                         break
 
-        plot_data[str(iteration)] = len(movelist)
+            plot_data[str(iteration)] = len(movelist)
         print(len(movelist))
 
         elapsed_time = (time.time() - start_time)
