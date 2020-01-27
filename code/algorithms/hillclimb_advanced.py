@@ -23,10 +23,10 @@ def hillclimb(RushHour):
     slices, max_slice_size, improvements, runtimes = 0, 21, 0, 0
     
     # Requests user input for algorithm parameters
-    while slices <= 0 or improvements <= 0 or runtimes <= 0 or max_slice_size > 20:
+    while slices <= 0 or improvements <= 0 or runtimes <= 0: #or max_slice_size > 20:
         try:
             slices = int(input('Slices? '))
-            max_slice_size = int(input('What size of slice? '))
+            # max_slice_size = int(input('What size of slice? '))
             improvements = int(input('Improvements per slice? '))
             runtimes = int(input('Times to run? '))
         except ValueError:
@@ -60,25 +60,24 @@ def hillclimb(RushHour):
         while slice_times < slices:
             slice_times += 1
             print('slice:', slice_times)
-            first_slice = 0
-            last_slice = 0
-            
-            # Take a sequence that is smaller than the maximum slice size
-            while last_slice - first_slice <= 0 or last_slice - first_slice > max_slice_size:
-                first_slice = random.randrange(0, len(boardstates) // 2)
-                last_slice = random.randrange(first_slice + 1, len(boardstates))
+            first = random.randrange(0, len(boardstates) // 2)
+
+            # # Take a sequence that is smaller than the maximum slice size
+            # while last_slice - first_slice <= 0 or last_slice - first_slice > max_slice_size:
+            #     first_slice = random.randrange(0, len(boardstates) // 2)
+            #     last_slice = random.randrange(first_slice + 1, len(boardstates))
                 
-            sequence = boardstates[first_slice:last_slice]
+            sequence = boardstates[first:]
             boardstates_goal = {}
 
             # Create a dictionary of all possible boardstates that may be achieved for easy lookup
-            for step in boardstates[last_slice:]:
-                boardstates_goal[step[2]] = (step[0], step[1], step[2])
+            for move in sequence:
+                boardstates_goal[move[2]] = move
 
             RushHour_template = copy.deepcopy(RushHour)
 
             # Bring boardstate in starting condition
-            for boardstate in boardstates[:first_slice + 1]:
+            for boardstate in boardstates[:first + 1]:
                 RushHour_template.move(RushHour_template.cars[boardstate[0]], boardstate[1])
 
             improvement_times = 0
@@ -95,14 +94,14 @@ def hillclimb(RushHour):
                     boardstates_new.append(move + (str(RushHour_new.matrix),))
 
                 # If sequence is improved, replace it with old sequence in original solution
-                if len(boardstates_new) < len(sequence):
-                    start = first_slice
-                    finish = boardstates.index(boardstates_goal[boardstates_new[-1][2]]) + 1
-                    del boardstates[start:finish]
+                if boardstates_new[-1][2] in boardstates_goal and len(boardstates_new) < len(boardstates[first:boardstates.index(boardstates_goal[boardstates_new[-1][2]])]):
+                    start = first
+                    finish = boardstates.index(boardstates_goal[boardstates_new[-1][2]])
+                    del boardstates[start:finish + 1]
                     print('Improved')
                     
                     for i, boardstate in enumerate(boardstates_new):
-                        boardstates.insert(first_slice + i, boardstate)
+                        boardstates.insert(first + i, boardstate)
 
                     break
 
@@ -122,24 +121,24 @@ def hillclimb(RushHour):
         avg_time = round(total_time / len(elapsed_time_list), 2)
         info_dict['avg_runtime'] = avg_time
 
-        # boardstates_indexes = {}
-        # i = 0
+        boardstates_indexes = {}
+        i = 0
         
-        # # Selective elimination of double boardstates
-        # while i < len(boardstates):
-        #     # If boardstate is found multiple times in moveset, delete everything in between
-        #     if boardstates[i][2] in boardstates_indexes:
-        #         first = boardstates_indexes[boardstates[i][2]]
-        #         last = i
-        #         del boardstates[first:last]
-        #         i = first
+        # Selective elimination of double boardstates
+        while i < len(boardstates):
+            # If boardstate is found multiple times in moveset, delete everything in between
+            if boardstates[i][2] in boardstates_indexes:
+                first = boardstates_indexes[boardstates[i][2]]
+                last = i
+                del boardstates[first:last]
+                i = first
 
-        #         for key in list(boardstates_indexes.keys())[first + 1:last]:
-        #             del boardstates_indexes[key]
-        #     else:
-        #         boardstates_indexes[boardstates[i][2]] = boardstates.index(boardstates[i])
+                for key in list(boardstates_indexes.keys())[first + 1:last]:
+                    del boardstates_indexes[key]
+            else:
+                boardstates_indexes[boardstates[i][2]] = boardstates.index(boardstates[i])
                 
-        #     i += 1
+            i += 1
 
         plot_data['elimination'] = len(boardstates)
         print('initial:', plot_data['initial'])

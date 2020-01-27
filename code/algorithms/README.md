@@ -21,6 +21,12 @@ An investigation that we did with our hillclimber is finding the best ratio betw
 
 INSERT TABLE WITH SOME RESULTS?
 
+| |
+|
+|
+|
+|
+
 6x6_3.csv 100 runs
 
 size slice 5 10 en 20
