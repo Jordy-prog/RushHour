@@ -20,18 +20,18 @@ def hillclimb(RushHour):
             a dictionary containing the steps and slices.
     """
     # Initialize parameters according to upcoming while condition
-    improvements, runtimes = 0, 0
+    iterations, runtimes = 0, 0
     
     # Requests user input for algorithm parameters
-    while improvements <= 0 or runtimes <= 0:
+    while iterations <= 0 or runtimes <= 0:
         try:
-            improvements = int(input('Improvements per slice? '))
+            iterations = int(input('Number of iterations? '))
             runtimes = int(input('Times to run? '))
         except ValueError:
             pass
 
     # Dictionary with information for the plot.py mode
-    info_dict = {'improvements': improvements, 'runtimes': runtimes}
+    info_dict = {'iterations': iterations, 'runtimes': runtimes}
     plotting_data = [info_dict]
 
     elapsed_time_list = []
@@ -53,12 +53,12 @@ def hillclimb(RushHour):
         plot_data['initial'] = len(movelist)
         print('length:', len(movelist))
 
-        improvement_counter = 0
+        iteration = 0
 
         # Try to improve the found solution a number of times, using random moves
-        while improvement_counter < improvements:
-            print('Try:', improvement_counter)
-            improvement_counter += 1
+        while iteration < iterations:
+            print('Iteration:', iteration)
+            iteration += 1
 
             boardstates_to_reach = movelist[1:]
             boardstates_goal = {}
@@ -88,7 +88,7 @@ def hillclimb(RushHour):
                     print('new_length:', len(movelist))
                     break
 
-        plot_data[str(improvement_counter)] = len(movelist)
+        plot_data[str(iteration)] = len(movelist)
         print(len(movelist))
 
         elapsed_time = (time.time() - start_time)

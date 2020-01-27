@@ -26,7 +26,7 @@ The project is well structured, with all common files stored in the following fo
 
 * **/code**: contains all Python files (.py)
 
-    * **/code/algorithms** contains the code for executing the six algorithms, and a README.md for elaboration
+    * **/code/algorithms** contains the code for executing the six algorithms, as well as a README.md with explanation of the algorithms and an overview of the main results.
 
     * **/code/classes** has the code for the two classes
 
@@ -35,6 +35,8 @@ The project is well structured, with all common files stored in the following fo
 * **/data**: contains the various gameboards in .csv files
 
 ## Authors
+
+Group Bigbrainz:
 
 * Jordy Schifferstein
 * Leon Besseling
