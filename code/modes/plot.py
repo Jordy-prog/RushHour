@@ -92,9 +92,11 @@ def plot(RushHour_initial, algorithm):
             \nNumber of runs: {number_of_runs} \
             \nAverage runtime: {avg_time} seconds', transform=plt.gca().transAxes)
         plt.show()
-    elif algorithm == hillclimb.hillclimb:
+    elif algorithm == hillclimb.Hillclimb:
+        hillclimber = hillclimb.Hillclimb(RushHour_initial)
+
         # Runs algorithm and retrieves plotdata
-        plotting_data = algorithm(RushHour_initial)
+        plotting_data = hillclimber.run()
 
         # Store information variables in a seperate dictionary
         info_dict = plotting_data.pop(0) 
