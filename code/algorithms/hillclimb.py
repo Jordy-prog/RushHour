@@ -20,20 +20,18 @@ def hillclimb(RushHour):
             a dictionary containing the steps and slices.
     """
     # Initialize parameters according to upcoming while condition
-    slices, max_slice_size, improvements, runtimes = 0, 21, 0, 0
+    iterations, runtimes = 0, 0
     
     # Requests user input for algorithm parameters
-    while slices <= 0 or improvements <= 0 or runtimes <= 0 or max_slice_size > 20:
+    while iterations <= 0 or runtimes <= 0:
         try:
-            slices = int(input('Slices? '))
-            max_slice_size = int(input('What size of slice? '))
-            improvements = int(input('Improvements per slice? '))
+            iterations = int(input('Number of iterations? '))
             runtimes = int(input('Times to run? '))
         except ValueError:
             pass
 
     # Dictionary with information for the plot.py mode
-    info_dict = {'slices': slices, 'slice_size': max_slice_size, 'improvements': improvements, 'runtimes': runtimes}
+    info_dict = {'iterations': iterations, 'runtimes': runtimes}
     plotting_data = [info_dict]
 
     elapsed_time_list = []
@@ -43,74 +41,65 @@ def hillclimb(RushHour):
         # Time the execution of each run
         start_time = time.time()
 
-        boardstates = []
+        movelist = []
         plot_data = {}
         RushHour_initial = copy.deepcopy(RushHour)
 
         # Do a random run and save the moves that were done
         while not RushHour_initial.game_won():
             move = random_constraint(RushHour_initial)
-            boardstates.append(move + (str(RushHour_initial.matrix),))
+            movelist.append({'matrix': str(RushHour_initial.matrix), 
+                            'car': move[0], 
+                            'distance': move[1]})
 
-        plot_data['initial'] = len(boardstates)
-        print('length:', len(boardstates))
-        slice_times = 0
+        plot_data['initial'] = len(movelist)
+        print('length:', len(movelist))
 
-        # Take slices out of solution and try to improve them
-        while slice_times < slices:
-            slice_times += 1
-            print('slice:', slice_times)
-            first_slice = 0
-            last_slice = 0
-            
-            # Take a sequence that is smaller than the maximum slice size
-            while last_slice - first_slice <= 0 or last_slice - first_slice > max_slice_size:
-                first_slice = random.randrange(0, len(boardstates) // 2)
-                last_slice = random.randrange(first_slice + 1, len(boardstates))
-                
-            sequence = boardstates[first_slice:last_slice]
+        iteration = 0
+
+        # Try to improve the found solution a number of times, using random moves
+        while iteration < iterations:
+            print('Iteration:', iteration)
+            iteration += 1
+
+            boardstates_to_reach = movelist[1:]
             boardstates_goal = {}
 
             # Create a dictionary of all possible boardstates that may be achieved for easy lookup
-            for step in boardstates[last_slice:]:
-                boardstates_goal[step[2]] = (step[0], step[1], step[2])
+            for move in boardstates_to_reach:
+                boardstates_goal[move['matrix']] = move
 
-            RushHour_template = copy.deepcopy(RushHour)
+            RushHour_new = copy.deepcopy(RushHour)
+            movelist_new = []
 
-            # Bring boardstate in starting condition
-            for boardstate in boardstates[:first_slice + 1]:
-                RushHour_template.move(RushHour_template.cars[boardstate[0]], boardstate[1])
-
-            improvement_times = 0
-
-            # Try to improve the same slice a number of times, using random moves
-            while improvement_times < improvements:
-                improvement_times += 1
-                RushHour_new = copy.deepcopy(RushHour_template)
-                boardstates_new = [sequence[0]]
-
-                # Improve the sequence using random moves
-                while not boardstates_new[-1][2] in boardstates_goal and len(boardstates_new) < len(sequence):
-                    move = random_constraint(RushHour_new)
-                    boardstates_new.append(move + (str(RushHour_new.matrix),))
+            # Improve the sequence using random moves
+            while len(movelist_new) < len(movelist):
+                move = random_constraint(RushHour_new)
+                movelist_new.append({'matrix': str(RushHour_new.matrix), 
+                                    'car': move[0], 
+                                    'distance': move[1]})
+                last_board = movelist_new[-1]['matrix']
 
                 # If sequence is improved, replace it with old sequence in original solution
-                if len(boardstates_new) < len(sequence):
-                    start = first_slice
-                    finish = boardstates.index(boardstates_goal[boardstates_new[-1][2]]) + 1
-                    del boardstates[start:finish]
-                    print('Improved')
-                    
-                    for i, boardstate in enumerate(boardstates_new):
-                        boardstates.insert(first_slice + i, boardstate)
+                if last_board in boardstates_goal:
+                    original_last_move = movelist.index(boardstates_goal[last_board])
 
-                    break
+                    if len(movelist_new) < len(movelist[1:original_last_move]):
+                        end = original_last_move
+                        del movelist[1:end + 1]
+                        print('Improved')
+                        
+                        for i, move in enumerate(movelist_new):
+                            movelist.insert(1 + i, move)
 
-            plot_data[str(slice_times)] = len(boardstates)
-            print(len(boardstates))
+                        print('new_length:', len(movelist))
+                        break
 
-            elapsed_time = (time.time() - start_time)
-            elapsed_time_list.append(elapsed_time) 
+        plot_data[str(iteration)] = len(movelist)
+        print(len(movelist))
+
+        elapsed_time = (time.time() - start_time)
+        elapsed_time_list.append(elapsed_time) 
 
         # Initialize total_time to store the total run time
         total_time = 0
@@ -122,28 +111,28 @@ def hillclimb(RushHour):
         avg_time = round(total_time / len(elapsed_time_list), 2)
         info_dict['avg_runtime'] = avg_time
 
-        # boardstates_indexes = {}
-        # i = 0
+        move_indexes = {}
+        i = 0
         
-        # # Selective elimination of double boardstates
-        # while i < len(boardstates):
-        #     # If boardstate is found multiple times in moveset, delete everything in between
-        #     if boardstates[i][2] in boardstates_indexes:
-        #         first = boardstates_indexes[boardstates[i][2]]
-        #         last = i
-        #         del boardstates[first:last]
-        #         i = first
+        # Selective elimination of double boardstates
+        while i < len(movelist):
+            # If boardstate is found multiple times in moveset, delete everything in between
+            if movelist[i]['matrix'] in move_indexes:
+                first = move_indexes[movelist[i]['matrix']]
+                last = i
+                del movelist[first:last]
+                i = first
 
-        #         for key in list(boardstates_indexes.keys())[first + 1:last]:
-        #             del boardstates_indexes[key]
-        #     else:
-        #         boardstates_indexes[boardstates[i][2]] = boardstates.index(boardstates[i])
+                for key in list(move_indexes.keys())[first + 1:]:
+                    del move_indexes[key]
+            else:
+                move_indexes[movelist[i]['matrix']] = movelist.index(movelist[i])
                 
-        #     i += 1
+            i += 1
 
-        plot_data['elimination'] = len(boardstates)
+        plot_data['elimination'] = len(movelist)
         print('initial:', plot_data['initial'])
-        print('finally:', len(boardstates))
+        print('finally:', len(movelist))
         plotting_data.append(plot_data)
         
     return plotting_data
