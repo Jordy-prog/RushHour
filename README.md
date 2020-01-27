@@ -42,7 +42,7 @@ The project is well structured, with all common files stored in the following fo
 
 ## Acknowledgements
 
-We would like to thank the course coordinators and technical TA's (Marleen & Julien) with helping and providing guidance for this project.\
+We would like to thank the course coordinators and technical TA's (Marleen & Julien) with helping and providing guidance for this project.
 
 ## License
 

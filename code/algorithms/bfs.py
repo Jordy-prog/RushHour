@@ -31,6 +31,7 @@ def bfs(RushHour):
         children, winning_child = parent.get_children()
         
         if winning_child:
+            print(winning_child)
             return True
 
         # Else append the unknown children to the queue
