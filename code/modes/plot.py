@@ -99,11 +99,11 @@ def plot(RushHour_initial, algorithm):
         # Store information variables in a seperate dictionary
         info_dict = plotting_data.pop(0) 
 
+        print(info_dict)
+
         # Retrieve information variables
-        slices_amount = info_dict['slices']
-        improvements_amount = info_dict['improvements']
+        improvements_amount = info_dict['iterations']
         runtime_amount = info_dict['runtimes']
-        slice_size = info_dict['slice_size']
         avg_runtime = info_dict['avg_runtime']
 
         decline_sum = 0
@@ -143,9 +143,7 @@ def plot(RushHour_initial, algorithm):
         plt.title (f'{board}: Hillclimbing with selective elimination')
         plt.ylabel('Steps to solve game')
         plt.xlabel('# of slices')
-        plt.text(0.75, 0.75, f'Slices: {slices_amount} \
-            \nImprovements: {improvements_amount} \
-            \nSlice size: {slice_size}  \
+        plt.text(0.75, 0.75, f'Iterations: {improvements_amount} \
             \n# of runs: {runtime_amount} \
             \nAverage decline: {avg_decline}% \
             \nAverage runtime: {avg_runtime} seconds', transform=plt.gca().transAxes)
