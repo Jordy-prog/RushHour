@@ -3,15 +3,9 @@ import os
 import random
 from sys import argv
 
-<<<<<<< HEAD
-from .code.algorithms.random import random_pure
-from .code.classes.board import RushHour
-from .code.classes.car import Car
-=======
-from ..code.algorithms.random import random_pure
-from ..code.classes.board import RushHour
-from ..code.classes.car import Car
->>>>>>> 16b46f2d2b2a95a4d48cce44e3153f7cb36eb2a7
+from .theory.code.algorithms.random import random_pure
+from .theory.code.classes.board import RushHour
+from .theory.code.classes.car import Car
 
 
 def advanced():
@@ -36,12 +30,7 @@ def advanced():
             elif confirm in ['no', 'n']:
                 return
 
-    names = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
-            'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 
-            'S', 'T', 'U', 'V', 'W', 'Y', 'Z', 'AA', 'AB', 
-            'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 
-            'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 
-            'AS', 'AT', 'AU', 'AV', 'AW', 'AY', 'AZ']
+    names = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AY', 'AZ']
     matrix = []
     cars = {}
     colors = ['blue_1', 'yellow_1', 'green_1', 'dark_green', 'deep_pink_1a', 'dark_orange']
@@ -56,6 +45,7 @@ def advanced():
 
     # Place red car
     row_x = (boardsize - 1) // 2
+    # col_x = random.randrange(0, boardsize - 2)
     col_x = 0
     cars['X'] = Car('X', 'H', row_x, col_x, 'red_1', 2)
     matrix[row_x][col_x] = cars['X']

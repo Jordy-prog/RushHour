@@ -33,6 +33,8 @@ if __name__ == '__main__':
         if key in modes:
             mode = modes[key]
             break
+        
+        print('Type a number please!')
 
     # Asks user which algorithm he would like to use
     while not mode == 'manual':
@@ -44,9 +46,12 @@ if __name__ == '__main__':
                            '\n5. Breadth first with beam search'
                            '\n6. Iterative deepening'
                            '\n7. Depth first\n')
+
         if key in algorithms:
             algorithm = algorithms[key]
             break
+
+        print('Type a number please!')
 
     # Run certain algorithm depending on the selections made
     if mode == 'manual':
