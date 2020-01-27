@@ -1,6 +1,6 @@
 import copy
 import re
-
+import time
 
 def dfs(RushHour):
     """Implementation of the Depth First algorithm.
@@ -13,6 +13,9 @@ def dfs(RushHour):
     """
     # Initial search depth
     initial_depth = 40
+
+    start = time.time()
+    time_list = []
 
     while True:
         # Initialize archive and stack with the initial Rush hour in them
@@ -37,7 +40,11 @@ def dfs(RushHour):
                 children, winning_child = parent.get_children()
 
                 if winning_child:
-                    depth = len(parent.steps) + 1
+                    stop = time.time()
+                    print(winning_child)
+                    print("it took", stop - start)
+                    depth = len(winning_child)
+                    time_list.append((round(stop-start, 1), depth))
 
                 # Else append the unknown or better children to the stack
                 for child in children:
@@ -45,9 +52,8 @@ def dfs(RushHour):
                         archive[child["matrix"]] = len(child["moves"])
                         stack.append(child["moves"])
   
-        # Checks if best solution was found
+        # Checks if best solution was found else increase search limit
         if depth < initial_depth:
-            print(depth)
+            print(time_list)
             return
-
         initial_depth += 10

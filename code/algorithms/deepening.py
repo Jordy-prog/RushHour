@@ -34,6 +34,7 @@ def deepening(RushHour):
                 children, winning_child = parent.get_children()
                 
                 if winning_child:
+                    print(winning_child)
                     return True
 
                 # Else append the unknown or better children to the stack

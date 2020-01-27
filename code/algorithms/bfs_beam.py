@@ -10,7 +10,7 @@ def bfs_beam(RushHour):
         RushHour (object): The Rush Hour board object.
         
     Returns:
-        True (boolean): The game has been won.
+        boolean, True: The game has been won.
     """
     # Initialize archive and queue with the initial Rush hour in them
     archive = set()
@@ -41,11 +41,12 @@ def bfs_beam(RushHour):
         children, winning_child = parent.get_children()
 
         if winning_child:
+            print(winning_child)
             return True
 
         # Else append the unknown children to the archive
         unknowns = []
-
+    
         for child in children:
             if not child["matrix"] in archive:
                 archive.add(child["matrix"])
@@ -57,7 +58,7 @@ def bfs_beam(RushHour):
         while len(unknowns) and i < beam:
             index = random.randint(0, len(unknowns))
             queue.append(unknowns.pop(index - 1)["moves"])
-            i += 1 
+            i += 1
 
         # If the algorithm goes a layer deeper into the tree, let the user know
         if len(parent.steps) > current_depth:
