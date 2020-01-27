@@ -45,7 +45,8 @@ def advanced():
 
     # Place red car
     row_x = (boardsize - 1) // 2
-    col_x = random.randrange(0, boardsize - 2)
+    # col_x = random.randrange(0, boardsize - 2)
+    col_x = 0
     cars['X'] = Car('X', 'H', row_x, col_x, 'red_1', 2)
     matrix[row_x][col_x] = cars['X']
     matrix[row_x][col_x + 1] = cars['X']  
@@ -119,7 +120,7 @@ def advanced():
     Rushhour = RushHour(f'data/{argv[1]}')
 
     # Shuffle the board
-    for i in range(1000):
+    for i in range(10000):
         random_pure(Rushhour)
 
     # Overwrite previous csv file with a shuffled one
