@@ -3,9 +3,9 @@ import os
 import random
 from sys import argv
 
-from code.algorithms.random import random_pure
-from code.classes.board import RushHour
-from code.classes.car import Car
+from .code.algorithms.random import random_pure
+from .code.classes.board import RushHour
+from .code.classes.car import Car
 
 
 def advanced():
