@@ -1,25 +1,21 @@
 # Algorithms
 
-The algorithms folder contains all algorithms that can be used to solve a Rush Hour board.
+The algorithms folder contains the algorithms that can be used to solve a Rush Hour board. This file explains them briefly.
 
 ## Random
 
 ### Pure random
 
-An almost pure random algorithm. The algorithm randomly picks a car on the board and tries to move it a random distance. The algorithm repeats this step over and over until it finds the solution.
-
-We added one small heuristic for efficiency and clarity purposes. The algorithm uses a function to determine the free space around a car. Then the algorithm chooses a distance within the range that the car can move.
+The algorithm randomly picks a car on the board, then checks how far the car can move forwards or backwards and picks a random number in this range. This is repeated until it finds the solution.
 
 ### Constraint random
 
-This algorithm is an adjustment to the purely random algorithm. It applies a few extra heuristics. First of all, if a car can move, the algorithm will keep randomly picking a distance until it picks a non-zero integer. Secondly, if the algorithm tries to move a car back to its previous position, this move is denied. This prevents the algorithm from moving cars back and forth in a loop. This second heuristic can in very rare occasions cause the algorithm to be stuck, if only one car can move, and it can’t undo its last move. So there is a failsave implemented that turns off this heuristic after a certain amount of moves.
+This algorithm applies a heuristic to improve the random. If the picked random car and distance are opposite of the previous move, this move is denied. This can in very rare occasions cause the algorithm to be stuck: if only one car can move, it can’t undo its last move. So there is a failsave implemented that turns off this heuristic after a certain amount of moves.
 
-A large disadvantage of the random algorithms is obviously that every outcome is different and that you can never know when you’ve found ‘the best solution’.
+An advantage of the random algorithms is that they find a solution quickly. A large disadvantage of the random algorithms is that you can never know if a solution is the shortest possible.
 
 #### Branch and bound random
-This algorithm applies the random_constraint algorithm. It runs that algorithm a number of times and makes sure that the next solution must always be better than the previous one.
-
-The advantage of this heuristic is that you randomly walk towards the best solution. This results in a better estimation of the best solution instead of completely random solutions.
+This algorithm builds upon the constraint random. It runs that algorithm multiple times, keeping track of the shortest solution. If a next iteration uses more steps than this known shortest solution, the iteration is stopped. The advantage of this heuristic is that you randomly walk towards the best solution. This results in a better estimation of the best solution instead of completely random solutions.
 
 ---
 
