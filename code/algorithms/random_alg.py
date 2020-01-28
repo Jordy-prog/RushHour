@@ -70,9 +70,14 @@ def random_constraint(RushHour):
             and the amount of spaces it has been moved.
     """
     car_counter = 0
-
     # Picks a random car until it finds one that can move
     while True:
+        red_car = RushHour.cars["X"]
+        if red_car.look_around(RushHour)["front"] == RushHour.boardsize - red_car.col - 1:
+            car = red_car
+            distance = red_car.look_around()["front"]
+            break
+
         car = random.choice(list(RushHour.cars.values()))
         free_space = car.look_around(RushHour)
         distance = 0
@@ -81,14 +86,14 @@ def random_constraint(RushHour):
         if free_space['rear'] or free_space['front']:
             while distance == 0:
                 distance = random.randrange(free_space['rear'], free_space['front'] + 1)
-                
-        # Heuristic below may cause game to be stuck, so eventually turn it off
-        if car_counter < len(RushHour.cars.values()):
-            # Picks a new car if move is the exact opposite of last move, else breaks
-            if len(RushHour.steps) and not (car, - distance) == RushHour.steps[-1] and distance:
                 break
-        elif distance:
-            break
+        # Heuristic below may cause game to be stuck, so eventually turn it off
+        # if car_counter < len(RushHour.cars.values()):
+        #     # Picks a new car if move is the exact opposite of last move, else breaks
+        #     if len(RushHour.steps) and not (car, - distance) == RushHour.steps[-1] and distance:
+        #         break
+        # elif distance:
+        #     break
 
         car_counter += 1
 

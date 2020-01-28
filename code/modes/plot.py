@@ -6,7 +6,7 @@ import time
 import matplotlib.pyplot as plt
 import numpy as np
 
-from ..algorithms import random_alg, hillclimb
+from ..algorithms import random_alg, hillclimb, dfs
 
 class Plot():
     def __init__(self, RushHour, algorithm):
