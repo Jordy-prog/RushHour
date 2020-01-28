@@ -35,6 +35,7 @@ class Plot():
             self.hillclimb_plot()
         elif self.algorithm == dfs.dfs:
             self.dfs_plot()
+        elif self.algorithm == 
 
 
     def random_bar(self):
