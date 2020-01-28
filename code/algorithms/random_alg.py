@@ -23,7 +23,7 @@ def manager(RushHour, algorithm):
 
         while times_to_run <= 0:
             try:
-                times_to_run = int(input('How many times? '))
+                times_to_run = int(input('How many times do you want to improve? '))
             except ValueError:
                 pass
 

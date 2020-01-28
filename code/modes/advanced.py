@@ -15,6 +15,12 @@ def advanced():
     Returns:
         None (NoneType): Exits the function.
     """
+    print('How to create a board:\n'
+            '--------------\n'
+            'python main.py "boardsize"x"boardsize"_"name".csv\n'
+            'This will create a random board in the data folder.\n'
+            'Be careful not to overwrite important files!\n')
+
     # Check if user writes csv filename
     if not argv[1][-4:] == '.csv':
         print('Invalid filename')
