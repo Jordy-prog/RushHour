@@ -184,7 +184,7 @@ class RushHour():
         """
         # Checks if the win conditions of the game are met
         if self.matrix[self.cars['X'].row][-1] == self.cars['X']:
-            self.write_csv()
+            # self.write_csv()
             print('Congratulations! The game was finished in:', len(self.steps), 'steps.')
             return True
 
