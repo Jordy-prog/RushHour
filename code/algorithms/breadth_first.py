@@ -32,7 +32,11 @@ class BreadthFirst():
         self.solution = []
 
     def next_parent(self):
-        # Take move list for parent from the front of the queue and execute moves
+        """Take the next parent's move list from the front of the queue
+        
+        Returns:
+            
+        """
         return self.queue.pop(0)
     
     def update_parent(self, parent_moves):

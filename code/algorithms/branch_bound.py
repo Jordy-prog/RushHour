@@ -1,7 +1,7 @@
 from .iterative_deepening import IterativeDeepening as dfs
 
 
-class BranchAndBound(DepthFirst):
+class BranchAndBound(dfs):
 
     def run(self):
         depth = 15

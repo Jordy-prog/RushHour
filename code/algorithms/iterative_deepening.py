@@ -9,6 +9,7 @@ class IterativeDeepening():
         self.stack = [RushHour.steps]
         self.RushHour = RushHour
         self.solution = []
+        self.run()
 
     def next_parent(self):
         # Take move list for parent from the bsck of the queue and execute moves
@@ -52,7 +53,7 @@ class IterativeDeepening():
         return False
 
     def run(self):
-        depth
+        depth = 0
         while True:
             depth += 1
             print("Now searching to depth:", depth)

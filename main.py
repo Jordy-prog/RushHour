@@ -1,11 +1,7 @@
 import os
 from sys import argv
 
-<<<<<<< HEAD
-from code.algorithms import hillclimb, random, deepening, bfs_beam, dfs, bfs, bfs_beam
-=======
-from code.algorithms import bfs_class, hillclimb, random_alg, deepening, bfs_beam, dfs
->>>>>>> eb3826827220ffdd9a8faa5675e417418909ad49
+from code.algorithms import hillclimb, random_alg, iterative_deepening, branch_bound, breadth_first
 from code.classes import board
 from code.modes import manual, plot
 
@@ -24,11 +20,7 @@ if __name__ == '__main__':
     # Initializing inputs and algorithms dictionary, and the gameboard
     RushHour = board.RushHour(f'data/{argv[1]}')
     modes = {'1': 'manual', '2': 'plot', '3': 'single_run'}
-<<<<<<< HEAD
-    algorithms = {'1': random.random_pure, '2': random.random_constraint, '3': hillclimb.Hillclimb, '4': bfs.bfs, '5': bfs_beam.bfs_beam, '6': deepening.deepening, '7': dfs.dfs}
-=======
-    algorithms = {'1': random_alg.random_pure, '2': random_alg.random_constraint, '3': random_alg.random_branch_and_bound, '4': hillclimb.Hillclimb, '5': bfs_class.bfs, '6': bfs_beam.bfs_beam, '7': deepening.deepening, '8': dfs.dfs}
->>>>>>> eb3826827220ffdd9a8faa5675e417418909ad49
+    algorithms = {'1': random_alg.random_pure, '2': random_alg.random_constraint, '3': random_alg.random_branch_and_bound, '4': hillclimb.Hillclimb, '5': breadth_first.BreadthFirst, '6': breadth_first.BreadthFirst, '7': iterative_deepening.IterativeDeepening, '8': branch_bound.BranchAndBound}
     mode = None
 
     # Asks user for a mode in which program should be run
@@ -68,12 +60,12 @@ if __name__ == '__main__':
         plot.plot(RushHour, algorithm)
     elif algorithm in [random_alg.random_pure, random_alg.random_constraint, random_alg.random_branch_and_bound]:
         random_alg.manager(RushHour, algorithm)
-    elif key == "4":
-        bfs = bfs_class.bfs(RushHour, beam=None)
-        bfs.run()
     elif key == "5":
+        bfs = breadth_first.BreadthFirst(RushHour, beam=None)
+        bfs.run()
+    elif key == "6":
         beam = int(input("what beam: "))
-        bfs = bfs_class.bfs(RushHour, beam)
+        bfs = breadth_first.BreadthFirst(RushHour, beam)
         bfs.run()
     else:
         algorithm(RushHour)
