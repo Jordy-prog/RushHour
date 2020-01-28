@@ -1,7 +1,7 @@
 import os
 from sys import argv
 
-from code.algorithms import bfs, hillclimb, random, deepening, bfs_beam, dfs
+from code.algorithms import bfs, hillclimb, random_alg, deepening, bfs_beam, dfs
 from code.classes import board
 from code.modes import manual, plot
 
@@ -20,7 +20,7 @@ if __name__ == '__main__':
     # Initializing inputs and algorithms dictionary, and the gameboard
     RushHour = board.RushHour(f'data/{argv[1]}')
     modes = {'1': 'manual', '2': 'plot', '3': 'single_run'}
-    algorithms = {'1': random.random_pure, '2': random.random_constraint, '3': hillclimb.Hillclimb, '4': bfs.bfs, '5': bfs_beam.bfs_beam, '6': deepening.deepening, '7': dfs.dfs}
+    algorithms = {'1': random_alg.random_pure, '2': random_alg.random_constraint, '3': random_alg.random_branch_and_bound, '4': hillclimb.Hillclimb, '5': bfs.bfs, '6': bfs_beam.bfs_beam, '7': deepening.deepening, '8': dfs.dfs}
     mode = None
 
     # Asks user for a mode in which program should be run
@@ -41,11 +41,12 @@ if __name__ == '__main__':
         key = input('Select an algorithm:'
                            '\n1. Purely random'
                            '\n2. Random with constraints'
-                           '\n3. Hillclimb'
-                           '\n4. Breadth first'
-                           '\n5. Breadth first with beam search'
-                           '\n6. Iterative deepening'
-                           '\n7. Depth first\n')
+                           '\n3. Random with brand and bound'
+                           '\n4. Hillclimb'
+                           '\n5. Breadth first'
+                           '\n6. Breadth first with beam search'
+                           '\n7. Iterative deepening'
+                           '\n8. Depth first\n')
 
         if key in algorithms:
             algorithm = algorithms[key]
@@ -58,7 +59,7 @@ if __name__ == '__main__':
         manual.manual(RushHour)
     elif mode == 'plot':
         plot.plot(RushHour, algorithm)
-    elif algorithm in [random.random_pure, random.random_constraint]:
-        random.manager(RushHour, algorithm)
+    elif algorithm in [random_alg.random_pure, random_alg.random_constraint, random_alg.random_branch_and_bound]:
+        random_alg.manager(RushHour, algorithm)
     else:
         algorithm(RushHour)
