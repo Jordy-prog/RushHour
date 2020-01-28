@@ -2,7 +2,8 @@ import copy
 import random
 import time
 
-from .random import random_constraint
+from .helpers import elimination
+from .random_alg import random_constraint
 
 
 class Hillclimb():
@@ -58,7 +59,7 @@ class Hillclimb():
 
             elapsed_time = (time.time() - start_time)
             self.elapsed_time_list.append(elapsed_time)
-            self.elimination()
+            self.plot_data['elimination'] = elimination(self.movelist)
             self.plotting_data.append(self.plot_data)
 
         self.time()
@@ -118,27 +119,27 @@ class Hillclimb():
         avg_time = round(total_time / len(self.elapsed_time_list), 2)
         self.info_dict['avg_runtime'] = avg_time
 
-    def elimination(self):
-        move_indexes = {}
-        i = 0
+    # def elimination(self):
+    #     move_indexes = {}
+    #     i = 0
         
-        # Selective elimination of double boardstates
-        while i < len(self.movelist):
-            # If boardstate is found multiple times in moveset, delete everything in between
-            if self.movelist[i]['matrix'] in move_indexes:
-                first = move_indexes[self.movelist[i]['matrix']]
-                last = i
-                del self.movelist[first:last]
-                i = first
+    #     # Selective elimination of double boardstates
+    #     while i < len(self.movelist):
+    #         # If boardstate is found multiple times in moveset, delete everything in between
+    #         if self.movelist[i]['matrix'] in move_indexes:
+    #             first = move_indexes[self.movelist[i]['matrix']]
+    #             last = i
+    #             del self.movelist[first:last]
+    #             i = first
 
-                for key in list(move_indexes.keys())[first + 1:]:
-                    del move_indexes[key]
-            else:
-                move_indexes[self.movelist[i]['matrix']] = self.movelist.index(self.movelist[i])
+    #             for key in list(move_indexes.keys())[first + 1:]:
+    #                 del move_indexes[key]
+    #         else:
+    #             move_indexes[self.movelist[i]['matrix']] = self.movelist.index(self.movelist[i])
                 
-            i += 1
+    #         i += 1
 
-        self.plot_data['elimination'] = len(self.movelist)
+    #     self.plot_data['elimination'] = len(self.movelist)
 
 
 
