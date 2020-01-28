@@ -1,5 +1,8 @@
+import copy
 import os
 import random
+
+from . import random_alg
 
 
 def manager(RushHour, algorithm):
@@ -10,20 +13,32 @@ def manager(RushHour, algorithm):
         RushHour (object): The initial RushHour board object.
         algorithm (function): The algorithm variation to run.
     """
-    to_print = None
+    print(algorithm)
+    if algorithm == random_alg.random_branch_and_bound:
+        times_to_run = 0
 
-    # Asks user if he wants results to be printed
-    while to_print not in ['yes', 'y', 'no', 'n']:
-        to_print = input('Do you want to print? (yes, no): ')
+        while times_to_run <= 0:
+            try:
+                times_to_run = int(input('How many times? '))
+            except ValueError:
+                pass
 
-    # Plays game until won
-    while not RushHour.game_won():
-        # Prints gameboard
-        if to_print in ['yes', 'y']:
-            os.system('cls')
-            RushHour.printboard()
+        random_branch_and_bound(RushHour, times_to_run)
+    else:
+        to_print = None
 
-        algorithm(RushHour)
+        # Asks user if he wants results to be printed
+        while to_print not in ['yes', 'y', 'no', 'n']:
+            to_print = input('Do you want to print? (yes, no): ')
+
+        # Plays game until won
+        while not RushHour.game_won():
+            # Prints gameboard
+            if to_print in ['yes', 'y']:
+                os.system('cls')
+                RushHour.printboard()
+
+            algorithm(RushHour)
 
 def random_pure(RushHour):
     """Implementation of the pure random algorithm.
@@ -32,7 +47,6 @@ def random_pure(RushHour):
     Parameters:
         RushHour (object): The initial RushHour board object.
     """
-    # Pick random car, if it can move, move it
     while True:
         car = random.choice(list(RushHour.cars.values()))
         free_space = car.look_around(RushHour)
@@ -81,3 +95,26 @@ def random_constraint(RushHour):
 
     RushHour.move(car, distance)
     return (car.name, distance)
+
+def random_branch_and_bound(RushHour_initial, times_to_run):
+    """Runs the random_constraint algorithm multiple times.
+    Adds an extra 'branch and bound' heuristic, so it won't accept worse solutions.
+
+    Parameters:
+        RushHour_initial (object): The initial RushHour object.
+        times_to_run (integer): The amount of times to run the random_constraint algorithm.
+    """
+    previous_solution = None
+
+    for i in range(times_to_run):
+        RushHour = copy.deepcopy(RushHour_initial)
+
+        while not RushHour.game_won():
+            random_constraint(RushHour)
+
+            if previous_solution and len(RushHour.steps) == previous_solution:
+                break
+        
+        previous_solution = len(RushHour.steps)
+
+    print('Final:', previous_solution)

@@ -16,6 +16,11 @@ This algorithm is an adjustment to the purely random algorithm. It applies a few
 
 A large disadvantage of the random algorithms is obviously that every outcome is different and that you can never know when you’ve found ‘the best solution’.
 
+#### Branch and bound random
+This algorithm applies the random_constraint algorithm. It runs that algorithm a number of times and makes sure that the next solution must always be better than the previous one.
+
+The advantage of this heuristic is that you randomly walk towards the best solution. This results in a better estimation of the best solution instead of completely random solutions.
+
 ---
 
 ## Hillclimb

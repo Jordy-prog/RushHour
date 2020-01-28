@@ -5,7 +5,7 @@ import time
 
 import matplotlib.pyplot as plt
 
-from ..algorithms import random, hillclimb, dfs
+from ..algorithms import random_alg, hillclimb, dfs
 
 
 def plot(RushHour_initial, algorithm):
@@ -25,7 +25,7 @@ def plot(RushHour_initial, algorithm):
     board = argv[1]
 
     # Differentiate between algorithms
-    if algorithm in [random.random_pure, random.random_constraint]:
+    if algorithm in [random_alg.random_pure, random_alg.random_constraint]:
         number_of_runs = 0
     
         # Asks user for number of runs
