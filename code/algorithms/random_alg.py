@@ -18,11 +18,11 @@ def manager(RushHour, algorithm):
 
         while times_to_run <= 0:
             try:
-                times_to_run = int(input('How many times? '))
+                times_to_run = int(input('How many times to improve? '))
             except ValueError:
                 pass
 
-        random_branch_and_bound(RushHour, times_to_run)
+        return (random_branch_and_bound(RushHour, times_to_run), times_to_run)
     else:
         to_print = None
 
@@ -104,6 +104,7 @@ def random_branch_and_bound(RushHour_initial, times_to_run):
         times_to_run (integer): The amount of times to run the random_constraint algorithm.
     """
     previous_solution = None
+    step_list = {}
 
     for i in range(times_to_run):
         RushHour = copy.deepcopy(RushHour_initial)
@@ -114,6 +115,10 @@ def random_branch_and_bound(RushHour_initial, times_to_run):
             if previous_solution and len(RushHour.steps) == previous_solution:
                 break
         
-        previous_solution = len(RushHour.steps)
+        previous_solution = len(RushHour.steps) 
+        step_list[i] = previous_solution
 
     print('Final:', previous_solution)
+    print(step_list)
+
+    return step_list
