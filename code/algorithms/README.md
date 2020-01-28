@@ -1,5 +1,7 @@
 # Algorithms
 
+The algorithms folder contains all algorithms that can be used to solve a Rush Hour board.
+
 ## Random
 
 ### Pure random
