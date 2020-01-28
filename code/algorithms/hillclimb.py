@@ -91,9 +91,11 @@ class Hillclimb():
         movelist_new = []
         boardstates_goal = {}
 
+        # Create dictionary of all upcoming boardstates
         for move in self.movelist[1:]:
             boardstates_goal[move['matrix']] = move
 
+        # Try to improve movelist
         while len(movelist_new) < len(self.movelist):
             move = random_constraint(RushHour_new)
             movelist_new.append({'matrix': str(RushHour_new.matrix), 

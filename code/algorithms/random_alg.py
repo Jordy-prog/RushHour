@@ -1,6 +1,7 @@
 import copy
 import os
 import random
+import time
 
 from . import random_alg
 
@@ -15,7 +16,7 @@ def manager(RushHour, algorithm):
 
     Returns:
         (random_branch_and_bound(RushHour, times_to_run), times_to_run) (tuple):
-            A tuple containing ....
+            A tuple containing the plot_data and the times to run the algorithm.
     """
     if algorithm == random_alg.random_branch_and_bound:
         times_to_run = 0
@@ -26,7 +27,7 @@ def manager(RushHour, algorithm):
             except ValueError:
                 pass
 
-        random_branch_and_bound(RushHour, times_to_run)
+        return (random_branch_and_bound(RushHour, times_to_run), times_to_run)
     else:
         to_print = None
 
@@ -72,25 +73,25 @@ def random_constraint(RushHour):
         (car.name, distance) (tuple): A tuple containing the unique car letter 
             and the amount of spaces it has been moved.
     """
+    red_car = RushHour.cars["X"]
 
-    # Picks a random car until it finds one that can move
-    while True:
-        red_car = RushHour.cars["X"]
-        if red_car.look_around(RushHour)["front"] == RushHour.boardsize - red_car.col - red_car.length:
-            car = red_car
-            distance = red_car.look_around(RushHour)["front"]
-            break
+    # Checks if the red car has a clear path to the exit
+    if red_car.look_around(RushHour)["front"] == RushHour.boardsize - red_car.col - red_car.length:
+        car = red_car
+        distance = red_car.look_around(RushHour)["front"]
+    else:
+        # Picks a random car until it finds one that can move
+        while True:
+            car = random.choice(list(RushHour.cars.values()))
+            free_space = car.look_around(RushHour)
+            distance = 0
 
-        car = random.choice(list(RushHour.cars.values()))
-        free_space = car.look_around(RushHour)
-        distance = 0
-
-        # If a car can move, determine a random distance to move the car
-        if free_space['rear'] or free_space['front']:
-            while distance == 0:
-                distance = random.randrange(free_space['rear'], free_space['front'] + 1)
+            # If a car can move, determine a random distance to move the car
+            if free_space['rear'] or free_space['front']:
+                while distance == 0:
+                    distance = random.randrange(free_space['rear'], free_space['front'] + 1)
+                    break
                 break
-            break
 
     RushHour.move(car, distance)
     return (car.name, distance)
@@ -107,6 +108,7 @@ def random_branch_and_bound(RushHour_initial, times_to_run):
         step_list (list): The list containing all previous solutions.
     """
     previous_solution = None
+    plot_data = {}
 
     for i in range(times_to_run):
         RushHour = copy.deepcopy(RushHour_initial)
@@ -117,6 +119,9 @@ def random_branch_and_bound(RushHour_initial, times_to_run):
             if previous_solution and len(RushHour.steps) == previous_solution:
                 break
         
-        previous_solution = len(RushHour.steps)
+        previous_solution = len(RushHour.steps) 
+        plot_data[i] = previous_solution
 
     print('Final:', previous_solution)
+
+    return plot_data
