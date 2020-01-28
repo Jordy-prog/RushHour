@@ -1,4 +1,5 @@
 from .iterative_deepening import IterativeDeepening as dfs
+from .helpers import write_csv
 
 
 class BranchAndBound(dfs):
@@ -29,3 +30,6 @@ class BranchAndBound(dfs):
                 print("No solution found at this depth. The best solution is:")
                 print(self.solution)
                 break
+
+        write_csv(self.solution)
+        
