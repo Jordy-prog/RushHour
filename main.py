@@ -1,7 +1,7 @@
 import os
 from sys import argv
 
-from code.algorithms import bfs, hillclimb, random_alg, deepening, bfs_beam, dfs
+from code.algorithms import bfs_class, hillclimb, random_alg, deepening, bfs_beam, dfs
 from code.classes import board
 from code.modes import manual, plot
 
@@ -20,7 +20,7 @@ if __name__ == '__main__':
     # Initializing inputs and algorithms dictionary, and the gameboard
     RushHour = board.RushHour(f'data/{argv[1]}')
     modes = {'1': 'manual', '2': 'plot', '3': 'single_run'}
-    algorithms = {'1': random_alg.random_pure, '2': random_alg.random_constraint, '3': random_alg.random_branch_and_bound, '4': hillclimb.Hillclimb, '5': bfs.bfs, '6': bfs_beam.bfs_beam, '7': deepening.deepening, '8': dfs.dfs}
+    algorithms = {'1': random_alg.random_pure, '2': random_alg.random_constraint, '3': random_alg.random_branch_and_bound, '4': hillclimb.Hillclimb, '5': bfs_class.bfs, '6': bfs_beam.bfs_beam, '7': deepening.deepening, '8': dfs.dfs}
     mode = None
 
     # Asks user for a mode in which program should be run
@@ -53,7 +53,6 @@ if __name__ == '__main__':
             break
 
         print('Type a number please!')
-
     # Run certain algorithm depending on the selections made
     if mode == 'manual':
         manual.manual(RushHour)
@@ -61,5 +60,11 @@ if __name__ == '__main__':
         plot.plot(RushHour, algorithm)
     elif algorithm in [random_alg.random_pure, random_alg.random_constraint, random_alg.random_branch_and_bound]:
         random_alg.manager(RushHour, algorithm)
+    elif key == "4":
+        bfs = bfs_class.bfs(RushHour)
+        bfs.run()
+    elif key == "5":
+        bfs = bfs_class.bfs(RushHour)
+        bfs.run(2)
     else:
         algorithm(RushHour)

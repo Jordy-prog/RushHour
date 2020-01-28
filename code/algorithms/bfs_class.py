@@ -1,13 +1,15 @@
 import copy
+import random
 import re
 
 
 class bfs():
-    def __init__(self, RushHour):
+    def __init__(self, RushHour, beam=None):
         self.archive = set()
         self.archive.add(re.sub(', ', '', str(RushHour.matrix)))
         self.queue = [RushHour.steps]
         self.curr_depth = 0
+        self.beam = beam
         self.RushHour = RushHour
         self.solution = []
 
@@ -24,12 +26,23 @@ class bfs():
         return parent
     
     def update_archive(self, children):
+        new_children = []
         for child in children:
             if not child["matrix"] in self.archive:
                 self.archive.add(child["matrix"])
-                self.queue.append(child["moves"])
-    
-    def run(self):
+                new_children.append(child)
+        return new_children
+
+
+    def update_queue(self, new_children, beam):      
+        random.shuffle(new_children)
+        i = 0
+
+        while len(new_children) and i < beam:
+            self.queue.append(new_children.pop()["moves"])
+            i += 1
+
+    def run(self, beam=None):
         while len(self.queue):
             next_parent = self.next_parent_moves()
             parent = self.update_parent(next_parent)
@@ -39,7 +52,9 @@ class bfs():
                 self.solution = winning_child
                 return True
 
-            self.update_archive(children)
+            new_children = self.update_archive(children)
+            limit = self.beam if self.beam else len(new_children)
+            self.update_queue(new_children, limit)
 
             if len(parent.steps) > self.curr_depth:
                 self.curr_depth += 1

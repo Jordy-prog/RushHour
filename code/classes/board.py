@@ -10,6 +10,17 @@ from .car import Car
 
 
 class RushHour():
+    """A class which stores information of the board object.
+
+    The contained methods are as follows:
+        __init__: Intialize board variables.
+        load: Load cars and initialize the matrix.
+        printboard: Prints the current game board.
+        move: Attempts to move the car.
+        get_children: Determines which boards can be derived from the current board.
+        game_won: Checks if the current game has been won.
+    """
+
     def __init__(self, board_path):
         """__init__ function to initialize variables.
         
