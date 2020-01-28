@@ -45,7 +45,11 @@ def elimination(movelist):
     return len(movelist)
 
 def write_csv(steps):
-    """Writes the moves that were done to a csv file."""
+    """Writes the moves that were done to a csv file.
+    
+    Parameters:
+        steps (list): list of moves to be written to csv file
+    """
     step_list = []
 
     # Create dictionary of steps for writing

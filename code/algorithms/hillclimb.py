@@ -1,7 +1,7 @@
 import copy
 import time
 
-from .helpers import elimination
+from .helpers import elimination, write_csv
 from .random_alg import random_constraint
 
 
@@ -40,6 +40,7 @@ class Hillclimb():
         self.plot_data = {}
         self.elapsed_time_list = []
         self.movelist = []
+        self.best_solution = []
         self.RushHour = RushHour
 
     def run(self):
@@ -66,12 +67,17 @@ class Hillclimb():
             self.plot_data['elimination'] = elimination(self.movelist)
             self.plotting_data.append(self.plot_data)
 
+            if not self.best_solution or len(self.movelist) < len(self.best_solution):
+                self.best_solution = []
+                for move in self.movelist:
+                    self.best_solution.append([move["car"], move["distance"]])
+
             print('Initial:', self.plot_data['initial'])
             print('After hillclimb:', self.plot_data[str(iteration)])
             print('After elimination:', self.plot_data['elimination'])
 
         self.time()
-            
+        write_csv(self.best_solution)
         return self.plotting_data
 
     def random_run(self):

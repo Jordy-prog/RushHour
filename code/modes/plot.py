@@ -176,16 +176,7 @@ class Plot():
             \nAverage runtime: {avg_time} seconds', transform=plt.gca().transAxes)
             
         plt.show()
-
-
-
-
-
-
-
-
-
-
+        
     def hillclimb_plot(self):
         """Creates a line graph of the progression when the hillclimbing
             algorithm is applied.
