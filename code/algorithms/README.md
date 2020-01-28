@@ -4,17 +4,18 @@ The algorithms folder contains the algorithms that can be used to solve a Rush H
 
 ## Random
 
-#### Pure random
+### Pure random
 
 The algorithm randomly picks a car on the board, then checks how far the car can move forwards or backwards and picks a random number in this range. This is repeated until it finds the solution.
 
-#### Constraint random
+### Constraint random
 
 This algorithm applies a heuristic to improve the random. If the red car has a free way to the exit, it is forced to move there.
 
 An advantage of the random algorithms is that they find a solution quickly. A large disadvantage of the random algorithms is that you can never know if a solution is the shortest possible.
 
-#### Branch and bound random
+### Branch and bound random
+
 This algorithm builds upon the constraint random. It runs that algorithm multiple times, keeping track of the shortest solution. If a next iteration uses more steps than this known shortest solution, the iteration is stopped. The advantage of this heuristic is that you randomly walk towards the best solution. This results in a better estimation of the best solution instead of completely random solutions.
 
 ---
@@ -36,7 +37,8 @@ This BFS makes use of the archive to optimally prune. If a child is generated th
 
 The advantage of breadth first is that the solution found is always in the shortest amount of steps. The disadvantage is that the queue grows exponentially, thus it requires a lot of memory to go deep into the tree.
 
-#### Beam search
+### Beam search
+
 A variation on the BFS is the beam search, in which the amount of children put in the queue is constrained. In our case, the selection of children happens randomly, as we could not think of an explicit way to measure if one move brings the board closer to a solution than another move.
 
 An advantage of beam search is that the queue grows more slowly, thus it can go deeper into the tree. A disadvantage is that if a solution is found, it cannot be guaranteed that it is the shortest solution possible. The higher the beam, the more this algorithm behaves like normal BFS.
@@ -49,10 +51,12 @@ A depth first search algorithm starts with the original board, derives all its c
 
 The advantage of depth first is that this algorithm takes up much less memory (RAM) than breadth first. A disadvantage is that the case on which the algorithm is used needs to have a "deepest point". We have implemented two variants of DFS:
 
-#### Branch and Bound
+### Branch and Bound
+
 Much like the random branch and bound, this branch and bound limits the depth to the best found solution. The problem is the initial depth limit choice. The closer this choice is to the shortest solution, the quicker it will come to this solution. We have it set to 30, since we found that all boards except 6x6_3 can be solved within 30 steps. To still be able to solve 6x6_3, the depth limit is increased by 5 every time the solution cannot be found within the limit.
 
-#### Iterative deepening
+### Iterative deepening
+
 Iterative deepening combines breadth first search with depth first search. It is a depth search in which the depth limit starts at 1 and is increased by 1 after every unsuccessful round. 
 
 Advantages of these depth first algorithms are that they always find the best solution, and that they use way less memory than BFS. However, they are slower than BFS, because they have to repeat a lot of work they already did.

@@ -1,4 +1,13 @@
 def execute_move_list(board, move_list):
+    """Exectues the move list.
+
+    Parameters:
+        board (object): The game board object.
+        move_list (list): A list containing all moves.
+
+    Returns:
+        board (object): The finished game board object.
+    """
     for move in move_list:
         board.move(board.cars[move[0]], move[1])
 

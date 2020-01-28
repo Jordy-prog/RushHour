@@ -44,7 +44,7 @@ if __name__ == '__main__':
         key = input('Select an algorithm:'
                            '\n1. Purely random'
                            '\n2. Random with constraints'
-                           '\n3. Random with brand and bound'
+                           '\n3. Random with branch and bound'
                            '\n4. Hillclimb'
                            '\n5. Breadth first'
                            '\n6. Breadth first: beam search'

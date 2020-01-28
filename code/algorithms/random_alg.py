@@ -13,6 +13,10 @@ def manager(RushHour, algorithm):
     Parameters:
         RushHour (object): The initial RushHour board object.
         algorithm (function): The algorithm variation to run.
+
+    Returns:
+        (random_branch_and_bound(RushHour, times_to_run), times_to_run) (tuple):
+            A tuple containing the plot_data and the times to run the algorithm.
     """
     if algorithm == random_alg.random_branch_and_bound:
         times_to_run = 0
@@ -23,7 +27,7 @@ def manager(RushHour, algorithm):
             except ValueError:
                 pass
 
-        random_branch_and_bound(RushHour, times_to_run)
+        return (random_branch_and_bound(RushHour, times_to_run), times_to_run)
     else:
         to_print = None
 
@@ -99,6 +103,9 @@ def random_branch_and_bound(RushHour_initial, times_to_run):
     Parameters:
         RushHour_initial (object): The initial RushHour object.
         times_to_run (integer): The amount of times to run the random_constraint algorithm.
+
+    Returns:
+        step_list (list): The list containing all previous solutions.
     """
     previous_solution = None
     plot_data = {}
