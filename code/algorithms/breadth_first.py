@@ -2,7 +2,7 @@ import copy
 import random
 import re
 
-from .helpers import execute_move_list
+from .helpers import execute_move_list, write_csv
 
 
 class BreadthFirst():
@@ -86,3 +86,5 @@ class BreadthFirst():
             if len(parent.steps) > self.curr_depth:
                 self.curr_depth += 1
                 print(self.curr_depth)
+        
+        write_csv(self.solution)

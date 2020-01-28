@@ -1,3 +1,5 @@
+import csv
+
 def execute_move_list(board, move_list):
     """Exectues the move list.
 
@@ -41,3 +43,24 @@ def elimination(movelist):
         i += 1
     
     return len(movelist)
+
+def write_csv(steps):
+    """Writes the moves that were done to a csv file."""
+    step_list = []
+
+    # Create dictionary of steps for writing
+    for step in steps:
+        step_dict = {}
+        step_dict['car'] = step[0]
+        step_dict['distance'] = step[1]
+
+        step_list.append(step_dict)
+
+    # Open a file for writing, and write the csv file
+    with open(f'output/last_solution.csv', 'w', newline='') as file:
+        fieldnames = ['car', 'distance']
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+        writer.writeheader()
+
+        for step in step_list:
+            writer.writerow(step)

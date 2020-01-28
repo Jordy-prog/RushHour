@@ -1,7 +1,7 @@
 import copy
 import re
 
-from .helpers import execute_move_list
+from .helpers import execute_move_list, write_csv
 
 
 class IterativeDeepening():
@@ -84,3 +84,5 @@ class IterativeDeepening():
             if self.search_to_layer(depth):
                 print(self.solution)
                 break
+
+        write_csv(self.solution)
