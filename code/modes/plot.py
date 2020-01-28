@@ -8,7 +8,25 @@ import matplotlib.pyplot as plt
 from ..algorithms import random_alg, hillclimb, branch_bound
 
 class Plot():
+    """A class which has several methods to plot the results of different algorithms 
+        with MatPlotLib.
+
+    The contained methods are as follows:
+        __init__: Intialize variables.
+        plot_selector: Manages which plot method to call.
+        random_bar: Creates a bar plot for the pure random and contraint random algorithm.
+        branchbound_plot: Creates a line graph of the brand & bound random algorithm.
+        hillclimb_plot: Creates a line graph of the progression when the hillclimbing
+            algorithm is applied.
+    """
+
     def __init__(self, RushHour, algorithm):
+        """Initializes variables.
+        
+        Parameters:
+            RushHour (object): The Rush Hour game board object.
+            algorithm (function): The algorithm function name.
+        """
         self.algorithm = algorithm
         self.elapsed_time_list = []
         self.stepdata = []
@@ -18,16 +36,7 @@ class Plot():
         self.plot_selector()
 
     def plot_selector(self):
-        """This function runs a certain algorithm a number of times and then plots the data 
-            in a MatPlotLib graph.
-        
-        Parameters:
-            RushHour_initial (object): The initial RushHour board object.
-            algorithm (function): The algorithm variation to use and visualize with MatPlotLib.
-
-        Output:
-            Generates a MatPlotLib graph.
-        """
+        """A method to decide which plot function to call and run."""
         if self.algorithm in [random_alg.random_pure, random_alg.random_constraint]:
             self.random_bar()
         if self.algorithm == random_alg.random_branch_and_bound:
@@ -35,8 +44,8 @@ class Plot():
         elif self.algorithm == hillclimb.Hillclimb:
             self.hillclimb_plot()
 
-
     def random_bar(self):
+        """Creates a bar plot for the pure random and contraint random algorithm."""
         number_of_runs = 0
 
         # Asks user for number of runs
@@ -105,6 +114,7 @@ class Plot():
         plt.show()
 
     def branchbound_plot(self):
+        """Creates a line graph of the brand & bound random algorithm."""
         step_dict_list = []
         amount_to_run = int(input("How many times to run (plot)? "))
 
@@ -132,6 +142,9 @@ class Plot():
 
 
     def hillclimb_plot(self):
+        """Creates a line graph of the progression when the hillclimbing
+            algorithm is applied.
+        """
         hillclimber = hillclimb.Hillclimb(self.RushHour_initial)
 
         # Runs algorithm and retrieves plotdata
@@ -179,34 +192,3 @@ class Plot():
             \nAverage decline: {avg_decline}% \
             \nAverage runtime: {avg_runtime} seconds', transform=plt.gca().transAxes)
         plt.show()
-
-    def dfs_plot(self):
-        number_of_runs = 0
-
-        # Asks user for number of runs
-        while number_of_runs <= 0:
-            try:
-                number_of_runs = int(input('How many times? '))
-            except ValueError:
-                pass
-            
-        # Run the game a certain times to collect enough data points
-        for i in range(number_of_runs):
-            plotting_data = self.algorithm(self.RushHour_initial)
-
-            # Extract tuple data with list enumeration
-            x_list = [data[0] for data in plotting_data]
-            y_list = [data[1] for data in plotting_data]
-            
-            # Plot each run
-            plt.plot(x_list, y_list, color='g')
-
-        # # Specify properties of MatPlotLib bar plot
-        # plt.xticks(rotation=30)
-        # plt.xlabel('X data')
-        # plt.ylabel('Y data')
-        # plt.title(f'{self.board}: Frequency of moved cars')
-        # plt.text(0.65, 0.9, f'Average steps: {avg_steps} \
-        #     \nNumber of runs: {number_of_runs} \
-        #     \nAverage runtime: {avg_time} seconds', transform=plt.gca().transAxes)
-        # plt.show()

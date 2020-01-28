@@ -10,7 +10,7 @@ class Car():
     """
     
     def __init__(self, name, orientation, row, col, color, length):
-        """__init__ function to initialize variables.
+        """Function to initialize variables.
         
         Parameters:
             name (string): The name of the car.

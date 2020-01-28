@@ -13,7 +13,7 @@ def advanced():
     The board is saved in a csv file and takes 1 argument (the filename) as input.
 
     Returns:
-        False (boolean): ...
+        None (NoneType): Exits the function.
     """
     # Check if user writes csv filename
     if not argv[1][-4:] == '.csv':

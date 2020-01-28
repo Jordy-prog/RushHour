@@ -6,7 +6,7 @@ class BranchAndBound(dfs):
         deepening, the IterativeDeepening class is used as a parent.
     
         Methods:
-            run: executes the algorithm
+            run: Executes the algorithm.
     """
 
     def run(self):

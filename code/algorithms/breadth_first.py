@@ -9,18 +9,18 @@ class BreadthFirst():
     """Class suitable for normal breadth first search and beam search.
 
     Methods:
-        __init__: sets the initial values to run the algorithm.
-        update_archive: adds all unknown boards to the archive.
-        update_queue: adds a selection (depending on beam search or normal bfs) to queue.
-        run: executes the algorithm in a loop.
+        __init__: Sets the initial values to run the algorithm.
+        update_archive: Adds all unknown boards to the archive.
+        update_queue: Adds a selection (depending on beam search or normal bfs) to queue.
+        run: Executes the algorithm in a loop.
     """
 
     def __init__(self, RushHour, beam):
         """Init function to initialize variables
 
         Parameters:
-            RushHour (object): the original Rush Hour board
-            beam (int or None): if given, the amount of children let through with beam search.
+            RushHour (object): The original Rush Hour board.
+            beam (int or None): If given, the amount of children let through with beam search.
         """
         self.archive = set()
         self.archive.add(re.sub(', ', '', str(RushHour.matrix)))
@@ -31,13 +31,13 @@ class BreadthFirst():
         self.solution = []
     
     def update_archive(self, children):
-        """Adds children to archive if they are unknown
+        """Adds children to archive if they are unknown.
         
         Parameters:
-            children (list): list of children that need evaluation
+            children (list): List of children that need evaluation.
 
         Returns:
-            new_children (list): list of children that were unknown and added to archive
+            new_children (list): List of children that were unknown and added to archive.
         """
         new_children = []
         for child in children:
@@ -51,7 +51,7 @@ class BreadthFirst():
         are added to the queue. If not, all children are added.
         
         Parameters:
-            children (list): list of children that can be added to queue
+            children (list): List of children that can be added to queue.
         """
         beam = len(children)
         if self.beam:
@@ -64,7 +64,7 @@ class BreadthFirst():
             i += 1
 
     def run(self):
-        """Runs the breadth first search until a solution is found"""
+        """Runs the breadth first search until a solution is found."""
         while len(self.queue):
             parent = copy.deepcopy(self.RushHour)
             move_list = self.queue.pop(0)
