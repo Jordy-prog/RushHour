@@ -8,7 +8,7 @@ from ..classes.board import RushHour
 from ..classes.car import Car
 
 
-def advanced():
+def create_board():
     """This function generates random solved boards, and shuffles them with a random algorithm.
     The board is saved in a csv file and takes 1 argument (the filename) as input.
 
@@ -135,6 +135,7 @@ def advanced():
 
     # Overwrite previous csv file with a shuffled one
     write_csv(Rushhour.cars.values())
+    print("Successfully created file", argv[1])
     
 def write_csv(cars):
     """Creates a csv_file of the current board.
@@ -164,7 +165,7 @@ def write_csv(cars):
         for car in car_list:
             writer.writerow(car)
 
-
 if __name__ == '__main__':
     advanced()
+    
     

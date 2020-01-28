@@ -3,12 +3,12 @@ from sys import argv
 
 from code.algorithms import hillclimb, random_alg, iterative_deepening, branch_bound, breadth_first
 from code.classes import board
-from code.modes import advanced, manual, plot
+from code.modes import create_board, manual, plot
 
 
 if __name__ == '__main__':
     # Initializing inputs and algorithms dictionary
-    modes = {'1': 'manual', '2': 'plot', '3': 'single_run', '4': 'advanced'}
+    modes = {'1': 'manual', '2': 'plot', '3': 'single_run', '4': 'create_board'}
     algorithms = {'1': random_alg.random_pure, '2': random_alg.random_constraint, '3': random_alg.random_branch_and_bound, '4': hillclimb.Hillclimb, '5': breadth_first.BreadthFirst, '6': breadth_first.BreadthFirst, '7': iterative_deepening.IterativeDeepening, '8': branch_bound.BranchAndBound}
     mode = None
 
@@ -26,7 +26,7 @@ if __name__ == '__main__':
         
         print('Type a number please!')
 
-    if not mode == 'advanced':
+    if not mode == 'create_board':
         # Checks if a filename is given by the user
         if len(argv) < 2:
             print('Usage: python main.py "filename"')
@@ -63,8 +63,8 @@ if __name__ == '__main__':
     # Run certain algorithm depending on the selections made
     if mode == 'manual':
         manual.manual(RushHour)
-    elif mode == 'advanced':
-        advanced.advanced()
+    elif mode == 'create_board':
+        create_board.create_board()
     elif mode == 'plot':
         plot.Plot(RushHour, algorithm)
     elif key in ["1", "2", "3"]:

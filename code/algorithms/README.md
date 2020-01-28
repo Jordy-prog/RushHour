@@ -62,3 +62,15 @@ Iterative deepening combines breadth first search with depth first search. It is
 Advantages of these depth first algorithms are that they always find the best solution, and that they use way less memory than BFS. However, they are slower than BFS, because they have to repeat a lot of work they already did.
 
 ---
+
+# Results overview
+
+For four of the seven algorithms, figure 1 below shows solutions that can be generated with our algorithms. It should be noted that the beam searches have a random element, so if you run our programme, the results could differ. These bars do show that iterative deepening and beam search always find the same answer, given enough time. As you can see, 9x9_6 and 12x12_7 have not been solved by these four algorithms.
+
+![Bar chart containing results of four algorithms: bfs, beam (2), beam(2) and iterative deepening](../../results/barchart_overview.png)
+
+The other four algorithms have undergone changes on monday (27-01-2020) and tuesday (28-01-2020), so the definitive results are not yet available for all boards. The figures will resemble the ones below. The upper one shows the results of hillclimbing on 6x6_3 board 25 times with 100 iterations each time. Under this, the result of 25 runs of the random branch and bound are shown. These plots, and the future results of the other boards will be similar and can be compared.
+
+![Hillclimbing results of 25 runs with 100 iterations each](../../results/6x6_3_hillclimb.png)
+
+![Random branch and bound results of 25 runs with 100 iterations each](../../results/6x6_3_random_branch_bound.png)
