@@ -13,7 +13,6 @@ def manager(RushHour, algorithm):
         RushHour (object): The initial RushHour board object.
         algorithm (function): The algorithm variation to run.
     """
-    print(algorithm)
     if algorithm == random_alg.random_branch_and_bound:
         times_to_run = 0
 
