@@ -2,7 +2,7 @@
 
 The modes folder contains the game modes that can be used to run the game.
 
-## Advanced
+## Create board
 
 The create board mode is responsible for creating a random board and shuffling it. These boards are always solvable. The function saves the board in a csv file in the data folder, under the filename provided as argument. Be careful not to overwrite existing boards, unless you intend to do so. Example to create a board named 6x6_test.csv:
 
