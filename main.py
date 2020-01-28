@@ -53,6 +53,7 @@ if __name__ == '__main__':
             break
 
         print('Type a number please!')
+        
     # Run certain algorithm depending on the selections made
     if mode == 'manual':
         manual.manual(RushHour)
