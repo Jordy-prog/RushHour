@@ -21,10 +21,9 @@ class Hillclimb():
             a dictionary containing the steps and slices.
     """
     def __init__(self, RushHour):
-        # Initialize parameters according to upcoming while condition
+        """Initialize class parameters and request user input."""
         self.iterations, self.runtimes = 0, 0
         
-        # Requests user input for algorithm parameters
         while self.iterations <= 0 or self.runtimes <= 0:
             try:
                 self.iterations = int(input('Number of iterations? '))
@@ -32,19 +31,20 @@ class Hillclimb():
             except ValueError:
                 pass
 
-        # Initialize information for the plot.py mode
         self.info_dict = {'iterations': self.iterations, 'runtimes': self.runtimes}
         self.plotting_data = [self.info_dict]
         self.plot_data = {}
         self.elapsed_time_list = []
-
         self.movelist = []
         self.RushHour = RushHour
 
     def run(self):
-        # Runs the hillclimber a certain amount of times
+        """Run the algorithm a certain amount of times and time each duration.
+
+        Returns:
+            plotting_data (list): List of all the data that is needed for the plots.
+        """
         for i in range(self.runtimes):
-            # Time the execution of each run
             start_time = time.time()
 
             self.plot_data = {}
@@ -67,9 +67,9 @@ class Hillclimb():
         return self.plotting_data
 
     def random_run(self):
+        """Do a random run and save the moves that were done."""
         RushHour_random = copy.deepcopy(self.RushHour)
 
-        # Do a random run and save the moves that were done
         while not RushHour_random.game_won():
             move = random_constraint(RushHour_random)
             self.movelist.append({'matrix': str(RushHour_random.matrix), 
@@ -79,15 +79,16 @@ class Hillclimb():
         self.plot_data['initial'] = len(self.movelist)
 
     def improve(self):
+        """Try to improve the current solution using random moves.
+        Uses a dictionary of all upcoming boardstates for comparing.
+        """
         RushHour_new = copy.deepcopy(self.RushHour)
         movelist_new = []
         boardstates_goal = {}
 
-        # Create a dictionary of all possible boardstates that may be achieved for easy lookup
         for move in self.movelist[1:]:
             boardstates_goal[move['matrix']] = move
 
-        # Improve the sequence using random moves
         while len(movelist_new) < len(self.movelist):
             move = random_constraint(RushHour_new)
             movelist_new.append({'matrix': str(RushHour_new.matrix), 
@@ -109,10 +110,9 @@ class Hillclimb():
                     break
     
     def time(self):
-        # Initialize total_time to store the total run time
+        """Calculate the average time of all runs."""
         total_time = 0
         
-        # Determine total and average time, add it to the info_dict
         for timed_run in self.elapsed_time_list:
             total_time += timed_run
         
