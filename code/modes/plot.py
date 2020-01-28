@@ -106,22 +106,66 @@ class Plot():
 
     def branchbound_plot(self):
         step_dict_list = []
+        elapsed_time_list = []
         amount_to_run = int(input("How many times to run (plot)? "))
 
+        start_time = time.time()
         step_dict = random_alg.manager(self.RushHour_initial, self.algorithm)
+        elapsed_time_list.append(time.time() - start_time)
         step_dict_list.append(step_dict[0])
         improvements_amount = step_dict[1]
         
         for i in range(amount_to_run - 1):
+            start_time = time.time()
             step_dict = random_alg.random_branch_and_bound(self.RushHour_initial, improvements_amount)
+            elapsed_time_list.append(time.time() - start_time)
             step_dict_list.append(step_dict)
 
-        for item in step_dict_list:
-            plt.plot(list(item.keys()), list(item.values()))
+        total_time = 0
+        
+        for timed_run in elapsed_time_list:
+            total_time += timed_run
+        
+        avg_time = round(total_time / len(elapsed_time_list), 2)
+
+        decline_sum = 0
+
+        # Calculate the aggregated decline percentage
+        for data in step_dict_list:
+            initial = list(data.keys())[0]
+            final = list(data.keys())[-1]
+            decline_sum += ((data[initial] - data[final]) / data[initial]) * 100
+        
+        avg_decline = round(decline_sum / amount_to_run, 2)
+
+        # Initialize variable with a large number, to determine lowest value in graph
+        smallest_endpoint = 9999
+
+        for plot_data in step_dict_list:
+            final_value = list(plot_data.keys())[-1]
+
+            if plot_data[final_value] < smallest_endpoint:
+                smallest_endpoint = plot_data[final_value]
+
+            plt.plot(list(plot_data.keys()), list(plot_data.values()))
+
+        # Annotate only the smallest ending point of all plotted lines
+        plt.annotate(smallest_endpoint, (list(plot_data.keys())[-1], smallest_endpoint),
+            textcoords="offset points", xytext=(10,0), ha='center')
+            
+        # Specify properties of MatPlotLib bar plot
+        ticks = [x for x in range(0, len(plot_data), 2)]
+        plt.xticks(ticks, rotation=90)
+        plt.title (f'{self.board}: Random with branch and bound')
+        plt.ylabel('Steps to solve game')
+        plt.xlabel('# of improvements')
+        plt.text(0.75, 0.75, f'Iterations: {improvements_amount} \
+            \n# of runs: {amount_to_run} \
+            \nAverage decline: {avg_decline}% \
+            \nAverage runtime: {avg_time} seconds', transform=plt.gca().transAxes)
             
         plt.show()
-        # x as integer
-        # avg runtime, lowest point, avg decline, number of runs
+
 
 
 
@@ -173,7 +217,7 @@ class Plot():
         
         plt.title (f'{self.board}: Hillclimbing with selective elimination')
         plt.ylabel('Steps to solve game')
-        plt.xlabel('# of slices')
+        plt.xlabel('# of improvements')
         plt.text(0.75, 0.75, f'Iterations: {improvements_amount} \
             \n# of runs: {runtime_amount} \
             \nAverage decline: {avg_decline}% \

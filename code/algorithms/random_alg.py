@@ -1,6 +1,7 @@
 import copy
 import os
 import random
+import time
 
 from . import random_alg
 
@@ -104,7 +105,7 @@ def random_branch_and_bound(RushHour_initial, times_to_run):
         times_to_run (integer): The amount of times to run the random_constraint algorithm.
     """
     previous_solution = None
-    step_list = {}
+    plot_data = {}
 
     for i in range(times_to_run):
         RushHour = copy.deepcopy(RushHour_initial)
@@ -116,9 +117,8 @@ def random_branch_and_bound(RushHour_initial, times_to_run):
                 break
         
         previous_solution = len(RushHour.steps) 
-        step_list[i] = previous_solution
+        plot_data[i] = previous_solution
 
     print('Final:', previous_solution)
-    print(step_list)
 
-    return step_list
+    return plot_data
