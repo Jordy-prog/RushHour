@@ -122,7 +122,7 @@ class Plot():
         plt.show()
         # x as integer
         # avg runtime, lowest point, avg decline, number of runs
-        
+
 
 
 

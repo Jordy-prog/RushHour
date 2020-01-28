@@ -47,9 +47,9 @@ if __name__ == '__main__':
                            '\n3. Random with brand and bound'
                            '\n4. Hillclimb'
                            '\n5. Breadth first'
-                           '\n6. Breadth first with beam search'
+                           '\n6. Breadth first: beam search'
                            '\n7. Iterative deepening'
-                           '\n8. Depth first\n')
+                           '\n8. Depth first: branch and bound\n')
 
         if key in algorithms:
             algorithm = algorithms[key]
@@ -70,8 +70,11 @@ if __name__ == '__main__':
         bfs = breadth_first.BreadthFirst(RushHour, beam=None)
         bfs.run()
     elif key == "6":
-        beam = int(input("what beam: "))
-        bfs = breadth_first.BreadthFirst(RushHour, beam)
+        beam = input("How long should the beam be: ")
+        while not beam and not beam.isdigit():
+            beam = input("How long should the beam be: ")
+
+        bfs = breadth_first.BreadthFirst(RushHour, int(beam))
         bfs.run()
     else:
         algorithm(RushHour)
