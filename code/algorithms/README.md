@@ -17,6 +17,7 @@ This algorithm is an adjustment to the purely random algorithm. It applies a few
 A large disadvantage of the random algorithms is obviously that every outcome is different and that you can never know when you’ve found ‘the best solution’.
 
 #### Branch and bound random
+
 This algorithm applies the random_constraint algorithm. It runs that algorithm a number of times and makes sure that the next solution must always be better than the previous one.
 
 The advantage of this heuristic is that you randomly walk towards the best solution. This results in a better estimation of the best solution instead of completely random solutions.
@@ -25,24 +26,12 @@ The advantage of this heuristic is that you randomly walk towards the best solut
 
 ## Hillclimb
 
-Our hillclimb algorithm is focused on improving an already existing outcome. First, we take a random solution. Then the algorithm will take one slice out of the solution (which is just an order of moves), and will try to improve this. To improve a sequence, the algorithm uses random moves to achieve a boardstate that appears further in the original solution.
+Our hillclimb algorithm is focused on improving an already existing outcome. First, we take a random solution. Then the algorithm will start at the beginning again, and will try to improve this solution. To do this, the algorithm tries to find a boardstate further in the solution faster than it did before. The algorithm uses random moves to achieve a boardstate that appears further in the original solution. The algorithm will try to improve the current solution a certain number of times
 After the improvements we will run a procedure that we call: 'selective elimination'. This procedure checks if a boardstate appears multiple times in the moveset, and then removes everything in between.
 
-An investigation that we did with our hillclimber is finding the best ratio between number of slices, number of improvements and the size of the slices.
+An investigation that we did with our hillclimber is finding the optimal amount of improvements in terms of average decline of the solution length, and the runtime.
 
-INSERT TABLE WITH SOME RESULTS?
 
-| |
-|
-|
-|
-|
-
-6x6_3.csv 100 runs
-
-size slice 5 10 en 20
-slices 5 20 100
-improvements 5 20 100
 
 ---
 

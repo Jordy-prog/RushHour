@@ -140,8 +140,10 @@ def plot(RushHour_initial, algorithm):
             textcoords="offset points", xytext=(10,0), ha='center')
             
         # Specify properties of MatPlotLib bar plot
-        plt.xticks(rotation=90)
-        plt.locator_params(integer=True)
+        xticks = [str(x) for x in range(2, len(plot_data), 2)] +['elimination']
+        print(xticks)
+        plt.xticks(xticks, rotation=90)
+        # plt.locator_params(integer=True)
         plt.title (f'{board}: Hillclimbing with selective elimination')
         plt.ylabel('Steps to solve game')
         plt.xlabel('# of slices')

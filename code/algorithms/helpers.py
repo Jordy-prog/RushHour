@@ -1,10 +1,17 @@
 def elimination(movelist):
+    """Searches for double boardstates in a movelist, 
+    and eliminates everything in between.
+
+    Parameters:
+        movelist (list): A list of moves.
+
+    Returns:
+        len(movelist) (integer): The length of the final movelist.
+    """
     move_indexes = {}
     i = 0
     
-    # Selective elimination of double boardstates
     while i < len(movelist):
-        # If boardstate is found multiple times in moveset, delete everything in between
         if movelist[i]['matrix'] in move_indexes:
             first = move_indexes[movelist[i]['matrix']]
             last = i
