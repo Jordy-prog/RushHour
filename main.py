@@ -46,6 +46,7 @@ if __name__ == '__main__':
                 '\n2. Random with constraints' \
                 '\n3. Random with branch and bound' \
                 '\n4. Hillclimb\n'
+                
         if mode == "single_run":
             text += '5. Breadth first' + \
                     '\n6. Breadth first: beam search' + \
@@ -77,6 +78,7 @@ if __name__ == '__main__':
         bfs.run()
     elif key == "6":
         beam = input("How long should the beam be: ")
+
         while not beam and not beam.isdigit():
             beam = input("How long should the beam be: ")
 

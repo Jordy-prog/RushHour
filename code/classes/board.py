@@ -184,7 +184,29 @@ class RushHour():
         """
         # Checks if the win conditions of the game are met
         if self.matrix[self.cars['X'].row][-1] == self.cars['X']:
+            self.write_csv()
             print('Congratulations! The game was finished in:', len(self.steps), 'steps.')
             return True
 
         return False
+
+    def write_csv(self):
+        """Writes the moves that were done to a csv file."""
+        step_list = []
+
+        # Create dictionary of steps for writing
+        for step in self.steps:
+            step_dict = {}
+            step_dict['car'] = step[0]
+            step_dict['distance'] = step[1]
+
+            step_list.append(step_dict)
+
+        # Open a file for writing, and write the csv file
+        with open(f'output/last_solution.csv', 'w', newline='') as file:
+            fieldnames = ['car', 'distance']
+            writer = csv.DictWriter(file, fieldnames=fieldnames)
+            writer.writeheader()
+
+            for step in step_list:
+                writer.writerow(step)

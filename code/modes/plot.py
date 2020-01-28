@@ -5,7 +5,8 @@ import time
 
 import matplotlib.pyplot as plt
 
-from ..algorithms import random_alg, hillclimb, branch_bound
+from ..algorithms import random_alg, hillclimb
+
 
 class Plot():
     """A class which has several methods to plot the results of different algorithms 
