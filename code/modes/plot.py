@@ -127,17 +127,28 @@ class Plot():
         elapsed_time_list = []
         amount_to_run = int(input("How many times to run (plot)? "))
 
+        # initialize the time and run the algorithm a first time
         start_time = time.time()
-        step_dict = random_alg.manager(self.RushHour_initial, self.algorithm)
+        step_dict, move_list = random_alg.manager(self.RushHour_initial, self.algorithm)
+        self.best_solution = move_list
         elapsed_time_list.append(time.time() - start_time)
         step_dict_list.append(step_dict[0])
         improvements_amount = step_dict[1]
         
+        # run the algorithm the remaining n-1 times
         for i in range(amount_to_run - 1):
             start_time = time.time()
-            step_dict = random_alg.random_branch_and_bound(self.RushHour_initial, improvements_amount)
+            step_dict, move_list = random_alg.random_branch_and_bound(self.RushHour_initial, improvements_amount)
+            
+            # if this solution is lower than the best solution, update it.
+            if len(move_list) < len(self.best_solution):
+                self.best_solution = move_list
+            
             elapsed_time_list.append(time.time() - start_time)
             step_dict_list.append(step_dict)
+
+        # write the best solution to csv
+        helpers.write_csv(self.best_solution)
 
         total_time = 0
         

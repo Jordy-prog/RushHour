@@ -17,8 +17,9 @@ def manager(RushHour, algorithm):
         algorithm (function): The algorithm variation to run.
 
     Returns:
-        (random_branch_and_bound(RushHour, times_to_run), times_to_run) (tuple):
-            A tuple containing the plot_data and the times to run the algorithm.
+        (plotdata, times_to_run), move_list (tuple):
+            A tuple containing the plot_data and the times to run the algorithm, as
+            well as the move_list for this run.
     """
     if algorithm == random_alg.random_branch_and_bound:
         times_to_run = 0
@@ -29,7 +30,9 @@ def manager(RushHour, algorithm):
             except ValueError:
                 pass
 
-        return (random_branch_and_bound(RushHour, times_to_run), times_to_run)
+        plot_data, move_list = random_branch_and_bound(RushHour, times_to_run)
+        write_csv(move_list)
+        return (plot_data, times_to_run), move_list
     else:
         to_print = None
 
@@ -110,7 +113,9 @@ def random_branch_and_bound(RushHour_initial, times_to_run):
         times_to_run (integer): The amount of times to run the random_constraint algorithm.
 
     Returns:
-        plot_data (dict): The list containing all previous solutions.
+        plot_data, RushHour.steps (tuple): plotdata is a dictionary containing the lengths
+            of each iteration's solution. RushHour.steps is the final and shortest list of
+            moves needed to complete the board
     """
     previous_solution = None
     plot_data = {}
@@ -129,4 +134,4 @@ def random_branch_and_bound(RushHour_initial, times_to_run):
 
     print('Final:', previous_solution)
 
-    return plot_data
+    return plot_data, RushHour.steps
