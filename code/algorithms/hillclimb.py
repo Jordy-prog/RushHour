@@ -78,6 +78,7 @@ class Hillclimb():
     def random_run(self):
         """Do a random run and save the moves that were done."""
         RushHour_random = copy.deepcopy(self.RushHour)
+        self.movelist = []
 
         while not RushHour_random.game_won():
             move = random_constraint(RushHour_random)
