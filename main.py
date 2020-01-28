@@ -69,6 +69,9 @@ if __name__ == '__main__':
         plot.Plot(RushHour, algorithm)
     elif key in ["1", "2", "3"]:
         random_alg.manager(RushHour, algorithm)
+    elif key == "4":
+        hillclimber = hillclimb.Hillclimb(RushHour)
+        hillclimber.run()
     elif key == "5":
         bfs = breadth_first.BreadthFirst(RushHour, beam=None)
         bfs.run()

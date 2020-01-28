@@ -67,6 +67,10 @@ class Hillclimb():
             self.plot_data['elimination'] = elimination(self.movelist)
             self.plotting_data.append(self.plot_data)
 
+            print('Initial:', self.plot_data['initial'])
+            print('After hillclimb:', self.plot_data[str(iteration)])
+            print('After elimination:', self.plot_data['elimination'])
+
         self.time()
             
         return self.plotting_data
@@ -82,6 +86,9 @@ class Hillclimb():
                             'distance': move[1]})
 
         self.plot_data['initial'] = len(self.movelist)
+        print(len(self.movelist))
+        print(len(RushHour_random.steps))
+        print(self.plot_data['initial'])
 
     def improve(self):
         """Try to improve the current solution using random moves.

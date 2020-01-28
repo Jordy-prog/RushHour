@@ -90,7 +90,7 @@ def random_constraint(RushHour):
             if free_space['rear'] or free_space['front']:
                 while distance == 0:
                     distance = random.randrange(free_space['rear'], free_space['front'] + 1)
-                    break
+
                 break
 
     RushHour.move(car, distance)
