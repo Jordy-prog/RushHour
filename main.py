@@ -41,15 +41,18 @@ if __name__ == '__main__':
     
     # Asks user which algorithm he would like to use
     while mode in ['plot', 'single_run']:
-        key = input('Select an algorithm:'
-                           '\n1. Purely random'
-                           '\n2. Random with constraints'
-                           '\n3. Random with branch and bound'
-                           '\n4. Hillclimb'
-                           '\n5. Breadth first'
-                           '\n6. Breadth first: beam search'
-                           '\n7. Iterative deepening'
-                           '\n8. Depth first: branch and bound\n')
+        text = 'Select an algorithm:' \
+                '\n1. Purely random' \
+                '\n2. Random with constraints' \
+                '\n3. Random with branch and bound' \
+                '\n4. Hillclimb\n'
+        if mode == "single_run":
+            text += '5. Breadth first' + \
+                    '\n6. Breadth first: beam search' + \
+                    '\n7. Iterative deepening' + \
+                    '\n8. Depth first: branch and bound\n'
+
+        key = input(text)
 
         if key in algorithms:
             algorithm = algorithms[key]
@@ -64,7 +67,7 @@ if __name__ == '__main__':
         advanced.advanced()
     elif mode == 'plot':
         plot.Plot(RushHour, algorithm)
-    elif algorithm in [random_alg.random_pure, random_alg.random_constraint, random_alg.random_branch_and_bound]:
+    elif key in ["1", "2", "3"]:
         random_alg.manager(RushHour, algorithm)
     elif key == "5":
         bfs = breadth_first.BreadthFirst(RushHour, beam=None)
@@ -76,5 +79,9 @@ if __name__ == '__main__':
 
         bfs = breadth_first.BreadthFirst(RushHour, int(beam))
         bfs.run()
-    else:
-        algorithm(RushHour)
+    elif key == "7":
+        idp = iterative_deepening.IterativeDeepening(RushHour)
+        idp.run()
+    elif key == "8":
+        bnb = branch_bound.BranchAndBound(RushHour)
+        bnb.run()

@@ -26,7 +26,6 @@ class IterativeDeepening():
         self.stack = [RushHour.steps]
         self.RushHour = RushHour
         self.solution = []
-        self.run()
 
     def update_archive_and_stack(self, children):
         """Adds children to archive if they are unknown, or if they are better.
