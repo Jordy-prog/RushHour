@@ -70,7 +70,7 @@ class Hillclimb():
             if not self.best_solution or len(self.movelist) < len(self.best_solution):
                 self.best_solution = []
                 for move in self.movelist:
-                    self.best_solution.append([move["car"], move["distance"]])
+                    self.best_solution.append((move["car"], move["distance"]))
 
             print('Initial:', self.plot_data['initial'])
             print('After hillclimb:', self.plot_data[str(iteration)])

@@ -5,6 +5,8 @@ import time
 
 from . import random_alg
 
+from .helpers import write_csv
+
 
 def manager(RushHour, algorithm):
     """Function to manage user interaction. Responsible for printing results and printing
@@ -43,6 +45,9 @@ def manager(RushHour, algorithm):
                 RushHour.printboard()
 
             algorithm(RushHour)
+
+        write_csv(RushHour.steps)
+        
 
 def random_pure(RushHour):
     """Implementation of the pure random algorithm.
@@ -105,7 +110,7 @@ def random_branch_and_bound(RushHour_initial, times_to_run):
         times_to_run (integer): The amount of times to run the random_constraint algorithm.
 
     Returns:
-        step_list (list): The list containing all previous solutions.
+        plot_data (dict): The list containing all previous solutions.
     """
     previous_solution = None
     plot_data = {}

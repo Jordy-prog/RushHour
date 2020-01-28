@@ -5,7 +5,7 @@ import time
 
 import matplotlib.pyplot as plt
 
-from ..algorithms import random_alg, hillclimb
+from ..algorithms import random_alg, hillclimb, helpers
 
 
 class Plot():
@@ -33,6 +33,7 @@ class Plot():
         self.stepdata = []
         self.board = argv[1]
         self.RushHour_initial = RushHour
+        self.best_solution = []
 
         self.plot_selector()
 
@@ -67,11 +68,17 @@ class Plot():
             while not RushHour_copy.game_won():            
                 self.algorithm(RushHour_copy)
             
+            # log the steps taken for this round and update best solution if necessary
             self.stepdata.append(len(RushHour_copy.steps))
+            if not self.best_solution or len(RushHour_copy.steps) < len(self.best_solution):
+                self.best_solution = RushHour_copy.steps 
 
             # Log the elapsed time
             elapsed_time = (time.time() - start_time)
             self.elapsed_time_list.append(elapsed_time) 
+
+        # write the steps for the best solution to csv
+        helpers.write_csv(self.best_solution)
 
         # Initialize the total runtime (seconds)
         total_time = 0
@@ -176,7 +183,7 @@ class Plot():
             \nAverage runtime: {avg_time} seconds', transform=plt.gca().transAxes)
             
         plt.show()
-        
+
     def hillclimb_plot(self):
         """Creates a line graph of the progression when the hillclimbing
             algorithm is applied.
