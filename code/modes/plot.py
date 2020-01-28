@@ -4,9 +4,8 @@ from sys import argv
 import time
 
 import matplotlib.pyplot as plt
-import numpy as np
 
-from ..algorithms import random_alg, hillclimb, dfs
+from ..algorithms import random_alg, hillclimb, branch_bound
 
 class Plot():
     def __init__(self, RushHour, algorithm):
@@ -31,10 +30,10 @@ class Plot():
         """
         if self.algorithm in [random_alg.random_pure, random_alg.random_constraint]:
             self.random_bar()
+        if self.algorithm == random_alg.random_branch_and_bound:
+            self.branchbound_plot()
         elif self.algorithm == hillclimb.Hillclimb:
             self.hillclimb_plot()
-        elif self.algorithm == dfs.dfs:
-            self.dfs_plot()
 
 
     def random_bar(self):
@@ -104,6 +103,32 @@ class Plot():
             \nNumber of runs: {number_of_runs} \
             \nAverage runtime: {avg_time} seconds', transform=plt.gca().transAxes)
         plt.show()
+
+    def branchbound_plot(self):
+        step_dict_list = []
+        amount_to_run = int(input("How many times to run (plot)? "))
+
+        step_dict = random_alg.manager(self.RushHour_initial, self.algorithm)
+        step_dict_list.append(step_dict[0])
+        improvements_amount = step_dict[1]
+        
+        for i in range(amount_to_run - 1):
+            step_dict = random_alg.random_branch_and_bound(self.RushHour_initial, improvements_amount)
+            step_dict_list.append(step_dict)
+
+        for item in step_dict_list:
+            plt.plot(list(item.keys()), list(item.values()))
+            
+        plt.show()
+        # x as integer
+        # avg runtime, lowest point, avg decline, number of runs
+
+
+
+
+
+
+
 
 
     def hillclimb_plot(self):
