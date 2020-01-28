@@ -24,13 +24,13 @@ python main.py <filename>
 
 The project is well structured, with all common files stored in the following folders. All the folders in /code contain a README.md with an explanation of what is present in the folder, to help the user navigate through the code.
 
+* **/advanced** contains the write-up of the advanced section with several images
+* **/data** contains the various gameboards in .csv files
 * **/code** contains all Python files (.py)
   * **/code/algorithms** contains the code for executing the six algorithms, as well as a README.md with explanation of the algorithms.
-  * **/code/classes** has the code for the two classes
-  * **/code/modes** has the code for the three special game modes: plot, manual, and create board
-* **/data** contains the various gameboards in .csv files
-* **/advanced** contains the write-up of the advanced section with several images
-* **/results** is a folder with results in picture format
+  * **/code/classes** has the code for the two classes, and a README.md
+  * **/code/modes** has the code for the three special game modes: plot, manual, and create board. It also has a README.md
+* **/results** is a folder with results in picture format. These results are shown in the README.md of **/code/algorithms**
 
 ## Authors
 
