@@ -86,9 +86,6 @@ class Hillclimb():
                             'distance': move[1]})
 
         self.plot_data['initial'] = len(self.movelist)
-        print(len(self.movelist))
-        print(len(RushHour_random.steps))
-        print(self.plot_data['initial'])
 
     def improve(self):
         """Try to improve the current solution using random moves.
