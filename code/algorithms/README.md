@@ -10,7 +10,7 @@ The algorithm randomly picks a car on the board, then checks how far the car can
 
 ### Constraint random
 
-This algorithm applies a heuristic to improve the random. If the picked random car and distance are opposite of the previous move, this move is denied. This can in very rare occasions cause the algorithm to be stuck: if only one car can move, it can’t undo its last move. So there is a failsave implemented that turns off this heuristic after a certain amount of moves.
+This algorithm applies a heuristic to improve the random. If the red car has a free way to the exit, it is forced to move there.
 
 An advantage of the random algorithms is that they find a solution quickly. A large disadvantage of the random algorithms is that you can never know if a solution is the shortest possible.
 

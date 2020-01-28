@@ -11,15 +11,15 @@ The methods within the board class are:
 * __ **init** __: Intialize board variables.
 * **load**: Load cars and initialize the matrix.
 * **printboard**: Prints the current game board.
-* **move**: Attempts to move the car.
+* **move**: Attempts to move a given car over a given distance.
 * **get_children**: Determines which boards can be derived from the current board.
-* **game_won**: Checks if the current game has been won.
+* **game_won**: Checks if the game has been won.
 
 ---
 
 ## Car
 
-This Car class stores information of a car object, sets it position on the game board and looks around to see if the car can move.
+This Car class stores information of a car object, sets it position on the game board and looks around to see where the car can move.
 
 The methods within the car class are:
 

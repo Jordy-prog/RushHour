@@ -22,9 +22,7 @@ python main.py <filename>
 
 ## Structure
 
-Each folder contains a seperate README.md, to help the user navigate through the code. xx
-
-The project is well structured, with all common files stored in the following folders:
+The project is well structured, with all common files stored in the following folders. All the folders in /code contain a README.md with an explanation of what is present in the folder, to help the user navigate through the code.
 
 * **/code** contains all Python files (.py)
   * **/code/algorithms** contains the code for executing the six algorithms, as well as a README.md with explanation of the algorithms and an overview of the main results.
@@ -33,7 +31,6 @@ The project is well structured, with all common files stored in the following fo
 * **/data** contains the various gameboards in .csv files
 * **/doc** contains the write-up of the advanced section with several images
 * **/results** is a folder with results in picture format
-
 
 ## Authors
 

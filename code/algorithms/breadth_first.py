@@ -66,10 +66,12 @@ class BreadthFirst():
     def run(self):
         """Runs the breadth first search until a solution is found."""
         while len(self.queue):
+            # Generate parent from move list by executing moves
             parent = copy.deepcopy(self.RushHour)
             move_list = self.queue.pop(0)
             parent = execute_move_list(parent, move_list)
 
+            # Generate children, check if game is won, then update archive and queue
             children, winning_child = parent.get_children()
 
             if winning_child:
