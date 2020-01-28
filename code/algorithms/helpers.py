@@ -61,7 +61,7 @@ def write_csv(steps):
         step_list.append(step_dict)
 
     # Open a file for writing, and write the csv file
-    with open(f'output/last_solution.csv', 'w', newline='') as file:
+    with open(f'results/last_solution.csv', 'w', newline='') as file:
         fieldnames = ['car', 'distance']
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()

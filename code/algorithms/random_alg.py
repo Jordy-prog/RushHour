@@ -50,7 +50,6 @@ def manager(RushHour, algorithm):
             algorithm(RushHour)
 
         write_csv(RushHour.steps)
-        
 
 def random_pure(RushHour):
     """Implementation of the pure random algorithm.

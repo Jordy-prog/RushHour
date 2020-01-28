@@ -30,7 +30,8 @@ The project is well structured, with all common files stored in the following fo
   * **/code/algorithms** contains the code for executing the six algorithms, as well as a README.md with explanation of the algorithms.
   * **/code/classes** has the code for the two classes, and a README.md
   * **/code/modes** has the code for the three special game modes: plot, manual, and create board. It also has a README.md
-* **/results** is a folder with results in picture format. These results are shown in the README.md of **/code/algorithms**
+* **/results** contains the most successful move set of the last run in a .csv file as well as an images folder. 
+  * **/results/images** is a folder with results in picture format. These results are shown in the README.md of **/code/algorithms**
 
 ## Authors
 

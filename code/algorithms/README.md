@@ -2,6 +2,8 @@
 
 The algorithms folder contains the algorithms that can be used to solve a Rush Hour board. This file explains them briefly.
 
+The folder also contains the helpers.py function, which contains functions that multiple algorithms need.
+
 ## Random
 
 ### Pure random
