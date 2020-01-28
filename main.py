@@ -62,7 +62,7 @@ if __name__ == '__main__':
     elif mode == 'advanced':
         advanced.advanced()
     elif mode == 'plot':
-        plot.plot(RushHour, algorithm)
+        plot.Plot(RushHour, algorithm)
     elif algorithm in [random_alg.random_pure, random_alg.random_constraint, random_alg.random_branch_and_bound]:
         random_alg.manager(RushHour, algorithm)
     elif key == "5":

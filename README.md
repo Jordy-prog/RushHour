@@ -25,13 +25,9 @@ python main.py <filename>
 The project is well structured, with all common files stored in the following folders:
 
 * **/code**: contains all Python files (.py)
-
-    * **/code/algorithms** contains the code for executing the six algorithms, as well as a README.md with explanation of the algorithms and an overview of the main results.
-
-    * **/code/classes** has the code for the two classes
-
-    * **/code/modes** has the code for the two special game modes: manual and plot
-
+  * **/code/algorithms** contains the code for executing the six algorithms, as well as a README.md with explanation of the algorithms and an overview of the main results.
+  * **/code/classes** has the code for the two classes
+  * **/code/modes** has the code for the two special game modes: manual and plot
 * **/data**: contains the various gameboards in .csv files
 
 ## Authors
